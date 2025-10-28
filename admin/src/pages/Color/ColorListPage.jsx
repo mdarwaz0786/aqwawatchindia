@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import { Link, useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
+import useToggleStatus from '../../hooks/useToggleStatus';
+import StatusToggle from '../../components/Table/statusToggle';
 
 const ColorListPage = () => {
   const { validToken } = useAuth();
@@ -25,9 +27,11 @@ const ColorListPage = () => {
 
   const fetchDataUrl = apis.color.getAll;
   const singleDeleteUrl = apis.color.deleteSingle;
+  const updateStatusUrl = apis.color.update;
 
   const { deleteData, deleteResponse, deleteError } = useDelete();
   const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search });
+  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
     setParams({ page, limit, search });
@@ -76,7 +80,9 @@ const ColorListPage = () => {
         <thead className="table-dark">
           <tr>
             <th>#</th>
+            <th>Color</th>
             <th>Name</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -85,7 +91,22 @@ const ColorListPage = () => {
             colors?.map((item, index) => (
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
+                <td>
+                  <div
+                    className="rounded"
+                    style={{ width: "35px", height: "35px", backgroundColor: item?.colorCode || "#ccc" }}
+                  >
+                  </div>
+                </td>
                 <td>{item?.name}</td>
+                <td>
+                  <StatusToggle
+                    id={item?._id}
+                    status={item?.status}
+                    toggling={toggling}
+                    onToggle={() => toggleStatus(updateStatusUrl, item?._id, item?.status)}
+                  />
+                </td>
                 <td>
                   <div className="d-flex flex-wrap gap-2">
                     <Link to={`/color/update/${item?._id}`}>

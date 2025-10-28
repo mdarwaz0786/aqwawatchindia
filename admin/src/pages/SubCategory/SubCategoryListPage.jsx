@@ -11,6 +11,9 @@ import { toast } from 'react-toastify';
 import { Link, useSearchParams } from 'react-router-dom';
 import apis, { API_BASE_URL } from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
+import useToggleStatus from '../../hooks/useToggleStatus';
+import TableImage from '../../components/Table/TableImage';
+import StatusToggle from '../../components/Table/statusToggle';
 
 const SubCategoryListPage = () => {
   const { validToken } = useAuth();
@@ -25,9 +28,11 @@ const SubCategoryListPage = () => {
 
   const fetchDataUrl = apis.subCategory.getAll;
   const singleDeleteUrl = apis.subCategory.deleteSingle;
+  const updateStatusUrl = apis.subCategory.update;
 
   const { deleteData, deleteResponse, deleteError } = useDelete();
   const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search });
+  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
     setParams({ page, limit, search });
@@ -78,6 +83,7 @@ const SubCategoryListPage = () => {
             <th>#</th>
             <th>Image</th>
             <th>Name</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -87,17 +93,22 @@ const SubCategoryListPage = () => {
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>
-                  {item?.image ? (
-                    <img
-                      src={`${API_BASE_URL}/${item?.image}`}
-                      alt="sub-category"
-                      style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }}
-                    />
-                  ) : (
-                    "-"
-                  )}
+                  <TableImage
+                    src={item?.image}
+                    alt={item?.name}
+                    width={50}
+                    height={50}
+                  />
                 </td>
                 <td>{item?.name}</td>
+                <td>
+                  <StatusToggle
+                    id={item?._id}
+                    status={item?.status}
+                    toggling={toggling}
+                    onToggle={() => toggleStatus(updateStatusUrl, item?._id, item?.status)}
+                  />
+                </td>
                 <td>
                   <div className="d-flex flex-wrap gap-2">
                     <Link to={`/sub-category/update/${item?._id}`}>

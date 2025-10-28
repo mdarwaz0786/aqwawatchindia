@@ -17,6 +17,7 @@ import SubSubCategoryListPage from './pages/SubSubCategory/SubSubCategoryListPag
 import UpdateSubSubCategoryPage from './pages/SubSubCategory/UpdateSubSubCategoryPage';
 import AddColorPage from './pages/Color/AddColorPage';
 import ColorListPage from './pages/Color/ColorListPage';
+import UpdateColorPage from './pages/Color/UpdateColorPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -51,6 +52,7 @@ const App = () => {
 
             <Route path="/color/list" element={<ColorListPage />} />
             <Route path="/color/add" element={<AddColorPage />} />
+            <Route path="/color/update/:id" element={<UpdateColorPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </>
