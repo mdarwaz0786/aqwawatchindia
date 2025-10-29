@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const BlogSection = () => {
   return (
     <>
@@ -18,9 +20,9 @@ const BlogSection = () => {
           <div className="row">
             <div className="col-lg-4 col-xxl-3 col-md-6 wow fadeInUp">
               <div className="blog_item">
-                <a href="blog_details.php" className="blog_img">
+                <Link to="/blog-detail" className="blog_img">
                   <img src="assets/graphics/blog1.webp" alt="blog" className="img-fluid w-100" />
-                </a>
+                </Link>
                 <div className="blog_text">
                   <ul className="top">
                     <li>
@@ -30,7 +32,7 @@ const BlogSection = () => {
                       12 Mar 2025
                     </li>
                   </ul>
-                  <a className="title" href="blog_details.php">Why Every Home Needs a Water Purifier Today</a>
+                  <Link className="title" to="/blog-detail">Why Every Home Needs a Water Purifier Today</Link>
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

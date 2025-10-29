@@ -19,6 +19,9 @@ import LoginPage from "./pages/Auth/LoginPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage";
 import ScrollToTop from "./components/Scroll/ScrollToTop";
+import DashboardPage from "./pages/UserDashboard/DashboardPage";
+import ProfilePage from "./pages/UserDashboard/ProfilePage";
+import InvoicePage from "./pages/UserDashboard/InvoicePage";
 
 const App = () => {
   return (
@@ -43,6 +46,9 @@ const App = () => {
         <Route path="/billing-shipping-policy" element={<BillingShippingPolicyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/invoice" element={<InvoicePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
