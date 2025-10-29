@@ -15,6 +15,7 @@ import {
   MdLayers,
   MdViewModule,
   MdPalette,
+  MdStore
 } from "react-icons/md";
 import logo from "../../assets/logo.png";
 import styles from "./Sidebar.module.css";
@@ -64,6 +65,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       items: [
         { label: "Color List", link: "/color/list" },
         { label: "Add Color", link: "/color/add" },
+      ],
+    },
+    {
+      title: "Brand",
+      icon: <MdStore />,
+      items: [
+        { label: "Brand List", link: "/brand/list" },
+        { label: "Add Brand", link: "/brand/add" },
       ],
     },
     {

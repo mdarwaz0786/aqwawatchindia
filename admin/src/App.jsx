@@ -18,6 +18,9 @@ import UpdateSubSubCategoryPage from './pages/SubSubCategory/UpdateSubSubCategor
 import AddColorPage from './pages/Color/AddColorPage';
 import ColorListPage from './pages/Color/ColorListPage';
 import UpdateColorPage from './pages/Color/UpdateColorPage';
+import BrandListPage from './pages/Brand/BrandListPage';
+import AddBrandPage from './pages/Brand/AddBrandPage';
+import UpdateBrandPage from './pages/Brand/UpdateBrandPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -53,6 +56,10 @@ const App = () => {
             <Route path="/color/list" element={<ColorListPage />} />
             <Route path="/color/add" element={<AddColorPage />} />
             <Route path="/color/update/:id" element={<UpdateColorPage />} />
+
+            <Route path="/brand/list" element={<BrandListPage />} />
+            <Route path="/brand/add" element={<AddBrandPage />} />
+            <Route path="/brand/update/:id" element={<UpdateBrandPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </>
