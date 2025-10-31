@@ -12,7 +12,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
 import useToggleStatus from '../../hooks/useToggleStatus';
-import StatusToggle from '../../components/Table/statusToggle';
+import StatusToggle from '../../components/Table/StatusToggle';
 
 const SizeListPage = () => {
   const { validToken } = useAuth();

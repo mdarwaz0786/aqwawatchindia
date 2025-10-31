@@ -13,7 +13,7 @@ import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
 import useToggleStatus from '../../hooks/useToggleStatus';
 import TableImage from '../../components/Table/TableImage';
-import StatusToggle from '../../components/Table/statusToggle';
+import StatusToggle from '../../components/Table/StatusToggle';
 
 const SubCategoryListPage = () => {
   const { validToken } = useAuth();
