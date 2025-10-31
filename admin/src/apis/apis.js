@@ -33,12 +33,26 @@ const apis = {
     getSingle: `${API_BASE_URL}/api/v1/admin/color`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/color`,
   },
+  size: {
+    create: `${API_BASE_URL}/api/v1/admin/size`,
+    update: `${API_BASE_URL}/api/v1/admin/size`,
+    getAll: `${API_BASE_URL}/api/v1/admin/size`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/size`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/size`,
+  },
   brand: {
     create: `${API_BASE_URL}/api/v1/admin/brand`,
     update: `${API_BASE_URL}/api/v1/admin/brand`,
     getAll: `${API_BASE_URL}/api/v1/admin/brand`,
     getSingle: `${API_BASE_URL}/api/v1/admin/brand`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/brand`,
+  },
+  product: {
+    create: `${API_BASE_URL}/api/v1/admin/product`,
+    update: `${API_BASE_URL}/api/v1/admin/product`,
+    getAll: `${API_BASE_URL}/api/v1/admin/product`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/product`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/product`,
   },
 };
 

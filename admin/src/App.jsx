@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './Layout';
@@ -21,6 +20,10 @@ import UpdateColorPage from './pages/Color/UpdateColorPage';
 import BrandListPage from './pages/Brand/BrandListPage';
 import AddBrandPage from './pages/Brand/AddBrandPage';
 import UpdateBrandPage from './pages/Brand/UpdateBrandPage';
+import AddProductPage from './pages/Product/AddProductPage';
+import SizeListPage from './pages/Size/SizeListPage';
+import AddSizePage from './pages/Size/AddSizePage';
+import UpdateSizePage from './pages/Size/UpdateSizePage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,9 +60,15 @@ const App = () => {
             <Route path="/color/add" element={<AddColorPage />} />
             <Route path="/color/update/:id" element={<UpdateColorPage />} />
 
+            <Route path="/size/list" element={<SizeListPage />} />
+            <Route path="/size/add" element={<AddSizePage />} />
+            <Route path="/size/update/:id" element={<UpdateSizePage />} />
+
             <Route path="/brand/list" element={<BrandListPage />} />
             <Route path="/brand/add" element={<AddBrandPage />} />
             <Route path="/brand/update/:id" element={<UpdateBrandPage />} />
+
+            <Route path="/product/add" element={<AddProductPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </>

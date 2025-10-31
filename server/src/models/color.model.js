@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const colorSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "name is required"],
     trim: true,
     unique: true,
   },
@@ -27,4 +27,6 @@ const colorSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-export default mongoose.model("Color", colorSchema);
+const ColorModel = mongoose.model("Color", colorSchema);
+
+export default ColorModel;

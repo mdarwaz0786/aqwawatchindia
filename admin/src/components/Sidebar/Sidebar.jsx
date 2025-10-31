@@ -15,7 +15,8 @@ import {
   MdLayers,
   MdViewModule,
   MdPalette,
-  MdStore
+  MdStore,
+  MdStraighten
 } from "react-icons/md";
 import logo from "../../assets/logo.png";
 import styles from "./Sidebar.module.css";
@@ -65,6 +66,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       items: [
         { label: "Color List", link: "/color/list" },
         { label: "Add Color", link: "/color/add" },
+      ],
+    },
+    {
+      title: "Size",
+      icon: <MdStraighten />,
+      items: [
+        { label: "Size List", link: "/size/list" },
+        { label: "Add Size", link: "/size/add" },
       ],
     },
     {

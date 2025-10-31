@@ -68,6 +68,44 @@
   <script src="/assets/js/animated_barfiller.js"></script>
   <!--main/custom js-->
   <script src="/assets/js/custom.js"></script>
+
+  <script>
+    (function () {
+      const panel = document.querySelector('.megamenus');
+      const previewImg = document.getElementById('megaPreview');
+      const previewTitle = document.getElementById('megaPreviewTitle');
+
+      // Right list items
+      const items = document.querySelectorAll('.sub-menu-list.waterpurifier li.productlistDiv');
+
+      // Helper to set preview
+      function setPreviewFrom(el) {
+        if (!el) return;
+        const img = el.getAttribute('data-img');
+        const title = el.getAttribute('data-title');
+        if (img) previewImg.src = img;
+        if (title) previewTitle.textContent = title;
+      }
+
+      // Default preview = first item with data
+      setPreviewFrom(document.querySelector('.sub-menu-list.waterpurifier li.productlistDiv'));
+
+      // Update on hover/focus
+      items.forEach(li => {
+        li.addEventListener('mouseenter', () => setPreviewFrom(li));
+        li.addEventListener('focusin', () => setPreviewFrom(li));
+      });
+
+      // (Optional) Keep panel open while mouse is over it (prevents flicker)
+      const trigger = document.querySelector('.menu_item > li > a[href=\"#\"]:has(.fa-chevron-down)') ||
+        document.querySelector('.menu_item > li > a i.fas.fa-chevron-down')?.closest('a');
+      if (trigger && panel) {
+        let inside = false;
+        panel.addEventListener('mouseenter', () => inside = true);
+        panel.addEventListener('mouseleave', () => inside = false);
+      }
+    })();
+  </script>
 </body>
 
 </html>

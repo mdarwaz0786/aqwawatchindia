@@ -204,13 +204,16 @@ button {
 .section_heading_2 p {
     display: block;
 }
+
 .secpd {
     padding-top: 30px;
     padding-bottom: 30px;
 }
+
 .section_heading {
     padding-bottom: 20px;
 }
+
 .nextArrow,
 .prevArrow {
     width: 40px;
@@ -362,7 +365,7 @@ button {
 }
 
 .page_banner_overlay {
-    background: rgb(7 28 31 / 38%);
+    background: rgb(223 71 56);
     padding: 50px 0px 52px 0px;
 }
 
@@ -1844,9 +1847,11 @@ header .header_support h3 a:hover {
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
 }
+
 .category.category_2 {
     padding: 0px;
 }
+
 .category_item.color_15 {
     background: #F5EFED;
 }
@@ -1902,15 +1907,15 @@ header .header_support h3 a:hover {
 }
 
 .category_item .img {
-margin: 0 auto;
-margin-top: 20px;
-width: 44%;
-height: 47%;
-transition: all linear .3s;
--webkit-transition: all linear .3s;
--moz-transition: all linear .3s;
--ms-transition: all linear .3s;
--o-transition: all linear .3s;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 44%;
+    height: 47%;
+    transition: all linear .3s;
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    -ms-transition: all linear .3s;
+    -o-transition: all linear .3s;
 }
 
 .category_item:hover {
@@ -1938,6 +1943,7 @@ transition: all linear .3s;
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
+    z-index: -9999;
 }
 
 .flash_sell .prevArrow,
@@ -2201,6 +2207,7 @@ transition: all linear .3s;
     border-bottom: 0;
     background: var(--lightBg);
 }
+
 .product_item .out_of_stock {
     position: absolute;
     top: 0;
@@ -2518,7 +2525,7 @@ transition: all linear .3s;
 
 .special_product_img {
     width: 130px;
-  
+
     overflow: hidden;
     margin-right: 20px;
     border-right: 1px solid #ffffff;
@@ -2850,12 +2857,14 @@ footer {
 
 .footer_info {
 
-background: color(srgb 0.2 0.2 0.2);
+    background: color(srgb 0.2 0.2 0.2);
 }
+
 .features {
-padding-top: 30px;
-padding-bottom: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
+
 .footer_info_item {
     /* display: flex
 ; */
@@ -2865,12 +2874,14 @@ padding-bottom: 30px;
     padding-bottom: 20px;
     text-align: center;
 }
+
 .footer_info_item .icon {
     width: 85px;
     height: 85px;
     margin-right: 20px;
     margin: 0 auto;
 }
+
 .footer_info_item .text h3 {
     color: var(--colorWhite);
     font-size: 20px;
@@ -2890,13 +2901,15 @@ padding-bottom: 30px;
     width: 150px;
 }
 
-.footer_logo_area p, .footer_2_logo_area p {
+.footer_logo_area p,
+.footer_2_logo_area p {
     color: rgb(183 183 183);
     font-size: 15px;
     font-weight: 400;
     /* margin-top: 20px; */
     margin-bottom: 14px;
 }
+
 .footer_logo_area span {
     display: block;
     color: white;
@@ -2930,20 +2943,22 @@ padding-bottom: 30px;
 }
 
 .footer_link h3 {
-color: var(--colorWhite);
-font-family: var(--bodyFont);
-font-size: 18px;
-font-weight: 700;
-margin-bottom: 12px;
+    color: var(--colorWhite);
+    font-family: var(--bodyFont);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
+
 .footer_2 p {
-color: white !important;
+    color: white !important;
 }
 
 .footer_link {
-padding-top: 40px;
-padding-bottom: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
+
 .footer_link ul li a {
     color: white;
     font-size: 15px;
@@ -2959,19 +2974,19 @@ padding-bottom: 40px;
 }
 
 .footer_link ul li a:hover {
-    color: var(--themeColorTwo);
+    color: white;
     padding-left: 5px;
     opacity: 1;
 }
 
 .footer_copyright {
-/* display: flex; */
-/* flex-wrap: wrap; */
-/* align-items: center; */
-/* justify-content: space-between; */
-border-top: 1px solid #eeeeee24;
-padding: 20px 0px;
-text-align: center;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    border-top: 1px solid #eeeeee24;
+    padding: 20px 0px;
+    text-align: center;
 }
 
 .footer_copyright .social {
@@ -3110,11 +3125,14 @@ text-align: center;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
 }
-.default_home .nextArrow:hover, .default_home .prevArrow:hover {
-background: #df4838;
-color: var(--colorWhite);
-border-color: #df4838;
+
+.default_home .nextArrow:hover,
+.default_home .prevArrow:hover {
+    background: #df4838;
+    color: var(--colorWhite);
+    border-color: #df4838;
 }
+
 /* menu 2 start */
 .main_menu_2 {
     background: var(--lightBg) !important;
@@ -3216,6 +3234,7 @@ border-color: #df4838;
 .default_home .mini_cart .offcanvas-header {
     background: var(--themeColorTwo);
 }
+
 .category {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -3612,7 +3631,7 @@ border-color: #df4838;
 
 .product_item_2 .product_img {
     background: var(--lightBg2) !important;
- 
+
     border: none;
     border-radius: 12px;
     -webkit-border-radius: 12px;
@@ -3746,9 +3765,9 @@ border-color: #df4838;
 }
 
 .category_2 .category_item h3 {
-font-size: 14px;
-padding-top: 10px;
-padding-bottom: 10px;
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 /* category 2 end */
@@ -4160,6 +4179,7 @@ padding-bottom: 10px;
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
+    margin-bottom: 20px;
 }
 
 .blog_2 .blog_img {
@@ -4234,8 +4254,9 @@ padding-bottom: 10px;
 
 /* footer 2 start */
 .footer_2 {
-background: color(srgb 0.8738 0.281 0.2184) !important;
+    background: color(srgb 0.8738 0.281 0.2184) !important;
 }
+
 .footer_2 .footer_2_logo_area {
     padding-right: 50px;
 }
@@ -4287,9 +4308,11 @@ background: color(srgb 0.8738 0.281 0.2184) !important;
 .default_home .product_item .color {
     max-width: 100% !important;
 }
+
 .category_item img {
-width: 15%;
+    width: 15%;
 }
+
 .default_home .mobile_menu_icon {
     background: var(--themeColorTwo);
     border-radius: 6px;
@@ -4865,6 +4888,7 @@ width: 15%;
     padding-top: 100px;
     padding-bottom: 100px;
 }
+
 .grocery_countdown_text {
     padding-right: 50px;
 }
@@ -6741,6 +6765,7 @@ width: 15%;
     position: relative;
     margin-top: 9px;
 }
+
 .about_us_img p span::after {
     position: absolute;
     content: "";
@@ -13017,30 +13042,30 @@ width: 15%;
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
 }
-.dnone
-{
+
+.dnone {
     display: none;
 }
+
 .flash_sell {
     padding-top: 30px;
     padding-bottom: 30px;
 }
+
 .offerbanner img {
     width: 100%;
 }
 
-@media only screen and (max-width: 767px)
-{
+@media only screen and (max-width: 767px) {
 
 
-    .dnone
-{
-    display: block;
-}
-.ddesk
-{
-    display: none;
-}
+    .dnone {
+        display: block;
+    }
+
+    .ddesk {
+        display: none;
+    }
 
 }
 
@@ -13049,4 +13074,270 @@ width: 15%;
 section.counter_part {
     padding-top: 50px;
     padding-bottom: 50px;
+}
+
+.megamenus {
+    width: max-content;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: white;
+    padding: 50px 0;
+    margin-top: -1px;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+    box-shadow: 0 10px 10px rgb(0 0 0 / 16%);
+    transform: translateY(0%);
+    z-index: 2;
+}
+
+.menu_item li:hover .megamenus {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sub-menu-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.maininnermenu img {
+    width: 100%;
+}
+
+.sub-menu-list>li {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+}
+
+/* Make the parent menu item non-clipping so mega can span full width */
+.menu_item>li {
+    position: static;
+}
+
+/* Mega menu: full-viewport width panel under the header */
+.menu_item>li>.megamenus {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    /* full screen width */
+    top: 100%;
+    /* sits right under the menu bar */
+    background: #fff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+    border-radius: 10px;
+    padding: 18px 0;
+    display: none;
+    /* hidden by default */
+    z-index: 999;
+    /* above other content */
+}
+
+/* Show on hover */
+.menu_item>li:hover>.megamenus {
+    display: block;
+}
+
+/* Optional: keep the inner grid to your page width */
+.megamenus>.container {
+    max-width: 1200px;
+}
+
+/* Smooth hover intent (prevents flicker when moving between trigger and panel) */
+.menu_item>li {
+    --hover-pad: 8px;
+}
+
+.menu_item>li>a {
+    position: relative;
+}
+
+.menu_item>li>a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -var(--hover-pad);
+    height: var(--hover-pad);
+}
+
+/* Left preview box styling */
+.megamenu .preview-box {
+    border: 1px solid #eef2f7;
+    border-radius: 12px;
+    padding: 14px;
+    background: #f8fafc;
+}
+
+.megamenu .preview-box img {
+    width: 100%;
+    height: 220px;
+    /* tweak as you like */
+    object-fit: contain;
+}
+
+.megamenu .preview-title {
+    margin-top: 10px;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+/* Right list items hover state */
+.sub-menu-list.waterpurifier li.productlistDiv h5 a {
+    color: #0f172a;
+    text-decoration: none;
+}
+
+.sub-menu-list.waterpurifier li.productlistDiv:hover h5 a {
+    color: #007bb1;
+    /* accent on hover */
+}
+
+.preview-box img {
+    width: 100%;
+    text-align: center;
+}
+
+div#megaPreviewTitle {
+    text-align: center;
+}
+
+/* --- KENT-LIKE MOBILE MENU PANELS --- */
+.mobile_menu_item_area {
+    position: relative;
+}
+
+.main_mobile_menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 60vh;
+    /* enough height for panels */
+}
+
+/* Root list scroll */
+.main_mobile_menu>li {
+    border-bottom: 1px solid #eef2f7;
+}
+
+.main_mobile_menu>li>a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 12px;
+    font-weight: 600;
+    color: #0f172a;
+    text-decoration: none;
+}
+
+/* Sub-menu is a full sheet that slides from right */
+.main_mobile_menu .sub-menu {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    transform: translateX(100%);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform .25s ease, opacity .2s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    border-left: 1px solid #eef2f7;
+}
+
+/* Active (visible) sub menu */
+.main_mobile_menu .sub-menu.active {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Sub-menu header (back + view all) */
+.main_mobile_menu .sub-menu .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eef2f7;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.main_mobile_menu .sub-menu .back-link {
+    font-weight: 700;
+    color: #111;
+    text-decoration: none;
+}
+
+.main_mobile_menu .sub-menu .view_all {
+    font-weight: 600;
+    text-decoration: none;
+    color: #007bb1;
+}
+
+/* Sub-menu inner list */
+.main_mobile_menu .sub-menu .inner {
+    padding: 6px 4px 14px;
+    overflow: auto;
+}
+
+.main_mobile_menu .sub-menu .inner ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main_mobile_menu .sub-menu .inner li {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.main_mobile_menu .sub-menu .inner li>a {
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* Nested sub-menus inside inner (3rd level+) */
+.main_mobile_menu .sub-menu .inner li.parent>a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Small chevron (optional) */
+.main_mobile_menu .parent>a::after {
+    content: "›";
+    font-size: 18px;
+    line-height: 1;
+    opacity: .6;
+}
+
+/* Remove desktop-only preview stuff in mobile, if present */
+.megamenus,
+.preview-box {
+    /* display: none !important; */
+}
+
+
+
+@media only screen and (max-width:767px) {
+    .header_logo_area a {
+        width: 12%;
+    }
+
+    .category.category_2 {
+        margin-top: 15%;
+    }
+
+
+
 }

@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Category name is required"],
+    required: [true, "name is required"],
     trim: true,
     unique: true,
-    maxlength: [100, "Category name must not exceed 100 characters"],
+    maxlength: [100, "name must not exceed 100 characters"],
   },
   slug: {
     type: String,

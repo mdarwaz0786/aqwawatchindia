@@ -1,15 +1,11 @@
 import mongoose from "mongoose";
 
-const brandSchema = new mongoose.Schema({
+const sizeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "name is required"],
     trim: true,
     unique: true,
-  },
-  logo: {
-    type: String,
-    trim: true,
   },
   status: {
     type: Boolean,
@@ -27,8 +23,6 @@ const brandSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const BrandModel = mongoose.model("Brand", brandSchema);
+const SizeModel = mongoose.model("Size", sizeSchema);
 
-export default BrandModel;
-
-
+export default SizeModel;

@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const subSubCategorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Name is required"],
+    required: [true, "name is required"],
     trim: true,
     unique: true,
-    maxlength: [100, "Name must not exceed 100 characters"],
+    maxlength: [100, "name must not exceed 100 characters"],
   },
   slug: {
     type: String,
@@ -47,7 +47,7 @@ const subSubCategorySchema = new mongoose.Schema({
     ref: "User",
     default: null,
   },
-}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
+}, { timestamps: true });
 
 subSubCategorySchema.index({ name: 1 });
 subSubCategorySchema.index({ category: 1, subCategory: 1 });
