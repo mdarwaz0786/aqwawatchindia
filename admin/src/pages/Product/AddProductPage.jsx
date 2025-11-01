@@ -119,7 +119,7 @@ const ProductAddPage = () => {
     if (error) toast.error(error);
   }, [response, error]);
 
-  // Render Steps (same as before, no API calls)
+  // Dropdown data
   const categories = categoryData?.data || [];
   const subCategories = subCategoryData?.data || [];
   const subSubCategories = subSubCategoryData?.data || [];
@@ -127,8 +127,9 @@ const ProductAddPage = () => {
   const colors = colorData?.data || [];
   const sizes = sizeData?.data || [];
 
+  // Step 1
   const renderStep1 = () => (
-    <div className="row">
+    <>
       <Select width="col-md-4" label="Category" name="category" value={productInfo.category} onChange={handleProductInfoChange} options={categories} optionKey="_id" optionValue="name" required />
       <Select width="col-md-4" label="Sub Category" name="subCategory" value={productInfo.subCategory} onChange={handleProductInfoChange} options={subCategories} optionKey="_id" optionValue="name" />
       <Select width="col-md-4" label="Sub Sub Category" name="subSubCategory" value={productInfo.subSubCategory} onChange={handleProductInfoChange} options={subSubCategories} optionKey="_id" optionValue="name" />
@@ -142,11 +143,12 @@ const ProductAddPage = () => {
       <Textarea label="Small Info" name="smallInfo" value={productInfo.smallInfo} onChange={handleProductInfoChange} required />
       <Textarea label="Description" name="description" value={productInfo.description} onChange={handleProductInfoChange} />
       <Textarea label="Specification" name="specification" value={productInfo.specification} onChange={handleProductInfoChange} />
-    </div>
+    </>
   );
 
+  // Step 2
   const renderStep2 = () => (
-    <div className="row">
+    <>
       <Select width="col-md-6" label="Color" name="color" value={variantInfo.color} onChange={(e) => setVariantInfo({ ...variantInfo, color: e.target.value })} options={colors} optionKey="_id" optionValue="name" />
       <Select width="col-md-6" label="Size" name="size" value={variantInfo.size} onChange={(e) => setVariantInfo({ ...variantInfo, size: e.target.value })} options={sizes} optionKey="_id" optionValue="name" />
       <Input width="col-md-4" label="SKU Code" name="skuCode" value={variantInfo.skuCode} onChange={(e) => setVariantInfo({ ...variantInfo, skuCode: e.target.value })} />
@@ -154,11 +156,12 @@ const ProductAddPage = () => {
       <Input width="col-md-4" label="Sale Price" type="number" name="salePrice" value={variantInfo.salePrice} onChange={(e) => setVariantInfo({ ...variantInfo, salePrice: e.target.value })} />
       <Input width="col-md-4" label="Stock" type="number" name="stock" value={variantInfo.stock} onChange={(e) => setVariantInfo({ ...variantInfo, stock: e.target.value })} />
       <Images onChange={(files) => setVariantInfo({ ...variantInfo, images: files })} />
-    </div>
+    </>
   );
 
+  // Step 3
   const renderStep3 = () => (
-    <div className="row">
+    <>
       {Object.keys(flags).map((key) => (
         <div className="col-md-3 mb-3" key={key}>
           <Select
@@ -175,42 +178,50 @@ const ProductAddPage = () => {
           />
         </div>
       ))}
-    </div>
+    </>
   );
 
   return (
     <div className="container mt-3">
       <h4>Add Product</h4>
+
       <MultiStepProgressBar
         step={step}
         steps={3}
         stepLabels={["Product Info", "Variant Info", "Flags"]}
         onStepClick={(num) => setStep(num)}
       />
-      <FormWrapper>
-        <form onSubmit={handleFinalSubmit}>
-          {step === 1 && renderStep1()}
-          {step === 2 && renderStep2()}
-          {step === 3 && renderStep3()}
 
-          <div className="mt-3">
-            {step > 1 && (
-              <button type="button" className="btn btn-secondary me-2" onClick={() => setStep(step - 1)}>
-                Back
-              </button>
-            )}
-            {step < 3 && (
-              <button type="button" className="btn btn-primary" onClick={() => setStep(step + 1)}>
-                Next
-              </button>
-            )}
-            {step === 3 && (
-              <button type="submit" className="btn btn-success">
-                Submit All
-              </button>
-            )}
-          </div>
-        </form>
+      <FormWrapper title="Add Product" onSubmit={handleFinalSubmit}>
+        {step === 1 && renderStep1()}
+        {step === 2 && renderStep2()}
+        {step === 3 && renderStep3()}
+
+        <div className="mt-3 text-end">
+          {step > 1 && (
+            <button
+              type="button"
+              className="btn btn-secondary me-2"
+              onClick={() => setStep(step - 1)}
+            >
+              Back
+            </button>
+          )}
+          {step < 3 && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setStep(step + 1)}
+            >
+              Next
+            </button>
+          )}
+          {step === 3 && (
+            <button type="submit" className="btn btn-success">
+              Submit All
+            </button>
+          )}
+        </div>
       </FormWrapper>
     </div>
   );

@@ -22,6 +22,7 @@ import ScrollToTop from "./components/Scroll/ScrollToTop";
 import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import ProfilePage from "./pages/UserDashboard/ProfilePage";
 import InvoicePage from "./pages/UserDashboard/InvoicePage";
+import ShopPage from "./pages/Home/ShopPage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/shop" element={<ShopPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

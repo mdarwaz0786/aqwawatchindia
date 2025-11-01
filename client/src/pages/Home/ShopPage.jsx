@@ -1,19 +1,17 @@
 import Footer from "../../components/Footer/Footer"
-import Navbar from "../../components/Navbar/Navbar";
+import Header from "../../components/Header/Header"
 import BestSellerSection from "./BestSellerSection";
 import BlogSection from "./BlogSection";
 import BrandSection from "./BrandSection";
 import CarouselSection from "./CarouselSection";
-import CategorySection from "./CategorySection";
 import NewArrivalSection from "./NewArrivalSection";
 import OfferBannerSection from "./OfferBannerSection";
 import TestimonialSection from "./TestimonialSection";
 
-const HomePage = () => {
+const ShopPage = () => {
   return (
     <>
-      <Navbar />
-      <CategorySection />
+      <Header />
       <CarouselSection />
       <BestSellerSection />
       <OfferBannerSection src="assets/maingraphics/offerbanner.jpg" />
@@ -27,4 +25,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ShopPage;

@@ -6,26 +6,20 @@ const MultiStepProgressBar = ({ step, steps, stepLabels = [], onStepClick }) => 
   return (
     <div className={styles.wrapper}>
       {stepArray.map((num, index) => {
-        const isCompleted = num < step;
         const isActive = num === step;
-        const isClickable = num <= step; // 👈 only allow back navigation, not forward
+        const isClickable = true;
 
         return (
           <div
             key={num}
             className={`${styles.item} ${isClickable ? styles.clickable : ""}`}
-            onClick={() => isClickable && onStepClick?.(num)} // 👈 safe navigation
+            onClick={() => isClickable && onStepClick?.(num)}
           >
             {index !== 0 && (
-              <div
-                className={`${styles.line} ${isCompleted ? styles.completed : ""}`}
-              />
+              <div className={`${styles.line} ${isActive ? styles.activeLine : ""}`} />
             )}
-            <div
-              className={`${styles.circle} ${isActive ? styles.active : isCompleted ? styles.completed : ""
-                }`}
-            >
-              {isCompleted ? <span className={styles.checkmark}>✓</span> : num}
+            <div className={`${styles.circle} ${isActive ? styles.active : ""}`}>
+              {num}
             </div>
             <div className={styles.label}>
               {stepLabels[index] || `Step ${num}`}
