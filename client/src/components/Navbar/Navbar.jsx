@@ -417,7 +417,7 @@ const Navbar = () => {
                       <ul className="inner_menu">
                         <li><a href="vendor.php">store</a></li>
                         <li><a href="vendor_details.php">store details</a></li>
-                        <li><a href="vendor_registration.php">become a vendor</a></li>
+                        <li><a href="vendor_registration.php">become a Trade Partner</a></li>
                       </ul>
                     </li>
                     <li><a href="flash_deals.php">flash deals</a></li>
