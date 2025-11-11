@@ -6,7 +6,7 @@ const BrandSection = () => {
           <div className="row">
             <div className="col-xl-6 col-sm-9">
               <div className="section_heading_2 section_heading">
-                <h3>Our Top <span>Brands</span></h3>
+                <h3>Our <span>Clients</span></h3>
               </div>
             </div>
             <div className="col-xl-6 col-sm-3">

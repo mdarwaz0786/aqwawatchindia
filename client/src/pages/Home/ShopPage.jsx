@@ -5,8 +5,10 @@ import BlogSection from "./BlogSection";
 import BrandSection from "./BrandSection";
 import CarouselSection from "./CarouselSection";
 import NewArrivalSection from "./NewArrivalSection";
-import OfferBannerSection from "./OfferBannerSection";
+import PromoBannerSection from "./PromobannerSection";
+import ServiceBookingSection from "./ServiceBookingSection";
 import TestimonialSection from "./TestimonialSection";
+import YoutubeVideoSection from "./YoutubeVideoSection";
 
 const ShopPage = () => {
   return (
@@ -14,11 +16,12 @@ const ShopPage = () => {
       <Header />
       <CarouselSection />
       <BestSellerSection />
-      <OfferBannerSection src="assets/maingraphics/offerbanner.jpg" />
+      <PromoBannerSection />
       <NewArrivalSection />
-      <OfferBannerSection src="assets/maingraphics/offerbanner2.jpg" />
+      <YoutubeVideoSection />
       <TestimonialSection />
       <BrandSection />
+      <ServiceBookingSection />
       <BlogSection />
       <Footer />
     </>

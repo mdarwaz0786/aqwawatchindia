@@ -24,6 +24,7 @@ import AddProductPage from './pages/Product/AddProductPage';
 import SizeListPage from './pages/Size/SizeListPage';
 import AddSizePage from './pages/Size/AddSizePage';
 import UpdateSizePage from './pages/Size/UpdateSizePage';
+import Test from './Test';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="/product/add" element={<AddProductPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
+          <Route path="/test" element={<Test />} />
         </>
       )}
     </Routes>
