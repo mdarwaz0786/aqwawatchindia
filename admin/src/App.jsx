@@ -25,6 +25,8 @@ import SizeListPage from './pages/Size/SizeListPage';
 import AddSizePage from './pages/Size/AddSizePage';
 import UpdateSizePage from './pages/Size/UpdateSizePage';
 import Test from './Test';
+import ProductListPage from './pages/Product/ProductListPage';
+import UpdateProductPage from './pages/Product/UpdateProductPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -69,7 +71,9 @@ const App = () => {
             <Route path="/brand/add" element={<AddBrandPage />} />
             <Route path="/brand/update/:id" element={<UpdateBrandPage />} />
 
+            <Route path="/product/list" element={<ProductListPage />} />
             <Route path="/product/add" element={<AddProductPage />} />
+            <Route path="/product/update/:id" element={<UpdateProductPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

@@ -1,24 +1,27 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FormWrapper from "../../components/Form/FormWrapper";
 import Input from "../../components/Input/Input";
 import Select from "../../components/Input/Select";
 import Images from "../../components/Input/Images";
 import TextEditor from "../../components/Input/TextEditor";
-import useCreate from "../../hooks/useCreate";
 import useFormValidation from "../../hooks/useFormValidation";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
 import useFetch from "../../hooks/useFetch";
-import apis from "../../apis/apis";
 import useFetchData from "../../hooks/useFetchData";
+import apis, { API_BASE_URL } from "../../apis/apis";
+import usePatch from "../../hooks/usePatch";
 
-const AddProductPage = () => {
+const UpdateProductPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { validToken } = useAuth();
-  const { postData, response, postError } = useCreate(apis.product.create);
+
+  const { updateData, response, updateError, isUpdating } = usePatch(`${apis.product.update}/${id}`);
   const { errors, validate } = useFormValidation();
 
+  const { data: productData } = useFetchData(`${apis.product.getSingle}/${id}`, validToken);
   const { data: brandData } = useFetch(apis.brand.getAll, validToken);
   const { data: categoryData } = useFetch(apis.category.getAll, validToken);
   const { data: subCategoryData, setParams: fetchSubCategories } = useFetchData(
@@ -29,9 +32,9 @@ const AddProductPage = () => {
 
   const [form, setForm] = useState({
     name: "",
-    category: null,
-    subCategory: null,
-    brand: null,
+    category: "",
+    subCategory: "",
+    brand: "",
     mrpPrice: "",
     salePrice: "",
     stock: "",
@@ -49,18 +52,45 @@ const AddProductPage = () => {
     images: [],
   });
 
+  useEffect(() => {
+    if (productData?.data) {
+      const product = productData?.data;
+
+      setForm({
+        name: product.name || "",
+        category: product.category?._id || "",
+        subCategory: product.subCategory?._id || "",
+        brand: product.brand?._id || "",
+        mrpPrice: product.mrpPrice || "",
+        salePrice: product.salePrice || "",
+        stock: product.stock || "",
+        skuCode: product.skuCode || "",
+        rating: product.rating || "",
+        numberOfReviews: product.numberOfReviews || "",
+        smallInfo: product.smallInfo || "",
+        description: product.description || "",
+        specification: product.specification || "",
+        amazonLink: product.amazonLink || "",
+        flipKartLink: product.flipKartLink || "",
+        youtubeVideoLink: product.youtubeVideoLink || "",
+        bestSellingProduct: !!product.bestSellingProduct,
+        newArrivalProduct: !!product.newArrivalProduct,
+        images: product.images?.map((img) => `${API_BASE_URL}/${img}`) || [],
+      });
+
+      if (product.category?._id) {
+        fetchSubCategories({ category: product.category._id });
+      }
+    }
+  }, [productData, fetchSubCategories]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
     if (name === "category") {
       setForm((prev) => ({ ...prev, subCategory: "" }));
-
-      if (value) {
-        fetchSubCategories({ category: value });
-      } else {
-        fetchSubCategories({ category: null });
-      }
+      fetchSubCategories({ category: value || null });
     }
   };
 
@@ -85,31 +115,37 @@ const AddProductPage = () => {
 
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((file) => formData.append("images", file));
+      if (key === "images" && Array.isArray(value)) {
+        value.forEach((file) => {
+          if (file instanceof File) formData.append("images", file);
+        });
       } else {
         formData.append(key, value);
       }
     });
 
-    await postData(formData, validToken, true);
+    await updateData(formData, validToken, true);
   };
 
   useEffect(() => {
     if (response?.success) {
-      toast.success("Product created successfully");
+      toast.success("Updated successfully");
       navigate("/product/list");
-    } else if (postError) {
-      toast.error(postError);
+    } else if (updateError) {
+      toast.error(updateError);
     }
-  }, [response, postError, navigate]);
+  }, [response, updateError, navigate]);
 
   const categories = categoryData?.data || [];
   const subCategories = subCategoryData?.data || [];
   const brands = brandData?.data || [];
 
   return (
-    <FormWrapper title="Add New Product" onSubmit={handleSubmit}>
+    <FormWrapper
+      title="Update Product"
+      onSubmit={handleSubmit}
+      buttonLabel={isUpdating ? "Updating..." : "Update"}
+    >
       <div className="row">
         <Select
           label="Category"
@@ -301,6 +337,7 @@ const AddProductPage = () => {
         onChange={handleImageChange}
         placeholder="Images"
         error={errors.images}
+        existingImages={form.images}
         width="col-md-12"
         required
       />
@@ -332,4 +369,4 @@ const AddProductPage = () => {
   );
 };
 
-export default AddProductPage;
+export default UpdateProductPage;

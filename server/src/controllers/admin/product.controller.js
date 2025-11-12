@@ -1,5 +1,5 @@
 import ProductModel from "../../models/product.model.js";
-import ProductVariantModel from "../../models/productVariant.model.js";
+import SlugModel from "../../models/slug.model.js";
 import ApiError from "../../helpers/apiError.js";
 import asyncHandler from "../../helpers/asyncHandler.js";
 import compressImage from "../../helpers/compressImage.js";
@@ -8,151 +8,125 @@ import fs from "fs";
 import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
 
-// CREATE PRODUCT
+// create product
 export const createProduct = asyncHandler(async (req, res) => {
   const {
-    name,
     category,
     subCategory,
-    subSubCategory,
     brand,
+    name,
     skuCode,
-    thumbMrpPrice,
-    thumbSalePrice,
-    thumbStock,
+    mrpPrice,
+    salePrice,
+    rating,
+    numberOfReviews,
     smallInfo,
     description,
     specification,
-    featuredProduct,
+    amazonLink,
+    flipKartLink,
+    youtubeVideoLink,
     bestSellingProduct,
-    specialProduct,
     newArrivalProduct,
-    topRatedProduct,
-    dealsOfDayProduct,
-    trendingProduct,
-    ourBestProduct,
-    variants,
+    stock,
   } = req.body;
 
-  if (!name || !category || !smallInfo || !thumbMrpPrice || !thumbSalePrice) {
-    throw new ApiError(400, "Required fields missing");
-  }
-
-  let thumbImagePath = null;
-  let createdVariants = [];
+  let imagePaths = [];
 
   try {
-    if (req.files?.thumbImage?.[0]) {
-      thumbImagePath = await compressImage(req.files.thumbImage[0].buffer, "products");
+    if (req.files?.images?.length) {
+      const compressed = await Promise.all(req.files.images.map((file) => compressImage(file.buffer, "product")));
+      imagePaths = compressed;
     } else {
-      throw new ApiError(400, "Thumb image is required");
+      throw new ApiError(400, "At least one image is required");
     };
 
     const product = await ProductModel.create({
-      name,
       category,
-      subCategory,
-      subSubCategory,
-      brand,
+      subCategory: subCategory || null,
+      brand: brand || null,
+      name,
       skuCode,
-      thumbImage: thumbImagePath,
-      thumbMrpPrice,
-      thumbSalePrice,
-      thumbStock,
+      mrpPrice,
+      salePrice,
+      rating,
+      numberOfReviews,
       smallInfo,
       description,
       specification,
-      featuredProduct,
-      bestSellingProduct,
-      specialProduct,
-      newArrivalProduct,
-      topRatedProduct,
-      dealsOfDayProduct,
-      trendingProduct,
-      ourBestProduct,
+      amazonLink,
+      flipKartLink,
+      youtubeVideoLink,
+      bestSellingProduct: bestSellingProduct || false,
+      newArrivalProduct: newArrivalProduct || false,
+      stock: stock || 0,
       createdBy: req.user?._id,
+      images: imagePaths,
     });
 
     const slug = await generateUniqueSlug(name, "Product", product?._id, "products");
     product.slug = slug;
     await product.save();
 
-    // Handle Variants
-    // Expected: variants = JSON stringified array with color, size, mrpPrice, salePrice, stock, skuCode
-    const parsedVariants = variants ? JSON.parse(variants) : [];
-
-    for (const variant of parsedVariants) {
-      const variantImages = req.files?.[`variantImages_${variant.tempId}`];
-      // tempId is unique key from frontend (ex: random string to map images to variant)
-      if (variantImages && variantImages.length > 0) {
-        for (const file of variantImages) {
-          const imagePath = await compressImage(file.buffer, "variants");
-          const newVariant = await ProductVariantModel.create({
-            product: product._id,
-            color: variant.color || null,
-            size: variant.size || null,
-            skuCode: skuCode || "",
-            mrpPrice: variant.mrpPrice || 0,
-            salePrice: variant.salePrice || 0,
-            stock: variant.stock || 0,
-            image: imagePath,
-          });
-          createdVariants.push(newVariant);
-        }
-      }
-    }
-
     return res.status(201).json({
       success: true,
-      message: "Product created successfully",
-      data: { product, variants: createdVariants },
+      message: "Created successfully",
+      data: product,
     });
   } catch (error) {
-    // Cleanup on error
-    if (thumbImagePath && fs.existsSync(path.join(process.cwd(), thumbImagePath))) {
-      fs.unlinkSync(path.join(process.cwd(), thumbImagePath));
-    }
-
-    for (const v of createdVariants) {
-      if (v.image && fs.existsSync(path.join(process.cwd(), v.image))) {
-        fs.unlinkSync(path.join(process.cwd(), v.image));
-      }
-    }
-
-    throw new ApiError(500, error.message || "Failed to create product");
-  }
+    for (const img of imagePaths) {
+      if (img && fs.existsSync(path.resolve(img))) {
+        fs.unlinkSync(path.resolve(img));
+      };
+    };
+    throw new ApiError(500, error.message || "Something went wrong while creating product");
+  };
 });
 
-//  GET ALL PRODUCTS
-export const getAllProducts = asyncHandler(async (req, res) => {
-  let { search, status, sort = "desc", page, limit } = req.query;
+// get all products
+export const getProducts = asyncHandler(async (req, res) => {
+  let {
+    search,
+    category,
+    brand,
+    status,
+    sort = "desc",
+    page = 1,
+    limit = 10,
+  } = req.query;
 
   page = parseInt(page, 10) || 1;
   limit = parseInt(limit, 10) || 10;
   const skip = (page - 1) * limit;
 
   const filters = {};
+
   if (search) {
-    filters.$text = { $search: search };
+    filters.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { skuCode: { $regex: search, $options: "i" } },
+    ];
   }
 
-  if (status !== undefined) {
-    filters.status = status === "true";
-  }
+  if (category) filters.category = category;
+  if (brand) filters.brand = brand;
+  if (status !== undefined) filters.status = status === "true" || status === true;
 
   const sortOption = sort === "asc" ? { createdAt: 1 } : { createdAt: -1 };
 
-  const products = await ProductModel
-    .find(filters)
-    .populate("category subCategory subSubCategory brand")
-    .sort(sortOption)
-    .skip(skip)
-    .limit(limit)
-    .lean();
+  const [products, total] = await Promise.all([
+    ProductModel.find(filters)
+      .populate("category", "name slug")
+      .populate("subCategory", "name slug")
+      .populate("brand", "name slug")
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    ProductModel.countDocuments(filters),
+  ]);
 
-  const total = await ProductModel.countDocuments(filters);
-
-  return res.status(200).json({
+  res.status(200).json({
     success: true,
     message: "Data fetched successfully",
     data: products,
@@ -160,167 +134,133 @@ export const getAllProducts = asyncHandler(async (req, res) => {
   });
 });
 
-// GET SINGLE PRODUCT
+// get single product
 export const getProductById = asyncHandler(async (req, res) => {
   const product = await ProductModel.findById(req.params.id)
-    .populate("category subCategory subSubCategory brand")
-    .lean();
+    .populate("category", "name slug")
+    .populate("subCategory", "name slug")
+    .populate("brand", "name slug");
 
-  if (!product) throw new ApiError(404, "Product not found");
+  if (!product) {
+    throw new ApiError(404, "Product not found");
+  }
 
-  const variants = await ProductVariantModel.find({ product: product._id })
-    .populate("color size")
-    .lean();
-
-  return res.status(200).json({
+  res.status(200).json({
     success: true,
-    data: { product, variants },
+    message: "Data fetched successfully",
+    data: product,
   });
 });
 
-// UPDATE PRODUCT
+// update product
 export const updateProduct = asyncHandler(async (req, res) => {
-  const product = await ProductModel.findById(req.params.id);
-  if (!product) throw new ApiError(404, "Product not found");
-
   const {
     name,
-    thumbMrpPrice,
-    thumbSalePrice,
-    thumbStock,
+    category,
+    subCategory,
+    brand,
+    skuCode,
+    mrpPrice,
+    salePrice,
+    rating,
+    numberOfReviews,
     smallInfo,
     description,
     specification,
+    amazonLink,
+    flipKartLink,
+    youtubeVideoLink,
+    bestSellingProduct,
+    newArrivalProduct,
+    stock,
     status,
-    variants,          // JSON string of variants
-    deletedVariantIds, // Array of variant IDs to delete
   } = req.body;
 
-  try {
-    // ===================== 🖼️ THUMB IMAGE =====================
-    if (req.files?.thumbImage?.[0]) {
-      if (product.thumbImage && fs.existsSync(path.join(process.cwd(), product.thumbImage))) {
-        fs.unlinkSync(path.join(process.cwd(), product.thumbImage));
-      }
-      product.thumbImage = await compressImage(req.files.thumbImage[0].buffer, "products");
-    }
-
-    // ===================== 🧾 BASIC FIELDS =====================
-    if (name && name !== product.name) {
-      const slug = await generateUniqueSlug(name, "Product", product._id, "products");
-      product.slug = slug;
-    }
-
-    product.name = name || product.name;
-    product.thumbMrpPrice = thumbMrpPrice || product.thumbMrpPrice;
-    product.thumbSalePrice = thumbSalePrice || product.thumbSalePrice;
-    product.thumbStock = thumbStock || product.thumbStock;
-    product.smallInfo = smallInfo || product.smallInfo;
-    product.description = description || product.description;
-    product.specification = specification || product.specification;
-    product.status = typeof status === "boolean" ? status : product.status;
-    product.updatedBy = req.user?._id;
-
-    await product.save();
-
-    // ===================== 🗑️ DELETE VARIANTS =====================
-    if (deletedVariantIds) {
-      const parsedDeletes = JSON.parse(deletedVariantIds);
-      for (const variantId of parsedDeletes) {
-        const variant = await ProductVariantModel.findById(variantId);
-        if (variant) {
-          if (variant.image && fs.existsSync(path.join(process.cwd(), variant.image))) {
-            fs.unlinkSync(path.join(process.cwd(), variant.image));
-          }
-          await variant.deleteOne();
-        }
-      }
-    }
-
-    // ===================== 🧩 ADD/UPDATE VARIANTS =====================
-    if (variants) {
-      const parsedVariants = JSON.parse(variants);
-
-      for (const variant of parsedVariants) {
-        // CASE 1: existing variant (update)
-        if (variant._id) {
-          const existing = await ProductVariantModel.findById(variant._id);
-          if (!existing) continue;
-
-          if (req.files?.[`variantImages_${variant.tempId}`]?.[0]) {
-            // Replace old image if exists
-            if (existing.image && fs.existsSync(path.join(process.cwd(), existing.image))) {
-              fs.unlinkSync(path.join(process.cwd(), existing.image));
-            }
-            existing.image = await compressImage(
-              req.files[`variantImages_${variant.tempId}`][0].buffer,
-              "variants"
-            );
-          }
-
-          existing.color = variant.color || existing.color;
-          existing.size = variant.size || existing.size;
-          existing.mrpPrice = variant.mrpPrice || existing.mrpPrice;
-          existing.salePrice = variant.salePrice || existing.salePrice;
-          existing.stock = variant.stock || existing.stock;
-          existing.skuCode = variant.skuCode || existing.skuCode;
-          await existing.save();
-        }
-
-        // CASE 2: new variant (create)
-        else {
-          const variantImages = req.files?.[`variantImages_${variant.tempId}`];
-          if (variantImages && variantImages.length > 0) {
-            for (const file of variantImages) {
-              const imagePath = await compressImage(file.buffer, "variants");
-              await ProductVariantModel.create({
-                product: product._id,
-                color: variant.color || null,
-                size: variant.size || null,
-                skuCode: variant.skuCode || "",
-                mrpPrice: variant.mrpPrice || 0,
-                salePrice: variant.salePrice || 0,
-                stock: variant.stock || 0,
-                image: imagePath,
-              });
-            }
-          }
-        }
-      }
-    }
-
-    // ===================== ✅ RESPONSE =====================
-    return res.status(200).json({
-      success: true,
-      message: "Product & variants updated successfully",
-    });
-
-  } catch (error) {
-    throw new ApiError(500, error.message || "Failed to update product");
+  const product = await ProductModel.findById(req.params.id);
+  if (!product) {
+    throw new ApiError(404, "Product not found");
   }
+
+  if (req.files?.images?.length) {
+    if (product.images?.length) {
+      for (const img of product.images) {
+        if (fs.existsSync(path.resolve(img))) {
+          fs.unlinkSync(path.resolve(img));
+        }
+      }
+    }
+
+    const newImages = await Promise.all(req.files.images.map((file) => compressImage(file.buffer, "product")));
+    product.images = newImages;
+  }
+
+  if (name && name !== product.name) {
+    await SlugModel.deleteOne({
+      collectionName: "Product",
+      documentId: product._id,
+    });
+    const newSlug = await generateUniqueSlug(name, "Product", product._id, "products");
+    product.slug = newSlug;
+  }
+
+  product.name = name || product.name;
+  product.category = category || product.category;
+  product.subCategory = subCategory || product.subCategory;
+  product.brand = brand || product.brand;
+  product.skuCode = skuCode || product.skuCode;
+  product.mrpPrice = mrpPrice || product.mrpPrice;
+  product.salePrice = salePrice || product.salePrice;
+  product.rating = rating || product.rating;
+  product.numberOfReviews = numberOfReviews || product.numberOfReviews;
+  product.smallInfo = smallInfo || product.smallInfo;
+  product.description = description || product.description;
+  product.specification = specification || product.specification;
+  product.amazonLink = amazonLink || product.amazonLink;
+  product.flipKartLink = flipKartLink || product.flipKartLink;
+  product.youtubeVideoLink = youtubeVideoLink || product.youtubeVideoLink;
+  if (bestSellingProduct !== undefined) {
+    product.bestSellingProduct = bestSellingProduct === "true";
+  };
+  if (newArrivalProduct !== undefined) {
+    product.newArrivalProduct = newArrivalProduct === "true";
+  };
+  product.stock = stock || product.stock;
+  product.status = typeof status === "boolean" ? status : product.status;
+  product.updatedBy = req.user?._id;
+  product.updatedAt = new Date();
+
+  await product.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Updated successfully",
+    data: product,
+  });
 });
 
-// DELETE PRODUCT
+// delete product
 export const deleteProduct = asyncHandler(async (req, res) => {
   const product = await ProductModel.findById(req.params.id);
-  if (!product) throw new ApiError(404, "Product not found");
-
-  const variants = await ProductVariantModel.find({ product: product._id });
-
-  if (product.thumbImage && fs.existsSync(path.join(process.cwd(), product.thumbImage))) {
-    fs.unlinkSync(path.join(process.cwd(), product.thumbImage));
+  if (!product) {
+    throw new ApiError(404, "Product not found");
   }
 
-  for (const v of variants) {
-    if (v.image && fs.existsSync(path.join(process.cwd(), v.image))) {
-      fs.unlinkSync(path.join(process.cwd(), v.image));
+  if (product.images?.length) {
+    for (const img of product.images) {
+      if (fs.existsSync(path.resolve(img))) {
+        fs.unlinkSync(path.resolve(img));
+      }
     }
   }
 
-  await ProductVariantModel.deleteMany({ product: product._id });
+  await SlugModel.deleteOne({
+    collectionName: "Product",
+    documentId: product._id,
+  });
+
   await product.deleteOne();
 
-  return res.status(200).json({
+  res.status(200).json({
     success: true,
     message: "Deleted successfully",
   });

@@ -55,7 +55,6 @@ const SearchableSelect = ({
         options={formattedOptions}
         placeholder={placeholder}
         classNamePrefix="react-select"
-        isClearable
         styles={styles}
       />
 

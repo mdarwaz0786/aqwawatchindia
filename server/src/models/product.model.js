@@ -13,12 +13,6 @@ const productSchema = new mongoose.Schema({
     index: true,
     default: null,
   },
-  subSubCategory: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "SubSubCategory",
-    index: true,
-    default: null,
-  },
   brand: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Brand",
@@ -49,39 +43,24 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: 0,
   },
-  thumbImage: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  thumbMrpPrice: {
+  mrpPrice: {
     type: Number,
-    required: true,
     trim: true,
   },
-  thumbSalePrice: {
+  salePrice: {
     type: Number,
-    required: true,
     trim: true,
   },
-  thumbPercentOff: {
+  percentOff: {
     type: Number,
     default: 0,
   },
-  thumbStock: {
+  stock: {
     type: Number,
     trim: true,
     default: 0,
-  },
-  featuredProduct: {
-    type: Boolean,
-    default: false,
   },
   bestSellingProduct: {
-    type: Boolean,
-    default: false,
-  },
-  specialProduct: {
     type: Boolean,
     default: false,
   },
@@ -89,34 +68,28 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  topRatedProduct: {
-    type: Boolean,
-    default: false,
-  },
-  dealsOfDayProduct: {
-    type: Boolean,
-    default: false,
-  },
-  trendingProduct: {
-    type: Boolean,
-    default: false,
-  },
-  ourBestProduct: {
-    type: Boolean,
-    default: false,
-  },
   smallInfo: {
     type: String,
-    required: true,
   },
   description: {
     type: String,
-    required: false,
   },
   specification: {
     type: String,
-    required: false,
   },
+  amazonLink: {
+    type: String,
+  },
+  flipKartLink: {
+    type: String,
+  },
+  youtubeVideoLink: {
+    type: String,
+  },
+  images: [{
+    type: String,
+    required: [true, "images is required"],
+  }],
   status: {
     type: Boolean,
     default: true,
@@ -136,11 +109,11 @@ const productSchema = new mongoose.Schema({
 productSchema.index({ name: "text" });
 
 productSchema.pre("save", function (next) {
-  if (this.thumbMrpPrice && this.thumbSalePrice) {
-    const discount = ((this.thumbMrpPrice - this.thumbSalePrice) / this.thumbMrpPrice) * 100;
-    this.thumbPercentOff = Math.round(discount);
+  if (this.mrpPrice && this.salePrice) {
+    const discount = ((this.mrpPrice - this.salePrice) / this.mrpPrice) * 100;
+    this.percentOff = Math.round(discount);
   } else {
-    this.thumbPercentOff = 0;
+    this.percentOff = 0;
   };
   next();
 });

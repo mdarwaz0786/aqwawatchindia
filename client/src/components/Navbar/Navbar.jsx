@@ -105,7 +105,7 @@ const Navbar = () => {
                   <li><Link to="/shop"> All Products</Link></li>
                   <li><Link to="/blogs"> Blogs</Link></li>
                   <li><Link to="/contact-us"> Contact Us</Link></li>
-                  <li><Link to="/become-vendor">Become a Trade Partner</Link></li>
+                  <li><Link to="/become-vendor">Become A Dealer</Link></li>
                 </ul>
                 <ul className="menu_icon">
                   <li>

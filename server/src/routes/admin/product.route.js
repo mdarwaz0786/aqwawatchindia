@@ -3,7 +3,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  getAllProducts,
+  getProducts,
   getProductById,
 } from "../../controllers/admin/product.controller.js";
 import protect from "../../middlewares/admin/protect.middleware.js";
@@ -15,22 +15,26 @@ const router = express.Router();
 router.post(
   "/",
   protect,
-  upload.any(),
+  upload.fields([
+    { name: "images", maxCount: 10 },
+  ]),
   validateFileSize,
   createProduct
 );
 
-router.put(
+router.patch(
   "/:id",
   protect,
-  upload.any(),
+  upload.fields([
+    { name: "images", maxCount: 10 },
+  ]),
   validateFileSize,
   updateProduct,
 );
 
 router.delete("/:id", protect, deleteProduct);
 
-router.get("/", protect, getAllProducts);
+router.get("/", protect, getProducts);
 
 router.get("/:id", protect, getProductById);
 
