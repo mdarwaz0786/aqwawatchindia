@@ -8,6 +8,7 @@ import connectDatabase from "./src/database/connectDatabase.js";
 import errorHandler from "./src/middlewares/errorHandler.middleware.js";
 import testRoute from "./src/routes/test.route.js";
 import adminRoute from "./src/routes/admin/admin.route.js";
+import userRoute from "./src/routes/user/user.route.js";
 
 // Get the current file 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,9 +33,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 app.use(cors());
 
-// API Routes
+// Test Route
 app.use("/api/v1", testRoute);
+
+// Admin API Routes
 app.use("/api/v1/admin", adminRoute);
+
+// User API Routes
+app.use("/api/v1/user", userRoute);
 
 // Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

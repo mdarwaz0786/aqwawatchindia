@@ -1,8 +1,51 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import apis from "../../api/apis";
+import useFetchData from "../../hooks/useFetchData";
+import { useEffect } from "react";
+import { API_BASE_URL } from "../../api/apis";
 
 const ProductPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const initialParams = {
+    page: searchParams.get("page") || 1,
+    limit: searchParams.get("limit") || 10,
+    search: searchParams.get("search") || "",
+    category: searchParams.get("category") || "",
+    subCategory: searchParams.get("subCategory") || "",
+    brand: searchParams.get("brand") || "",
+    sort: searchParams.get("sort") || "desc",
+    minPrice: searchParams.get("minPrice") || "",
+    maxPrice: searchParams.get("maxPrice") || "",
+    bestSellingProduct: searchParams.get("bestSellingProduct") || "",
+    newArrivalProduct: searchParams.get("newArrivalProduct") || "",
+  };
+
+  const { data, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
+
+  useEffect(() => {
+    const urlParams = {};
+    Object.keys(params).forEach((key) => {
+      if (
+        params[key] !== "" &&
+        params[key] !== null &&
+        params[key] !== undefined
+      ) {
+        urlParams[key] = params[key];
+      }
+    });
+    setSearchParams(urlParams);
+  }, [params, setSearchParams]);
+
+  const handleFilterChange = (filterName, value) => {
+    setParams({ [filterName]: value, page: 1 });
+  };
+
+  const products = data?.data || [];
+
   return (
     <>
       <Header />
@@ -16,7 +59,7 @@ const ProductPage = () => {
                   <h1>Shop</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
-                    <li><Link to="/products">Shop</Link></li>
+                    <li><Link to="#">Shop</Link></li>
                   </ul>
                 </div>
               </div>
@@ -268,6 +311,7 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-xxl-10 col-lg-8 col-xl-9">
               <div className="product_page_top">
                 <div className="row">
@@ -310,464 +354,56 @@ const ProductPage = () => {
                   </div>
                 </div>
               </div>
+
               <div className="tab-content" id="nav-tabContent">
                 <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>
                   <div className="row">
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_23.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
+                    {
+                      products?.map((d) => (
+                        <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp" key={d?._id}>
+                          <div className="product_item_2 product_item">
+                            <div className="product_img">
+                              <img
+                                src={`${API_BASE_URL}/${d?.images?.[0]}`}
+                                alt={d?.name}
+                                className="img-fluid w-100"
+                              />
+                              {
+                                (d?.newArrivalProduct) &&
+                                <ul className="discount_list">
+                                  <li className="new"> new</li>
+                                </ul>
+                              }
+                              <ul className="btn_list">
+                                <li>
+                                  <a href="#">
+                                    <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div className="product_text">
+                              <Link className="title" to="/product-detail"> {d?.name}</Link>
+                              <p className="price">Rs.{d?.salePrice}</p>
+                              <p className="rating">
+                                {[...Array(5)].map((_, i) => (
+                                  <i
+                                    key={i}
+                                    className={`${i < Math.round(d?.rating || 0)
+                                      ? "fas fa-star"
+                                      : "far fa-star"
+                                      }`}
+                                  />
+                                ))}
+                                <span>({d?.numberOfReviews} reviews)</span>
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div className="product_text">
-                          <Link className="title" to="/product-detail"> Kid's dresses for summer</Link>
-                          <p className="price">Rs.70.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="far fa-star" />
-                            <span>(44 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_18.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <Link className="title" to="/product-detail">Full Sleeve Hoodie Jacket</Link>
-                          <p className="price">Rs.88.00 </p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_7.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <Link className="title" to="/product-detail">Denim 2 Quarter Pant</Link>
-                          <p className="price">Rs.40.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                        <div className="out_of_stock">
-                          <p>out of stock</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_9.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="discount"> <b>-</b> 45%</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Men's Denim combo set</a>
-                          <p className="price">Rs.47.00 <del>Rs.50.00</del></p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="far fa-star" />
-                            <span>(17 reviews)</span>
-                          </p>
-                          <ul className="color">
-                            <li className="active" style={{ background: '#DB4437' }} />
-                            <li style={{ background: '#638C34' }} />
-                            <li style={{ background: '#1C58F2' }} />
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_10.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Women's Western Party Dress</a>
-                          <p className="price">Rs.43.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(22 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_11.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                            <li className="discount"> <b>-</b> 75%</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Kid's Western Party Dress</a>
-                          <p className="price">Rs.75.00 <del>Rs.69.00</del></p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(58 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_17.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Denim Jeans Pants For Men</a>
-                          <p className="price">Rs.71.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_12.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Half Sleeve Tops for Women</a>
-                          <p className="price">Rs.29.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(44 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_13.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Sharee Petticoat For Women</a>
-                          <p className="price">Rs.56.00 </p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(98 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_14.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="discount"> <b>-</b> 49%</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Jeans Pants For Women</a>
-                          <p className="price">Rs.49.00 <del>Rs.39.00</del></p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(44 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_16.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">cherry fabric western tops</a>
-                          <p className="price">Rs.33.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_15.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                            <li className="discount"> <b>-</b> 75%</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Denim Shirt For Men</a>
-                          <p className="price">Rs.40.00 <del>Rs.48.00</del></p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_18.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Full Sleeve Hoodie Jacket</a>
-                          <p className="price">Rs.88.00 </p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(20 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_19.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Men's premium formal shirt</a>
-                          <p className="price">Rs.46.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="far fa-star" />
-                            <span>(17 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_20.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">cherry fabric western tops</a>
-                          <p className="price">Rs.46.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(22 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
-                      <div className="product_item_2 product_item">
-                        <div className="product_img">
-                          <img src="assets/images/product_4.png" alt="Product" className="img-fluid w-100" />
-                          <ul className="discount_list">
-                            <li className="new"> new</li>
-                          </ul>
-                          <ul className="btn_list">
-                            <li>
-                              <a href="#">
-                                <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="product_text">
-                          <a className="title" href="shop_details.php">Comfortable Sports Sneakers</a>
-                          <p className="price">Rs.75.00</p>
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <span>(58 reviews)</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      ))
+                    }
                   </div>
+
                   <div className="row">
                     <div className="pagination_area">
                       <nav aria-label="...">
@@ -796,411 +432,70 @@ const ProductPage = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>
                   <div className="row">
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_23.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="discount_list">
-                                <li className="new"> new</li>
-                              </ul>
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Full Sleeve Hoodie
-                                Jacket</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(20 reviews)</span>
-                              </p>
-                              <p className="price">Rs.88.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_7.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Denim 2 Quarter Pant</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(93 reviews)</span>
-                              </p>
-                              <p className="price">Rs.65.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
+                    {
+                      products?.map((d) => (
+                        <div className="col-6 col-xxl-10 col-sm-12" key={d?._id}>
+                          <div className="product_list_item product_item_2 product_item">
+                            <div className="row align-items-center">
+
+
+                              <div className="col-md-5 col-sm-6 col-xxl-4">
+                                <div className="product_img">
+                                  <img src="assets/images/product_23.png" alt="Product" className="img-fluid w-100" />
+                                  <ul className="discount_list">
+                                    <li className="new"> new</li>
+                                  </ul>
+                                  <ul className="btn_list">
+                                    <li>
+                                      <a href="#">
+                                        <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a href="#">
+                                        <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <div className="col-md-7 col-sm-6 col-xxl-8">
+                                <div className="product_text">
+                                  <a className="title" href="shop_details.php">Full Sleeve Hoodie
+                                    Jacket</a>
+                                  <p className="rating">
+                                    <i className="fas fa-star" />
+                                    <i className="fas fa-star" />
+                                    <i className="fas fa-star" />
+                                    <i className="fas fa-star" />
+                                    <i className="fas fa-star" />
+                                    <span>(20 reviews)</span>
+                                  </p>
+                                  <p className="price">Rs.88.00</p>
+                                  <ul className="color">
+                                    <li className="active" style={{ background: '#DB4437' }} />
+                                    <li style={{ background: '#638C34' }} />
+                                    <li style={{ background: '#1C58F2' }} />
+                                    <li style={{ background: '#ffa500' }} />
+                                  </ul>
+                                  <p className="short_description">Lorem ipsum dolor sit amet consectetur,
+                                    adipisicing elit. Exercitationem inventore libero accusantium ex
+                                    ipsam, provident voluptas facere nemo, quas assumenda
+                                    reprehenderit nihil ratione quaerat ad.</p>
+                                  <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_9.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Men's Denim combo set</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(16 reviews)</span>
-                              </p>
-                              <p className="price">Rs.72.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_17.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="discount_list">
-                                <li className="new"> new</li>
-                                <li className="discount"> <b>-</b> 75%</li>
-                              </ul>
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Denim Jeans Pants For
-                                Men</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(27 reviews)</span>
-                              </p>
-                              <p className="price">Rs.50.00 <del>Rs.60.00</del></p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_23.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="discount_list">
-                                <li className="new"> new</li>
-                              </ul>
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Full Sleeve Hoodie
-                                Jacket</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(20 reviews)</span>
-                              </p>
-                              <p className="price">Rs.88.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_7.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Denim 2 Quarter Pant</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(93 reviews)</span>
-                              </p>
-                              <p className="price">Rs.65.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_9.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Men's Denim combo set</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(16 reviews)</span>
-                              </p>
-                              <p className="price">Rs.72.00</p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6 col-xxl-10 col-sm-12">
-                      <div className="product_list_item product_item_2 product_item">
-                        <div className=" row align-items-center">
-                          <div className="col-md-5 col-sm-6 col-xxl-4">
-                            <div className="product_img">
-                              <img src="assets/images/product_17.png" alt="Product" className="img-fluid w-100" />
-                              <ul className="discount_list">
-                                <li className="new"> new</li>
-                                <li className="discount"> <b>-</b> 75%</li>
-                              </ul>
-                              <ul className="btn_list">
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="col-md-7 col-sm-6 col-xxl-8">
-                            <div className="product_text">
-                              <a className="title" href="shop_details.php">Denim Jeans Pants For
-                                Men</a>
-                              <p className="rating">
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <i className="fas fa-star" />
-                                <span>(27 reviews)</span>
-                              </p>
-                              <p className="price">Rs.50.00 <del>Rs.60.00</del></p>
-                              <ul className="color">
-                                <li className="active" style={{ background: '#DB4437' }} />
-                                <li style={{ background: '#638C34' }} />
-                                <li style={{ background: '#1C58F2' }} />
-                                <li style={{ background: '#ffa500' }} />
-                              </ul>
-                              <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Exercitationem inventore libero accusantium ex
-                                ipsam, provident voluptas facere nemo, quas assumenda
-                                reprehenderit nihil ratione quaerat ad.</p>
-                              <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      ))
+                    }
                   </div>
+
                   <div className="row">
                     <div className="pagination_area">
                       <nav aria-label="...">
@@ -1246,6 +541,8 @@ const ProductPage = () => {
               </div>
             </div>
           </div>
+
+
           <div className="row mt_25 flash_sell_2_slider">
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
@@ -1287,6 +584,8 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
                 <div className="product_img">
@@ -1326,6 +625,8 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
                 <div className="product_img">
@@ -1365,6 +666,8 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
                 <div className="product_img">
@@ -1405,6 +708,8 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
                 <div className="product_img">
@@ -1444,6 +749,9 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
+
             <div className="col-xl-1-5">
               <div className="product_item_2 product_item">
                 <div className="product_img">
@@ -1483,6 +791,10 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
+
+
+
+
           </div>
         </div>
       </section>

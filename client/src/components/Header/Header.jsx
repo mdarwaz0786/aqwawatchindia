@@ -135,6 +135,7 @@ const Header = () => {
           <div className="main_menu_area">
             <ul className="menu_item">
               <li><Link to="/"> Home</Link></li>
+
               <li>
                 <a href="#">Water Purifiers <i className="fas fa-chevron-down" /></a>
                 <div className="megamenus">
