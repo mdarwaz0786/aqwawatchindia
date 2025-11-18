@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/Home/HomePage";
 import AboutUsPage from "./pages/AboutUs/AboutUsPage";
 import ContactUsPage from "./pages/ContactUs/ContactUsPage";
@@ -25,6 +25,8 @@ import InvoicePage from "./pages/UserDashboard/InvoicePage";
 import ShopPage from "./pages/Home/ShopPage";
 
 const App = () => {
+  const location = useLocation();
+
   return (
     <>
       <ScrollToTop />
@@ -36,7 +38,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/products" element={<ProductPage />} />
+        <Route path="/products" element={<ProductPage key={location.search} />} />
         <Route path="/product-detail" element={<ProductDetailPage />} />
         <Route path="/blogs" element={<BlogPage />} />
         <Route path="/blog-detail" element={<BlogDetailPage />} />

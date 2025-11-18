@@ -4,6 +4,8 @@ import { API_BASE_URL } from "../../api/apis";
 
 const Header = ({ categories }) => {
   const navigate = useNavigate();
+  const [showMore, setShowMore] = useState(false);
+
   const [preview, setPreview] = React.useState({
     img: "",
     title: "",
@@ -16,6 +18,10 @@ const Header = ({ categories }) => {
     e.preventDefault();
     navigate(`/products?category=${category}&search=${search}`);
   };
+
+  const visibleCategories = showMore
+    ? categories?.slice(6) || []
+    : categories?.slice(0, 6) || [];
 
   return (
     <>
@@ -140,10 +146,13 @@ const Header = ({ categories }) => {
         <div className="container-fluid">
           <div className="main_menu_area">
             <ul className="menu_item" onMouseLeave={() => setPreview({ img: "", title: "" })} >
-              {categories?.slice(0, 7).map((cat) => {
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              {visibleCategories?.slice(0, 6)?.map((cat) => {
                 return (
                   <li>
-                    <a href="#">{cat?.name} <i className="fas fa-chevron-down" /></a>
+                    <Link to={`/products?category=${cat?.slug}`}>{cat?.name} <i className="fas fa-chevron-down" /></Link>
                     <div className="megamenus">
                       <div className="container">
                         <div className="row">
@@ -185,6 +194,18 @@ const Header = ({ categories }) => {
                   </li>
                 )
               })}
+              <li>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowMore(!showMore);
+                  }}
+                >
+                  {showMore ? "Less" : "More"}
+                  <i className="fas fa-chevron-down" />
+                </a>
+              </li>
             </ul>
           </div>
         </div>

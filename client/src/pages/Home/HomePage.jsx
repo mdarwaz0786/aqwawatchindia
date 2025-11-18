@@ -8,7 +8,7 @@ import BrandSection from "./BrandSection";
 import CarouselSection from "./CarouselSection";
 import CategorySection from "./CategorySection";
 import NewArrivalSection from "./NewArrivalSection";
-import PromoBannerSection from "./PromobannerSection";
+import PromoBannerSection from "./PromoBannerSection";
 import ServiceBookingSection from "./ServiceBookingSection";
 import TestimonialSection from "./TestimonialSection";
 import YoutubeVideoSection from "./YoutubeVideoSection";

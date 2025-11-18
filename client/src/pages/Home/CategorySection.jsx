@@ -10,7 +10,7 @@ const CategorySection = ({ categories = [] }) => {
       <div className="container">
         <Swiper
           spaceBetween={0}
-          items={categories.slice(0, 8)}
+          items={categories.slice(0, 7)}
           renderSlide={(d) => (
             <div className="catsli wow fadeInUp">
               <div style={{ cursor: "pointer" }} className="category_item" onClick={() => navigate(`/products?category=${d?.slug}`)}>
