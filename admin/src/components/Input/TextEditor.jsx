@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import JoditEditor from "jodit-pro-react";
+import { useMemo } from "react";
+import debounce from "lodash.debounce";
 
 const TextEditor = ({
   label,
@@ -7,32 +9,37 @@ const TextEditor = ({
   value = "",
   onChange = () => { },
   readonly = false,
-  placeholder = "Start typing here...",
-  config = {},
+  placeholder = "",
   height = 400,
   required = false,
   error = "",
 }) => {
   const editor = useRef(null);
 
-  const defaultConfig = {
-    readonly,
-    placeholder,
-    height,
-    uploader: {
-      url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
-    },
-    filebrowser: {
-      ajax: {
-        url: "https://xdsoft.net/jodit/finder/",
+  const debouncedChange = useMemo(() =>
+    debounce((val) => {
+      onChange(val);
+    }, 300),
+    [onChange]
+  );
+
+  const config = useMemo(
+    () => ({
+      readonly,
+      height,
+      placeholder,
+      uploader: {
+        url: "https://xdsoft.net/jodit/finder/?action=fileUpload",
       },
-      height: 580,
-    },
-    toolbarAdaptive: true,
-    toolbarSticky: false,
-    removeButtons: ["about"],
-    ...config,
-  };
+      filebrowser: {
+        ajax: {
+          url: "https://xdsoft.net/jodit/finder/",
+        },
+        height: 580,
+      },
+    }),
+    [readonly, height, placeholder]
+  );
 
   return (
     <div className="form-wrap mb-3">
@@ -46,9 +53,10 @@ const TextEditor = ({
         <JoditEditor
           ref={editor}
           value={value}
-          config={defaultConfig}
+          config={config}
           tabIndex={1}
           onBlur={(newContent) => onChange(newContent)}
+          onChange={(newContent) => debouncedChange(newContent)}
         />
       </div>
 
