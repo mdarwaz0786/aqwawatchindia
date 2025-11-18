@@ -1,6 +1,22 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../api/apis";
 
-const Header = () => {
+const Header = ({ categories }) => {
+  const navigate = useNavigate();
+  const [preview, setPreview] = React.useState({
+    img: "",
+    title: "",
+  });
+
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/products?category=${category}&search=${search}`);
+  };
+
   return (
     <>
       {/*TOPBAR START*/}
@@ -48,25 +64,15 @@ const Header = () => {
               </div>
             </div>
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
-              <form action="#">
-                <select className="select_2">
-                  <option>All Categories</option>
-                  <option>Water Purifier</option>
-                  <option>Water Softners</option>
-                  <option>Industrial / Storage Tanks</option>
-                  <option>E.T.P/S.T.P/WTP/Z.I.D</option>
-                  <option>Water Jonizers</option>
-                  <option>Water Cooler's Dispensor's</option>
-                  <option>Organic Waste Composting Machine</option>
-                  <option>Kitchen/Home Appliance's</option>
-                  <option>Chimney</option>
-                  <option>Air Purifier/Air Cooler</option>
-                  <option>Spares Parts</option>
-                  <option>Chemicals</option>
-                  <option>Cleaning Essentials</option>
+              <form onSubmit={handleSubmit}>
+                <select className="select_2" value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <option value="">All Categories</option>
+                  {categories?.map((cat) => (
+                    <option key={cat?._id} value={cat?.slug}>{cat?.name}</option>
+                  ))}
                 </select>
                 <div className="input">
-                  <input type="text" placeholder="Search your product..." />
+                  <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search your product..." />
                   <button type="submit"><i className="far fa-search" /></button>
                 </div>
               </form>
@@ -133,487 +139,52 @@ const Header = () => {
       <nav className="main_menu_2 main_menu d-none d-lg-block">
         <div className="container-fluid">
           <div className="main_menu_area">
-            <ul className="menu_item">
-              <li><Link to="/"> Home</Link></li>
+            <ul className="menu_item" onMouseLeave={() => setPreview({ img: "", title: "" })} >
+              {categories?.slice(0, 7).map((cat) => {
+                return (
+                  <li>
+                    <a href="#">{cat?.name} <i className="fas fa-chevron-down" /></a>
+                    <div className="megamenus">
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="preview-box">
+                              {preview?.img && <img id="megaPreview" src={API_BASE_URL + "/" + preview?.img} alt={preview?.title} />}
+                              {preview?.title && <div id="megaPreviewTitle" className="preview-title">{preview?.title}</div>}
+                            </div>
+                          </div>
 
-              <li>
-                <a href="#">Water Purifiers <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">RO Water Purifiers</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
+                          <div className="col-lg-8">
+                            <div className="megamenu">
+                              <div className="innerboxes">
+                                <ul className="sub-menu-list waterpurifier">
+                                  {
+                                    cat?.subcategories?.map((subcat) => (
+                                      <li
+                                        key={subcat?._id}
+                                        className="productlistDiv"
+                                        data-img={subcat?.image}
+                                        data-title={subcat?.name}
+                                        onMouseEnter={() => {
+                                          setPreview({ img: subcat?.image, title: subcat?.name });
+                                        }}
+                                        onClick={() => navigate(`/products?subCategory=${subcat?.slug}`)}
+                                      >
+                                        <h5><a href="#">{subcat?.name}</a></h5>
+                                        <p style={{ marginTop: "-1rem" }}><a href="#">Explore All Products</a></p>
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Water Softners <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Kitchen Appliances <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Air Purifiers <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Vaccum Cleaner <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Healthy Cookware <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li>
-                <a href="#">Home & Hygiene <i className="fas fa-chevron-down" /></a>
-                <div className="megamenus">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <div className="preview-box">
-                          <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                          <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                        </div>
-                      </div>
-                      <div className="col-lg-8">
-                        <div className="megamenu">
-                          <div className="innerboxes">
-                            <ul className="sub-menu-list waterpurifier">
-                              <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                <h5><a href="#">RO Water Purifiers</a></h5>
-                                <p><a href="#">Explore (30 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                  KENT Nectar Hydrogen Water Maker</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                              </li>
-                              <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

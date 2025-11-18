@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ categories }) => {
+  const navigate = useNavigate();
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/products?category=${category}&search=${search}`);
+  };
+
   return (
     <>
       {/*TOPBAR START*/}
@@ -49,25 +59,15 @@ const Navbar = () => {
             </div>
 
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
-              <form action="#">
-                <select className="select_2">
-                  <option>All Categories</option>
-                  <option>Water Purifier</option>
-                  <option>Water Softners</option>
-                  <option>Industrial / Storage Tanks</option>
-                  <option>E.T.P/S.T.P/WTP/Z.I.D</option>
-                  <option>Water Jonizers</option>
-                  <option>Water Cooler's Dispensor's</option>
-                  <option>Organic Waste Composting Machine</option>
-                  <option>Kitchen/Home Appliance's</option>
-                  <option>Chimney</option>
-                  <option>Air Purifier/Air Cooler</option>
-                  <option>Spares Parts</option>
-                  <option>Chemicals</option>
-                  <option>Cleaning Essentials</option>
+              <form onSubmit={handleSubmit}>
+                <select className="select_2" value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <option value="">All Categories</option>
+                  {categories?.map((cat) => (
+                    <option key={cat?._id} value={cat?.slug}>{cat?.name}</option>
+                  ))}
                 </select>
                 <div className="input">
-                  <input type="text" placeholder="Search your product..." />
+                  <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search your product..." />
                   <button type="submit"><i className="far fa-search" /></button>
                 </div>
               </form>

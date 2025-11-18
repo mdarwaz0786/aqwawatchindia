@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import useFetch from '../../hooks/useFetch';
+import apis from '../../api/apis';
 
 const ProductDetailPage = () => {
+  const { data } = useFetch(apis.home.getAll);
+  const categories = data?.data?.category;
+
   return (
     <>
-      <Header />
+      <Header categories={categories} />
       <div>
-        {/*=========================
-PAGE BANNER START
-    ==========================*/}
+        {/*PAGE BANNER START*/}
         <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
           <div className="page_banner_overlay">
             <div className="container">
@@ -28,9 +31,7 @@ PAGE BANNER START
             </div>
           </div>
         </section>
-        {/*=========================
-PAGE BANNER START
-    ==========================*/}
+        {/*PAGE BANNER START*/}
         <section className="videosec">
           <div className="container">
             <div className="row">
@@ -54,9 +55,7 @@ PAGE BANNER START
             </div>
           </div>
         </section>
-        {/*============================
-SHOP DETAILS START
-    =============================*/}
+        {/*SHOP DETAILS START*/}
         <section id="shopdet" className="shop_details mt_100">
           <div className="container">
             <div className="row">
@@ -355,12 +354,8 @@ SHOP DETAILS START
             </div>
           </div>
         </section>
-        {/*============================
-SHOP DETAILS END
-    =============================*/}
-        {/*============================
-RELATED PRODUCTS START
-    =============================*/}
+        {/*SHOP DETAILS END*/}
+        {/*RELATED PRODUCTS START*/}
         <section className="related_products mt_90 mb_70 wow fadeInUp">
           <div className="container">
             <div className="row">
@@ -610,11 +605,8 @@ RELATED PRODUCTS START
             </div>
           </div>
         </section>
-        {/*============================
-RELATED PRODUCTS END
-    =============================*/}
+        {/*RELATED PRODUCTS END*/}
       </div>
-
       <Footer />
     </>
   );

@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import useFetch from '../../hooks/useFetch';
+import apis from '../../api/apis';
 
 const CheckoutPage = () => {
+  const { data } = useFetch(apis.home.getAll);
+  const categories = data?.data?.category;
+
   return (
     <>
-      <Header />
+      <Header categories={categories} />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

@@ -1,17 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swiper from "../../components/Swiper/Swiper";
 import { API_BASE_URL } from "../../api/apis";
 
 const CategorySection = ({ categories = [] }) => {
+  const navigate = useNavigate();
+
   return (
     <section className="category category_2">
       <div className="container">
         <Swiper
           spaceBetween={0}
-          items={categories}
+          items={categories.slice(0, 8)}
           renderSlide={(d) => (
             <div className="catsli wow fadeInUp">
-              <Link to="/products" className="category_item">
+              <div style={{ cursor: "pointer" }} className="category_item" onClick={() => navigate(`/products?category=${d?.slug}`)}>
                 <div className="img">
                   <img
                     src={`${API_BASE_URL}/${d?.image}`}
@@ -20,7 +22,7 @@ const CategorySection = ({ categories = [] }) => {
                   />
                 </div>
                 <h3>{d?.name}</h3>
-              </Link>
+              </div>
             </div>
           )}
         />

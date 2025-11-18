@@ -10,17 +10,17 @@ const CarouselSection = () => {
                   <div className="row banner_2_slider">
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/banner.png" />
+                        <img src="assets/carousel/banner-3.jpg" />
                       </div>
                     </div>
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/banner2.jpg" />
+                        <img src="assets/carousel/Banner-4.jpg" />
                       </div>
                     </div>
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/banner3.jpg" />
+                        <img src="assets/carousel/banner-5.jpg" />
                       </div>
                     </div>
                   </div>
@@ -37,17 +37,17 @@ const CarouselSection = () => {
                   <div className="row banner_2_slider">
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/mobilebanner1.jpg" />
+                        <img src="assets/carousel/banner-3.jpg" />
                       </div>
                     </div>
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/mobilebanner2.jpg" />
+                        <img src="assets/carousel/Banner-4.jpg" />
                       </div>
                     </div>
                     <div className="col-xl-12">
                       <div className="bannermain">
-                        <img src="assets/maingraphics/mobilebanner3.jpg" />
+                        <img src="assets/carousel/banner-5.jpg" />
                       </div>
                     </div>
                   </div>

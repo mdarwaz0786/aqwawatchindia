@@ -5,8 +5,12 @@ import apis from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import { useEffect } from "react";
 import { API_BASE_URL } from "../../api/apis";
+import useFetch from "../../hooks/useFetch";
 
 const ProductPage = () => {
+  const { data: categoriesData } = useFetch(apis.home.getAll);
+  const categories = categoriesData?.data?.category;
+
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -48,7 +52,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <Header />
+      <Header categories={categories} />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
@@ -404,33 +408,45 @@ const ProductPage = () => {
                     }
                   </div>
 
-                  <div className="row">
-                    <div className="pagination_area">
-                      <nav aria-label="...">
-                        <ul className="pagination justify-content-start mt_50">
-                          <li className="page-item">
-                            <a className="page-link" href="#">
-                              <i className="far fa-arrow-left" />
-                            </a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link active" href="#">01</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">02</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">03</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">
-                              <i className="far fa-arrow-right" />
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
+                  {
+                    products?.length === 0 && (
+                      <div className="row">
+                        <h5 className="text-center mt-5">No Data</h5>
+                      </div>
+                    )
+                  }
+
+                  {
+                    products?.length > 0 &&
+                    <div className="row">
+                      <div className="pagination_area">
+                        <nav aria-label="...">
+                          <ul className="pagination justify-content-start mt_50">
+                            <li className="page-item">
+                              <a className="page-link" href="#">
+                                <i className="far fa-arrow-left" />
+                              </a>
+                            </li>
+                            <li className="page-item">
+                              <a className="page-link active" href="#">01</a>
+                            </li>
+                            <li className="page-item">
+                              <a className="page-link" href="#">02</a>
+                            </li>
+                            <li className="page-item">
+                              <a className="page-link" href="#">03</a>
+                            </li>
+                            <li className="page-item">
+                              <a className="page-link" href="#">
+                                <i className="far fa-arrow-right" />
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
                     </div>
-                  </div>
+                  }
+
                 </div>
 
                 <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>

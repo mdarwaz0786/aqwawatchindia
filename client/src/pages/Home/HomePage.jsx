@@ -21,7 +21,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar categories={categories} />
       <CategorySection categories={categories} />
       <CarouselSection />
       <BestSellerSection bestSellingProducts={bestSellingProducts} />
