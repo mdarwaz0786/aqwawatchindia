@@ -20,11 +20,11 @@ const Navbar = ({ categories }) => {
             <div className="col-lg-7 d-none d-lg-block">
               <ul className="topbar_info d-flex flex-wrap">
                 <li>
-                  <a href="mailto:company@gmail.com"><i className="fal fa-envelope-open" />
-                    company@gmail.com</a>
+                  <a href="mailto:info@aquawatchindia.com"><i className="fal fa-envelope-open" />
+                    info@aquawatchindia.com</a>
                 </li>
                 <li>
-                  <p><i className="fal fa-map-marker-alt" /> New Delhi, India</p>
+                  <p><i className="fal fa-map-marker-alt" /> Gurugram, Haryana, India</p>
                 </li>
               </ul>
             </div>

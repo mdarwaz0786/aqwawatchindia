@@ -35,11 +35,6 @@ const BrandSection = () => {
                 </li>
                 <li className="wow fadeInUp">
                   <a href="shop.php">
-                    <img src="assets/images/brand3.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
                     <img src="assets/images/brand4.png" alt="Brand" className="img-fluid" />
                   </a>
                 </li>
@@ -76,26 +71,6 @@ const BrandSection = () => {
                 <li className="wow fadeInUp">
                   <a href="shop.php">
                     <img src="assets/images/brand1.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand2.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand3.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand4.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand5.png" alt="Brand" className="img-fluid" />
                   </a>
                 </li>
               </ul>

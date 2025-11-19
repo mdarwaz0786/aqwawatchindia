@@ -93,31 +93,6 @@ const BlogSection = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 col-xxl-3 col-md-6 wow fadeInUp">
-              <div className="blog_item">
-                <a href="blog_details.php" className="blog_img">
-                  <img src="assets/graphics/blog1.webp" alt="blog" className="img-fluid w-100" />
-                </a>
-                <div className="blog_text">
-                  <ul className="top">
-                    <li>
-                      <span>
-                        <img src="assets/images/calender.png" alt="Message" className="img-fluid w-100" />
-                      </span>
-                      12 Mar 2025
-                    </li>
-                  </ul>
-                  <a className="title" href="blog_details.php">Sustainable Living Starts at Home</a>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. </p>
-                  <ul className="bottom">
-                    <li><a href="blog_details.php">read more <i className="fas fa-long-arrow-right" /></a>
-                    </li></ul>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
