@@ -7,6 +7,13 @@ import colorRoute from "./color.routes.js";
 import sizeRoute from "./size.route.js";
 import brandRoute from "./brand.route.js";
 import productRoute from "./product.route.js";
+import blogRoute from "./blog.route.js";
+import blogCategoryRoute from "./blogCategory.route.js";
+import carouselRoute from "./carousel.route.js";
+import clientRoute from "./client.route.js";
+import promotionRoute from "./promotion.route.js";
+import testimonialRoute from "./testimonial.route.js";
+import youTubeVideoRoute from "./youTubeVideo.route.js";
 
 const router = express.Router();
 
@@ -18,5 +25,12 @@ router.use("/color", colorRoute);
 router.use("/size", sizeRoute);
 router.use("/brand", brandRoute);
 router.use("/product", productRoute);
+router.use("/blog", blogRoute);
+router.use("/blog-category", blogCategoryRoute);
+router.use("/carousel", carouselRoute);
+router.use("/client", clientRoute);
+router.use("/promotion", promotionRoute);
+router.use("/testimonial", testimonialRoute);
+router.use("/youtube-video", youTubeVideoRoute);
 
 export default router;
