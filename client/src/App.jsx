@@ -23,9 +23,16 @@ import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import ProfilePage from "./pages/UserDashboard/ProfilePage";
 import InvoicePage from "./pages/UserDashboard/InvoicePage";
 import ShopPage from "./pages/Home/ShopPage";
+import { useEffect } from "react";
 
 const App = () => {
   const location = useLocation();
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (window.initUI) window.initUI();
+    }, 0);
+  }, [location]);
 
   return (
     <>

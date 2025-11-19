@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../api/apis";
 
 const Header = ({ categories }) => {
   const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(() => {
+    return JSON.parse(localStorage.getItem("showMore")) || false;
+  });
 
   const [preview, setPreview] = React.useState({
     img: "",
@@ -18,6 +20,10 @@ const Header = ({ categories }) => {
     e.preventDefault();
     navigate(`/products?category=${category}&search=${search}`);
   };
+
+  useEffect(() => {
+    localStorage.setItem("showMore", JSON.stringify(showMore));
+  }, [showMore]);
 
   const visibleCategories = showMore
     ? categories?.slice(6) || []

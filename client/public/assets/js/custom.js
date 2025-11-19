@@ -1,4 +1,4 @@
-$(function () {
+window.initUI = function () {
 
     "use strict";
 
@@ -936,7 +936,6 @@ $(function () {
         $('.barfiller').barfiller();
     });
 
-
-});
+};
 
 

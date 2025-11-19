@@ -7,7 +7,7 @@ const PromoBannerSection = () => {
             <div className="col-lg-6">
               <div className="promobanner1">
                 <div className="promoimgtop">
-                  <img src="assets/graphics/promo1.jpg" />
+                  <img src="assets/banner/sb1.jpg" />
                 </div>
                 <div className="promo1">
                   <div className="prom">
@@ -115,7 +115,7 @@ const PromoBannerSection = () => {
             <div className="col-lg-6">
               <div className="promobanner2">
                 <div className="promoimgtop">
-                  <img src="assets/graphics/promo2.jpg" />
+                  <img src="assets/banner/sb2.jpg" />
                 </div>
                 <div className="promo1">
                   <div className="prom">

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Swiper from "../../components/Swiper/Swiper";
 import { API_BASE_URL } from "../../api/apis";
 
@@ -10,7 +10,7 @@ const CategorySection = ({ categories = [] }) => {
       <div className="container">
         <Swiper
           spaceBetween={0}
-          items={categories.slice(0, 7)}
+          items={categories}
           renderSlide={(d) => (
             <div className="catsli wow fadeInUp">
               <div style={{ cursor: "pointer" }} className="category_item" onClick={() => navigate(`/products?category=${d?.slug}`)}>
