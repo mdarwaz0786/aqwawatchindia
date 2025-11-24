@@ -16,7 +16,8 @@ import {
   MdViewModule,
   MdPalette,
   MdStore,
-  MdStraighten
+  MdStraighten,
+  MdHome
 } from "react-icons/md";
 import logo from "../../assets/logo.png";
 import styles from "./Sidebar.module.css";
@@ -90,6 +91,19 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       items: [
         { label: "Customer", link: "/user/customer" },
         { label: "Admin", link: "/user/admin" },
+      ],
+    },
+    {
+      title: "Home",
+      icon: <MdHome />,
+      items: [
+        { label: "Carousel", link: "/carousel/list" },
+        { label: "Promotion", link: "/promotion/list" },
+        { label: "YouTube Video", link: "/youtube-video/list" },
+        { label: "Testimonial", link: "/testimonial/list" },
+        { label: "Client", link: "/client/list" },
+        { label: "Blog Category", link: "/blog-category/list" },
+        { label: "Blog", link: "/blog/list" },
       ],
     },
   ];

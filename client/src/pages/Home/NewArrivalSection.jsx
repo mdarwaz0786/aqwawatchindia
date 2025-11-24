@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../../api/apis";
 import Swiper from "../../components/Swiper/Swiper";
 
@@ -14,7 +15,7 @@ const NewArrivalSection = ({ newArrivalProducts = [] }) => {
             </div>
             <div className="col-xxl-6 col-xl-6">
               <div className="view_all_btn_area">
-                <a className="view_all_btn" href="flash_deals.php">View all</a>
+                <a className="view_all_btn" href="#">View all</a>
               </div>
             </div>
           </div>
@@ -54,9 +55,9 @@ const NewArrivalSection = ({ newArrivalProducts = [] }) => {
                   </ul>
                 </div>
                 <div className="product_text">
-                  <a className="title" href="#">
+                  <Link className="title" to={`/product-detail/${d?.slug}`}>
                     {d?.name}
-                  </a>
+                  </Link>
                   <p className="price">
                     Rs.{d?.salePrice} <del>Rs.{d?.mrpPrice}</del>
                   </p>

@@ -16,6 +16,9 @@ export const getProducts = asyncHandler(async (req, res) => {
     brand,
     bestSellingProduct,
     newArrivalProduct,
+    rating,
+    inStock,
+    onSale,
     sort = "desc",
     minPrice,
     maxPrice,
@@ -37,6 +40,25 @@ export const getProducts = asyncHandler(async (req, res) => {
   }
 
   if (slug) filters.slug = slug;
+  if (onSale === "true") { };
+
+  if (inStock === "true") {
+    filters.stock = { $gt: 0 };
+  }
+
+  if (rating) {
+    let ratings = [];
+
+    if (Array.isArray(rating)) {
+      ratings = rating.map(Number);
+    } else if (typeof rating === "string" && rating.includes(",")) {
+      ratings = rating.split(",").map(Number);
+    } else {
+      ratings = [Number(rating)];
+    }
+
+    filters.rating = { $in: ratings };
+  }
 
   if (category) {
     if (mongoose.Types.ObjectId.isValid(category)) {
@@ -134,4 +156,59 @@ export const getProductById = asyncHandler(async (req, res) => {
     data: product,
   });
 });
+
+// get related products by product slug
+export const getRelatedProducts = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const mainProduct = await ProductModel.findOne({ slug })
+    .select("category _id")
+    .lean();
+
+  if (!mainProduct) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  const filters = {
+    status: true,
+    _id: { $ne: mainProduct?._id },
+    category: mainProduct?.category,
+  }
+
+  const relatedProducts = await ProductModel
+    .find(filters)
+    .populate("category", "name slug")
+    .populate("subCategory", "name slug")
+    .lean();
+
+  res.status(200).json({
+    success: true,
+    message: "Data fetched successfully",
+    data: relatedProducts,
+  });
+});
+
+// Get related products by category slug
+export const getRelatedProductsByCategory = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const category = await CategoryModel.findOne({ slug }).select("_id");
+  if (!category) {
+    throw new ApiError(404, "Category not found");
+  };
+
+  const relatedProducts = await ProductModel
+    .find({ category: category?._id, status: true })
+    .populate("category", "name slug")
+    .populate("subCategory", "name slug")
+    .lean();
+
+  res.status(200).json({
+    success: true,
+    message: "Data fetched successfully",
+    data: relatedProducts,
+  });
+});
+
+
 

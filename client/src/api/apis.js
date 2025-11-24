@@ -11,6 +11,8 @@ const apis = {
   product: {
     getAll: `${API_BASE_URL}/api/v1/user/product`,
     getSingle: `${API_BASE_URL}/api/v1/user/product`,
+    related: `${API_BASE_URL}/api/v1/user/product/related`,
+    relatedByCategory: `${API_BASE_URL}/api/v1/user/product/related-category`,
   },
 };
 

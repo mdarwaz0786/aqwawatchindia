@@ -54,6 +54,55 @@ const apis = {
     getSingle: `${API_BASE_URL}/api/v1/admin/product`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/product`,
   },
+  blogCategory: {
+    create: `${API_BASE_URL}/api/v1/admin/blog-category`,
+    update: `${API_BASE_URL}/api/v1/admin/blog-category`,
+    getAll: `${API_BASE_URL}/api/v1/admin/blog-category`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/blog-category`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/blog-category`,
+  },
+  blog: {
+    create: `${API_BASE_URL}/api/v1/admin/blog`,
+    update: `${API_BASE_URL}/api/v1/admin/blog`,
+    getAll: `${API_BASE_URL}/api/v1/admin/blog`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/blog`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/blog`,
+  },
+  carousel: {
+    create: `${API_BASE_URL}/api/v1/admin/carousel`,
+    update: `${API_BASE_URL}/api/v1/admin/carousel`,
+    getAll: `${API_BASE_URL}/api/v1/admin/carousel`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/carousel`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/carousel`,
+  },
+  client: {
+    create: `${API_BASE_URL}/api/v1/admin/client`,
+    update: `${API_BASE_URL}/api/v1/admin/client`,
+    getAll: `${API_BASE_URL}/api/v1/admin/client`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/client`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/client`,
+  },
+  promotion: {
+    create: `${API_BASE_URL}/api/v1/admin/promotion`,
+    update: `${API_BASE_URL}/api/v1/admin/promotion`,
+    getAll: `${API_BASE_URL}/api/v1/admin/promotion`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/promotion`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/promotion`,
+  },
+  testimonial: {
+    create: `${API_BASE_URL}/api/v1/admin/testimonial`,
+    update: `${API_BASE_URL}/api/v1/admin/testimonial`,
+    getAll: `${API_BASE_URL}/api/v1/admin/testimonial`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/testimonial`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/testimonial`,
+  },
+  youTubeVideo: {
+    create: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+    update: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+    getAll: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+  },
 };
 
 export default apis;

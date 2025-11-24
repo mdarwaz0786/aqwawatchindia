@@ -18,10 +18,10 @@ const BecomeVendorPage = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page_banner_text wow fadeInUp">
-                  <h1>Become a Vendor</h1>
+                  <h1>Become A Dealer</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
-                    <li><Link to="#">Become a Vendor</Link></li>
+                    <li><Link to="#">Become A Dealer</Link></li>
                   </ul>
                 </div>
               </div>
@@ -35,7 +35,7 @@ const BecomeVendorPage = () => {
       <section className="beacome_vendor mt_100 mb_100">
         <div className="container">
           <div className="row">
-            <div className="col-lg-6  wow fadeInLeft">
+            {/* <div className="col-lg-6  wow fadeInLeft">
               <div className="become_vendor_text">
                 <h3>Vendor Eligibility</h3>
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam animi recusandae nihil vero
@@ -104,11 +104,11 @@ const BecomeVendorPage = () => {
                   <li>Vendors will be notified of policy changes via email or dashboard updates.</li>
                 </ul>
               </div>
-            </div>
-            <div className="col-lg-6  wow fadeInRight">
+            </div> */}
+            <div className="col-md-12  wow fadeInRight">
               <div id="sticky_sidebar">
                 <div className="become_vendor_form">
-                  <h3>sign up As vendor</h3>
+                  <h3>sign up As dealer</h3>
                   <form action="#">
                     <div className="row">
                       <div className="col-lg-12 col-xl-6 col-md-6">

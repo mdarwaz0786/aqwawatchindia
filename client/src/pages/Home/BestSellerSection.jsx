@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../../api/apis";
 import Swiper from "../../components/Swiper/Swiper";
 
@@ -62,9 +63,9 @@ const BestSellerSection = ({ bestSellingProducts = [] }) => {
               </div>
 
               <div className="product_text">
-                <a className="title" href="#">
+                <Link className="title" to={`/product-detail/${d?.slug}`}>
                   {d?.name}
-                </a>
+                </Link>
                 <p className="price">
                   Rs.{d?.salePrice} <del>Rs.{d?.mrpPrice}</del>
                 </p>

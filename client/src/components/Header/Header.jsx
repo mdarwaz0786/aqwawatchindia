@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../api/apis";
+import styles from './Header.module.css';
 
 const Header = ({ categories }) => {
   const navigate = useNavigate();
@@ -76,19 +77,34 @@ const Header = ({ categories }) => {
               </div>
             </div>
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
-              <form onSubmit={handleSubmit}>
-                <select className="select_2" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <form onSubmit={handleSubmit} className={styles.searchForm}>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className={styles.searchSelect}
+                >
                   <option value="">All Categories</option>
-                  {categories?.map((cat) => (
-                    <option key={cat?._id} value={cat?.slug}>{cat?.name}</option>
+                  {categories && categories?.map((cat) => (
+                    <option key={cat?._id} value={cat?.slug}>
+                      {cat?.name}
+                    </option>
                   ))}
                 </select>
-                <div className="input">
-                  <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search your product..." />
-                  <button type="submit"><i className="far fa-search" /></button>
-                </div>
+
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search..."
+                  className={styles.searchInput}
+                />
+
+                <button type="submit" className={styles.searchBtn}>
+                  <i className="far fa-search" />
+                </button>
               </form>
             </div>
+
             <div className="col-xxl-4 col-xl-5 col-lg-5 d-none d-lg-flex">
               <ul className="menu_icon">
                 <li>
@@ -153,16 +169,16 @@ const Header = ({ categories }) => {
           <div className="main_menu_area">
             <ul className="menu_item" onMouseLeave={() => setPreview({ img: "", title: "" })} >
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/" style={{ color: "#000000" }}>Home</Link>
               </li>
-              {visibleCategories?.slice(0, 6)?.map((cat) => {
+              {visibleCategories?.map((cat) => {
                 return (
                   <li>
-                    <Link to={`/products?category=${cat?.slug}`}>{cat?.name} <i className="fas fa-chevron-down" /></Link>
+                    <Link style={{ color: "#000000" }} to={`/products?category=${cat?.slug}`}>{cat?.name} <i className="fas fa-chevron-down" /></Link>
                     <div className="megamenus">
-                      <div className="container">
+                      <div className="container-fluid">
                         <div className="row">
-                          <div className="col-lg-4">
+                          <div className="col-md-3">
                             <div className="preview-box">
                               {preview?.img && <img id="megaPreview" src={API_BASE_URL + "/" + preview?.img} alt={preview?.title} />}
                               {preview?.title && <div id="megaPreviewTitle" className="preview-title">{preview?.title}</div>}
@@ -172,7 +188,7 @@ const Header = ({ categories }) => {
                           <div className="col-lg-8">
                             <div className="megamenu">
                               <div className="innerboxes">
-                                <ul className="sub-menu-list waterpurifier">
+                                <ul className="sub-menu-list">
                                   {
                                     cat?.subcategories?.map((subcat) => (
                                       <li
@@ -183,10 +199,14 @@ const Header = ({ categories }) => {
                                         onMouseEnter={() => {
                                           setPreview({ img: subcat?.image, title: subcat?.name });
                                         }}
-                                        onClick={() => navigate(`/products?subCategory=${subcat?.slug}`)}
+                                        onClick={() =>
+                                          navigate(
+                                            `/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`
+                                          )
+                                        }
                                       >
-                                        <h5><a href="#">{subcat?.name}</a></h5>
-                                        <p style={{ marginTop: "-1rem" }}><a href="#">Explore All Products</a></p>
+                                        <h5><a href="#" style={{ color: "#111111" }}>{subcat?.name}</a></h5>
+                                        <p style={{ marginTop: "-1rem" }}><a href="#" style={{ color: "#000000" }}>Explore All Products</a></p>
                                       </li>
                                     ))
                                   }
@@ -201,14 +221,14 @@ const Header = ({ categories }) => {
                 )
               })}
               <li>
-                <a
+                <a style={{ color: "#000" }}
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
                     setShowMore(!showMore);
                   }}
                 >
-                  {showMore ? "Less" : "More"}
+                  {showMore ? "More" : "More"}
                   <i className="fas fa-chevron-down" />
                 </a>
               </li>

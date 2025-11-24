@@ -4,7 +4,74 @@
   box-sizing: border-box;
 }
 
+.form-select:focus {
+  box-shadow: none;
+  outline: none;
+}
+
 .toastBody {
   font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
   font-size: 1rem;
+}
+
+.product_item_2 {
+  height: 400px !important;
+}
+
+.product_img {
+  width: 250px !important;
+  height: 250px !important;
+}
+
+.product_img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.product_item_2 .product_img {
+  background: none !important;
+}
+
+.footer_logo_area span a:hover {
+  color: white !important;
+}
+
+.shop_details_additional_info table tr th {
+  border-right: none !important;
+}
+
+.range-slider {
+  height: 40px;
+  position: relative;
+}
+
+.range-slider input[type="range"] {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 16px;
+  height: 16px;
+  background: #0d6efd;
+  border-radius: 50%;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.range-track {
+  position: absolute;
+  height: 4px;
+  background: #0d6efd;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  pointer-events: none;
 }

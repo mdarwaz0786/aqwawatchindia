@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       {/*FOOTER 2 START*/}
@@ -74,7 +78,7 @@ const Footer = () => {
                   <li><Link to="/products"> Products</Link></li>
                   <li><Link to="/blogs"> Blogs</Link></li>
                   <li><Link to="/contact-us"> Contact Us</Link></li>
-                  <li><Link to="/become-vendor">Become a Trade Partner</Link></li>
+                  <li><Link to="/become-vendor">Become A Dealer</Link></li>
                 </ul>
               </div>
             </div>
@@ -100,7 +104,7 @@ const Footer = () => {
                   Plot No: 2000, Street No: 03, Industrial Area Laxman Vihar Phase : II , Gurugram , Haryana (122001)</span>
                 <span>
                   <b><img src="assets/images/phone_icon_white.png" alt="Call" className="img-fluid" /></b>
-                  <a href="callto:7011781706">7011781706, 9212627964</a>
+                  <a href="callto:7011781706" style={{ display: "block" }}>7011781706, 9212627964</a>
                 </span>
                 <span>
                   <b><img src="assets/images/mail_icon_white.png" alt="Mail" className="img-fluid" /></b>
@@ -121,7 +125,7 @@ const Footer = () => {
       {/*FOOTER 2 END*/}
 
       {/*SCROLL BUTTON START*/}
-      <div className="progress-wrap">
+      <div className="progress-wrap" onClick={scrollToTop}>
         <svg className="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
           <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
         </svg>

@@ -18,12 +18,14 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicy/PrivacyPolicyPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage";
-import ScrollToTop from "./components/Scroll/ScrollToTop";
+// import ScrollToTop from "./components/Scroll/ScrollToTop";
 import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import ProfilePage from "./pages/UserDashboard/ProfilePage";
 import InvoicePage from "./pages/UserDashboard/InvoicePage";
 import ShopPage from "./pages/Home/ShopPage";
 import { useEffect } from "react";
+import VisitPopup from "./components/Modal/VisitPopup";
+import RightWidget from "./components/Widget/RightWiget";
 
 const App = () => {
   const location = useLocation();
@@ -36,7 +38,9 @@ const App = () => {
 
   return (
     <>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
+      <VisitPopup />
+      <RightWidget />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
@@ -46,7 +50,7 @@ const App = () => {
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/products" element={<ProductPage key={location.search} />} />
-        <Route path="/product-detail" element={<ProductDetailPage />} />
+        <Route path="/product-detail/:slug" element={<ProductDetailPage key={location.search} />} />
         <Route path="/blogs" element={<BlogPage />} />
         <Route path="/blog-detail" element={<BlogDetailPage />} />
         <Route path="/cart" element={<CartPage />} />

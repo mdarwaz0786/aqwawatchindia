@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const PromoBannerSection = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section className="promobanner">
@@ -10,7 +14,7 @@ const PromoBannerSection = () => {
                   <img src="assets/banner/sb1.jpg" />
                 </div>
                 <div className="promo1">
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -21,7 +25,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -32,7 +36,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -43,7 +47,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -54,7 +58,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -65,7 +69,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -76,7 +80,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -87,7 +91,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -98,7 +102,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -118,7 +122,7 @@ const PromoBannerSection = () => {
                   <img src="assets/banner/sb2.jpg" />
                 </div>
                 <div className="promo1">
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -129,7 +133,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -140,7 +144,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -151,7 +155,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -162,7 +166,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -173,7 +177,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -184,7 +188,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -195,7 +199,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>
@@ -206,7 +210,7 @@ const PromoBannerSection = () => {
                       <h3> Audio Gear &amp; Watches</h3>
                     </a>
                   </div>
-                  <div className="prom">
+                  <div className="prom" onClick={() => navigate("/products")}>
                     <a href="#" className="category_item1">
                       <div className="promotitle">
                         <p>UPTO 90% OFF</p>

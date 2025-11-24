@@ -11,7 +11,7 @@ const PopularCategorySection = () => {
             </div>
             <div className="col-xl-6 col-sm-3">
               <div className="view_all_btn_area">
-                <a className="view_all_btn" href="category.php">View all</a>
+                <a className="view_all_btn" href="#">View all</a>
               </div>
             </div>
           </div>

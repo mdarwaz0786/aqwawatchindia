@@ -8184,7 +8184,7 @@ footer {
 
 .shop_details_text .short_description {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 35px;
@@ -13083,8 +13083,11 @@ section.counter_part {
 }
 
 .sub-menu-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: block !important;
+    column-width: 150px;
+    column-gap: 20px;
+    padding-left: 0;
+    margin: 0;
 }
 
 .maininnermenu img {
@@ -13092,8 +13095,9 @@ section.counter_part {
 }
 
 .sub-menu-list>li {
-    flex-basis: 33.33%;
-    max-width: 33.33%;
+    break-inside: avoid;
+    margin-bottom: 0px;
+    list-style: none;
 }
 
 /* Make the parent menu item non-clipping so mega can span full width */

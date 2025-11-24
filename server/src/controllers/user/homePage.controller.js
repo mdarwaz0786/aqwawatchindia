@@ -27,12 +27,12 @@ export const getHomePageData = asyncHandler(async (req, res) => {
 
   const bestSellingProducts = await ProductModel.find(
     { status: true, bestSellingProduct: true },
-    { name: 1, mrpPrice: 1, salePrice: 1, images: 1, rating: 1, numberOfReviews: 1, percentOff: 1, bestSellingProduct: 1, newArrivalProduct: 1 }
+    { name: 1, slug: 1, mrpPrice: 1, salePrice: 1, images: 1, rating: 1, numberOfReviews: 1, percentOff: 1, bestSellingProduct: 1, newArrivalProduct: 1 }
   ).sort({ createdAt: 1 }).lean();
 
   const newArrivalProducts = await ProductModel.find(
     { status: true, newArrivalProduct: true },
-    { name: 1, mrpPrice: 1, salePrice: 1, images: 1, rating: 1, numberOfReviews: 1, percentOff: 1, bestSellingProduct: 1, newArrivalProduct: 1 }
+    { name: 1, slug: 1, mrpPrice: 1, salePrice: 1, images: 1, rating: 1, numberOfReviews: 1, percentOff: 1, bestSellingProduct: 1, newArrivalProduct: 1 }
   ).sort({ createdAt: 1 }).lean();
 
   return res.status(200).json({

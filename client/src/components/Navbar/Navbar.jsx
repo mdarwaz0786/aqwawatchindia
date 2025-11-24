@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styles from '../Header/Header.module.css';
 
 const Navbar = ({ categories }) => {
   const navigate = useNavigate();
@@ -59,17 +60,31 @@ const Navbar = ({ categories }) => {
             </div>
 
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
-              <form onSubmit={handleSubmit}>
-                <select className="select_2" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <form onSubmit={handleSubmit} className={styles.searchForm}>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className={styles.searchSelect}
+                >
                   <option value="">All Categories</option>
-                  {categories?.map((cat) => (
-                    <option key={cat?._id} value={cat?.slug}>{cat?.name}</option>
+                  {categories && categories?.map((cat) => (
+                    <option key={cat?._id} value={cat?.slug}>
+                      {cat?.name}
+                    </option>
                   ))}
                 </select>
-                <div className="input">
-                  <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search your product..." />
-                  <button type="submit"><i className="far fa-search" /></button>
-                </div>
+
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search..."
+                  className={styles.searchInput}
+                />
+
+                <button type="submit" className={styles.searchBtn}>
+                  <i className="far fa-search" />
+                </button>
               </form>
             </div>
 

@@ -11,18 +11,13 @@ const BrandSection = () => {
             </div>
             <div className="col-xl-6 col-sm-3">
               <div className="view_all_btn_area">
-                <a className="view_all_btn" href="brand.php">View all</a>
+                <a className="view_all_btn" href="#">View all</a>
               </div>
             </div>
           </div>
           <div className="row ">
             <div className="col-12">
               <ul>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand1.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
                 <li className="wow fadeInUp">
                   <a href="shop.php">
                     <img src="assets/images/brand2.png" alt="Brand" className="img-fluid" />
@@ -41,11 +36,6 @@ const BrandSection = () => {
                 <li className="wow fadeInUp">
                   <a href="shop.php">
                     <img src="assets/images/brand5.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand6.png" alt="Brand" className="img-fluid" />
                   </a>
                 </li>
                 <li className="wow fadeInUp">
