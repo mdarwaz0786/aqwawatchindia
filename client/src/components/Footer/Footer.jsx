@@ -10,7 +10,7 @@ const Footer = () => {
       {/*FOOTER 2 START*/}
       <div className="footer_info">
         <div className="container">
-          <div className="row wow fadeInUp" style={{ visibility: 'visible', animationName: 'fadeInUp' }}>
+          <div className="row">
             <div className="col-lg-3 col-sm-6">
               <div className="footer_info_item">
                 <div className="icon">

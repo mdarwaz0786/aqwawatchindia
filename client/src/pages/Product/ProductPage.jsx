@@ -1,12 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import apis from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../api/apis";
 import useFetch from "../../hooks/useFetch";
 import Swiper from "../../components/Swiper/Swiper";
+import useDebounce from "../../hooks/useDebounce";
 
 const ProductPage = () => {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const ProductPage = () => {
 
   const initialParams = {
     page: searchParams.get("page") || 1,
-    limit: searchParams.get("limit") || 3,
+    limit: searchParams.get("limit") || 12,
     search: searchParams.get("search") || "",
     category: searchParams.get("category") || "",
     subCategory: searchParams.get("subCategory") || "",
@@ -31,8 +33,8 @@ const ProductPage = () => {
     rating: searchParams.get("rating") ? searchParams.get("rating").split(",").map(Number) : [],
   };
 
-  const min = 0; // optional default min
-  const max = 100000; // optional default max
+  const min = 0;
+  const max = 100000;
 
   const { data, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
   const { data: relatedProduct } = useFetch(`${apis.product.relatedByCategory}/${searchParams.get("category")}`);
@@ -49,8 +51,28 @@ const ProductPage = () => {
     setSearchParams(urlParams);
   }, [params, setSearchParams]);
 
+  const [localMin, setLocalMin] = useState(params.minPrice);
+  const [localMax, setLocalMax] = useState(params.maxPrice);
+
+  const debouncedMin = useDebounce(localMin, 400);
+  const debouncedMax = useDebounce(localMax, 400);
+
+  useEffect(() => {
+    if (
+      debouncedMin !== params.minPrice ||
+      debouncedMax !== params.maxPrice
+    ) {
+      handleFilterChange("minPrice", debouncedMin);
+      handleFilterChange("maxPrice", debouncedMax);
+    }
+  }, [debouncedMin, debouncedMax]);
+
   const handleFilterChange = (filterName, value) => {
-    setParams({ [filterName]: value, page: 1 });
+    if (filterName === "page") {
+      setParams({ page: value });
+    } else {
+      setParams({ [filterName]: value, page: 1 });
+    }
   };
 
   const products = data?.data || [];
@@ -69,7 +91,7 @@ const ProductPage = () => {
       updatedRatings = updatedRatings.filter((r) => r !== value);
     } else {
       updatedRatings.push(value);
-    }
+    };
 
     handleFilterChange("rating", updatedRatings);
   };
@@ -83,7 +105,7 @@ const ProductPage = () => {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <div className="page_banner_text wow fadeInUp">
+                <div className="page_banner_text">
                   <h1>Shop</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
@@ -100,7 +122,7 @@ const ProductPage = () => {
       {/*SHOP PAGE START*/}
       <section className="shop_page mt_100 mb_100">
         <div className="container">
-          <div className="row">
+          <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
               <div id="sticky_sidebar">
                 <div className="shop_filter_btn d-lg-none"> Filter </div>
@@ -108,16 +130,15 @@ const ProductPage = () => {
                   <div className="sidebar_range">
                     <h3>Price Range</h3>
 
-                    {/* Dual Range Slider */}
-                    <div className="range-slider position-relative">
+                    <div className="range-slider position-relative mb-1">
                       <input
                         type="range"
                         min={min}
                         max={max}
-                        value={params.minPrice}
+                        value={localMin}
                         onChange={(e) => {
                           const val = Number(e.target.value);
-                          handleFilterChange("minPrice", Math.min(val, params.maxPrice - 1));
+                          setLocalMin(Math.min(val, localMax - 1));
                         }}
                         className="thumb thumb-left"
                       />
@@ -126,15 +147,14 @@ const ProductPage = () => {
                         type="range"
                         min={min}
                         max={max}
-                        value={params.maxPrice}
+                        value={localMax}
                         onChange={(e) => {
                           const val = Number(e.target.value);
-                          handleFilterChange("maxPrice", Math.max(val, params.minPrice + 1));
+                          setLocalMax(Math.max(val, localMin + 1));
                         }}
                         className="thumb thumb-right"
                       />
 
-                      {/* Active range highlight */}
                       <div
                         className="range-track"
                         style={{
@@ -144,10 +164,9 @@ const ProductPage = () => {
                       />
                     </div>
 
-                    {/* Price Display */}
                     <div className="text-center">
-                      <small>
-                        ₹{params.minPrice} — ₹{params.maxPrice}
+                      <small style={{ fontSize: "1.2rem", fontWeight: "500" }}>
+                        ₹{params.minPrice}  —  ₹{params.maxPrice}
                       </small>
                     </div>
                   </div>
@@ -180,107 +199,6 @@ const ProductPage = () => {
                       </label>
                     </div>
                   </div>
-                  <div className="sidebar_category">
-                    <h3>Categories</h3>
-                    <ul>
-                      <li>
-                        <a href="#">
-                          Men’s Fashion
-                          <span>20</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          western wear
-                          <span>09</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          skin care
-                          <span>04</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          sport wear
-                          <span>13</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          fashion jewellery
-                          <span>36</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          beauty Care
-                          <span>22</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Makeoup Tools
-                          <span>16</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Winter collention
-                          <span>27</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Men’s Fashion
-                          <span>20</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          western wear
-                          <span>09</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          skin care
-                          <span>04</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          sport wear
-                          <span>13</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          fashion jewellery
-                          <span>36</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          beauty Care
-                          <span>22</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Makeoup Tools
-                          <span>16</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          Winter collention
-                          <span>27</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
 
                   <div className="sidebar_rating">
                     <h3>Rating</h3>
@@ -300,80 +218,6 @@ const ProductPage = () => {
                       </div>
                     ))}
                   </div>
-
-                  {/* <div className="sidebar_related_product">
-                    <h3>Top Rated Products</h3>
-                    <ul>
-                      <li>
-                        <Link to="/product-detail" className="img">
-                          <img src="assets/images/product_18.png" alt="Product" className="img-fluid" />
-                        </Link>
-                        <div className="text">
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(29)</span>
-                          </p>
-                          <Link className="title" to="/product-detail">Kid's Western Party Dress</Link>
-                          <p className="price">Rs.59.00</p>
-                        </div>
-                      </li>
-                      <li>
-                        <Link to="/product-detail" className="img">
-                          <img src="assets/images/product_23.png" alt="Product" className="img-fluid" />
-                        </Link>
-                        <div className="text">
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(12)</span>
-                          </p>
-                          <Link className="title" to="/product-detail">Kid's dresses for summer</Link>
-                          <p className="price">Rs.54.00</p>
-                        </div>
-                      </li>
-                      <li>
-                        <Link to="/product-detail" className="img">
-                          <img src="assets/images/product_13.png" alt="Product" className="img-fluid" />
-                        </Link>
-                        <div className="text">
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(09)</span>
-                          </p>
-                          <a className="title" href="shop_details.php">Sharee Petticoat For Women</a>
-                          <p className="price">Rs.28.00</p>
-                        </div>
-                      </li>
-                      <li>
-                        <a href="shop_details.php" className="img">
-                          <img src="assets/images/product_7.png" alt="Product" className="img-fluid" />
-                        </a>
-                        <div className="text">
-                          <p className="rating">
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star" />
-                            <i className="fas fa-star-half-alt" />
-                            <i className="far fa-star" />
-                            <span>(35)</span>
-                          </p>
-                          <a className="title" href="shop_details.php">Denim 2 Quarter Pant</a>
-                          <p className="price">Rs.54.00</p>
-                        </div>
-                      </li>
-                    </ul>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -393,7 +237,10 @@ const ProductPage = () => {
                           </button> */}
                         </div>
                       </nav>
-                      <p>Showing 1–14 of 26 results</p>
+                      <p>
+                        Showing {Math.min((params.page - 1) * params.limit + 1, data?.pagination?.total)}– {" "}
+                        {Math.min(params.page * params.limit, data?.pagination?.total)} of {data?.pagination?.total} results
+                      </p>
                     </div>
                   </div>
                   <div className="col-8 col-xl-6 col-md-6">
@@ -431,11 +278,11 @@ const ProductPage = () => {
               </div>
 
               <div className="tab-content" id="nav-tabContent">
-                <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>
+                <div className="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>
                   <div className="row">
                     {
                       products?.map((d) => (
-                        <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp" key={d?._id}>
+                        <div className="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4" key={d?._id}>
                           <div className="product_item_2 product_item">
                             <div className="product_img">
                               <img
@@ -492,51 +339,68 @@ const ProductPage = () => {
                       <div className="pagination_area">
                         <nav aria-label="Pagination">
                           <ul className="pagination justify-content-start mt_50">
-
                             {(() => {
-                              const current = Number(data.pagination.currentPage);
-                              const total = Number(data.pagination.totalPages);
+                              const current = Number(data.pagination.currentPage || 1);
+                              const total = Number(data.pagination.totalPages || 1);
 
                               const prevDisabled = current <= 1;
                               const nextDisabled = current >= total;
+
+                              const pages = (data.pagination.pages || [])
+                                .map(p => Number(p))
+                                .filter((p, i, arr) => !Number.isNaN(p) && arr.indexOf(p) === i)
+                                .sort((a, b) => a - b);
 
                               return (
                                 <>
                                   {/* Prev Button */}
                                   <li className={`page-item ${prevDisabled ? "disabled" : ""}`}>
                                     <button
+                                      type="button"
                                       className="page-link"
-                                      onClick={() =>
-                                        !prevDisabled && handleFilterChange("page", current - 1)
-                                      }
+                                      disabled={prevDisabled}
+                                      aria-disabled={prevDisabled}
+                                      onClick={() => {
+                                        if (!prevDisabled) handleFilterChange("page", current - 1);
+                                      }}
                                     >
                                       <i className="far fa-arrow-left" />
                                     </button>
                                   </li>
 
                                   {/* Page Numbers */}
-                                  {data.pagination.pages.map((pageNum) => (
-                                    <li
-                                      key={pageNum}
-                                      className={`page-item ${Number(params.page) === Number(pageNum) ? "active" : ""
-                                        }`}
-                                    >
-                                      <button
-                                        className="page-link"
-                                        onClick={() => handleFilterChange("page", pageNum)}
+                                  {pages.map((pageNum) => {
+                                    const pageNumber = Number(pageNum);
+                                    const isActive = Number(params.page) === pageNumber;
+
+                                    return (
+                                      <li
+                                        key={pageNumber}
+                                        className={`page-item ${isActive ? "active" : ""}`}
                                       >
-                                        {String(pageNum).padStart(2, "0")}
-                                      </button>
-                                    </li>
-                                  ))}
+                                        <button
+                                          type="button"
+                                          className={`page-link ${isActive ? "active" : ""}`}
+                                          onClick={() => {
+                                            if (!isActive) handleFilterChange("page", pageNumber);
+                                          }}
+                                        >
+                                          {String(pageNumber).padStart(2, "0")}
+                                        </button>
+                                      </li>
+                                    );
+                                  })}
 
                                   {/* Next Button */}
                                   <li className={`page-item ${nextDisabled ? "disabled" : ""}`}>
                                     <button
+                                      type="button"
                                       className="page-link"
-                                      onClick={() =>
-                                        !nextDisabled && handleFilterChange("page", current + 1)
-                                      }
+                                      disabled={nextDisabled}
+                                      aria-disabled={nextDisabled}
+                                      onClick={() => {
+                                        if (!nextDisabled) handleFilterChange("page", current + 1);
+                                      }}
                                     >
                                       <i className="far fa-arrow-right" />
                                     </button>
@@ -550,10 +414,9 @@ const ProductPage = () => {
                       </div>
                     </div>
                   )}
-
                 </div>
 
-                <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>
+                <div className="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>
                   <div className="row">
                     {
                       products?.map((d) => (
@@ -654,7 +517,7 @@ const ProductPage = () => {
       {/*RELATED PRODUCTS START*/}
       {
         relatedProducts?.length > 0 &&
-        <section className="related_products mt_90 mb_70 wow fadeInUp">
+        <section className="related_products mt_90 mb_70">
           <div className="container">
             <div className="row">
               <div className="col-xl-6">
@@ -676,7 +539,7 @@ const ProductPage = () => {
                 1200: { slidesPerView: 4 },
               }}
               renderSlide={(d) => (
-                <div className="product_item_2 product_item wow fadeInUp" key={d?._id}>
+                <div className="product_item_2 product_item" key={d?._id}>
                   <div className="product_img position-relative">
                     <img
                       src={`${API_BASE_URL}/${d?.images?.[0]}`}

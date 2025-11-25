@@ -7,13 +7,11 @@ const ScrollToTop = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
     setLoading(true);
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 0);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [location]);

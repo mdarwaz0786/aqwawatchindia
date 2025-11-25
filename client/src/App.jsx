@@ -18,7 +18,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicy/PrivacyPolicyPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage";
-// import ScrollToTop from "./components/Scroll/ScrollToTop";
+import ScrollToTop from "./components/Scroll/ScrollToTop";
 import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import ProfilePage from "./pages/UserDashboard/ProfilePage";
 import InvoicePage from "./pages/UserDashboard/InvoicePage";
@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <>
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <VisitPopup />
       <RightWidget />
       <Routes>

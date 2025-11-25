@@ -65,7 +65,7 @@ const TestimonialSection = () => {
                   <i className="far fa-star" />
                   <span>3.5</span>
                 </p>
-                <p className="review_text">I’ve used several online stores before, but this app stands out for its quality products and transparent service. From tracking my order to scheduling filter replacements, everything is handled effortlessly. The purifier I purchased not only improved the taste of my water but also gave me peace of mind knowing my family is drinking safe, purified water. A fantastic shopping experience overall!</p>
+                <p className="review_text">I’ve used several online stores before, but this app stands out for its quality products and transparent service. From tracking my order to scheduling filter replacements, everything is handled effortlessly. The purifier I purchased not only improved the taste of my water but also gave me peace of mind knowing my family is drinking safe, purified water.</p>
                 <div className="testimonial_footer">
                   <div className="img">
                     <img src="assets/images/avatar.png" alt="testimonial" className="img-fluid w-100" />
