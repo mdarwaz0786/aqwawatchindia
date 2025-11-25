@@ -7,6 +7,23 @@
 .form-select:focus {
   box-shadow: none;
   outline: none;
+  border: 1px solid #df4738;
+}
+
+.form-select option {
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+}
+
+.form-select option:hover {
+  background-color: #df4738 !important;
+  color: #fff !important;
+}
+
+.form-select option:checked {
+  background-color: #df4738 !important;
+  color: #fff !important;
 }
 
 .toastBody {
@@ -15,7 +32,7 @@
 }
 
 .product_item_2 {
-  height: 400px !important;
+  height: 415px !important;
 }
 
 .product_img {
@@ -59,7 +76,7 @@
   pointer-events: all;
   width: 16px;
   height: 16px;
-  background: #ff2d55;
+  background: #df4738;
   border-radius: 50%;
   cursor: pointer;
   appearance: none;
@@ -69,7 +86,7 @@
 .range-track {
   position: absolute;
   height: 4px;
-  background: #ff2d55;
+  background: #df4738;
   top: 50%;
   transform: translateY(-50%);
   border-radius: 5px;

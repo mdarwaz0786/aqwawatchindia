@@ -1,4 +1,5 @@
 import ProductModel from "../../models/product.model.js";
+import CartModel from "../../models/cart.model.js";
 import CategoryModel from "../../models/category.model.js";
 import SubCategoryModel from "../../models/subCategory.model.js";
 import ApiError from "../../helpers/apiError.js";
@@ -24,6 +25,7 @@ export const getProducts = asyncHandler(async (req, res) => {
     maxPrice,
     page = 1,
     limit = 10,
+    userId,
   } = req.query;
 
   page = parseInt(page, 10) || 1;
@@ -118,10 +120,25 @@ export const getProducts = asyncHandler(async (req, res) => {
     ProductModel.countDocuments(filters),
   ]);
 
+  let cartItems;
+  if (userId) {
+    const cart = await CartModel.find({ user: userId }).lean();
+    cartItems = cart;
+  }
+
+  const updatedProducts = products?.map((p) => {
+    const found = cartItems?.find((c) => c?.product?.toString() === p?._id?.toString());
+
+    return {
+      ...p,
+      quantity: found ? found?.quantity : 0,
+    };
+  });
+
   res.status(200).json({
     success: true,
     message: "Data fetched successfully",
-    data: products,
+    data: updatedProducts,
     pagination: buildPagination({ page, limit, total }),
   });
 });
@@ -129,6 +146,7 @@ export const getProducts = asyncHandler(async (req, res) => {
 // get single product by id or slug
 export const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.query;
 
   let product;
 
@@ -150,16 +168,31 @@ export const getProductById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
+  let quantity = 0;
+
+  if (userId) {
+    const cart = await CartModel.find({ user: userId }).lean();
+    const item = cart?.find((p) => p?.product?.toString() === product?._id?.toString());
+
+    quantity = item ? item?.quantity : 0;
+  }
+
+  const finalProduct = {
+    ...product,
+    quantity,
+  };
+
   res.status(200).json({
     success: true,
     message: "Data fetched successfully",
-    data: product,
+    data: finalProduct,
   });
 });
 
 // get related products by product slug
 export const getRelatedProducts = asyncHandler(async (req, res) => {
   const { slug } = req.params;
+  const { userId } = req.query;
 
   const mainProduct = await ProductModel.findOne({ slug })
     .select("category _id")
@@ -181,16 +214,32 @@ export const getRelatedProducts = asyncHandler(async (req, res) => {
     .populate("subCategory", "name slug")
     .lean();
 
+  let cartItems = [];
+  if (userId) {
+    const cart = await CartModel.find({ user: userId }).lean();
+    cartItems = cart;
+  }
+
+  const updatedProducts = relatedProducts?.map((p) => {
+    const found = cartItems?.find((c) => c?.product?.toString() === p?._id?.toString());
+
+    return {
+      ...p,
+      quantity: found ? found?.quantity : 0,
+    };
+  });
+
   res.status(200).json({
     success: true,
     message: "Data fetched successfully",
-    data: relatedProducts,
+    data: updatedProducts,
   });
 });
 
 // Get related products by category slug
 export const getRelatedProductsByCategory = asyncHandler(async (req, res) => {
   const { slug } = req.params;
+  const { userId } = req.query;
 
   const category = await CategoryModel.findOne({ slug }).select("_id");
   if (!category) {
@@ -203,10 +252,25 @@ export const getRelatedProductsByCategory = asyncHandler(async (req, res) => {
     .populate("subCategory", "name slug")
     .lean();
 
+  let cartItems = [];
+  if (userId) {
+    const cart = await CartModel.find({ user: userId }).lean();
+    cartItems = cart;
+  }
+
+  const updatedProducts = relatedProducts?.map((p) => {
+    const found = cartItems?.find((c) => c?.product?.toString() === p?._id?.toString());
+
+    return {
+      ...p,
+      quantity: found ? found?.quantity : 0,
+    };
+  });
+
   res.status(200).json({
     success: true,
     message: "Data fetched successfully",
-    data: relatedProducts,
+    data: updatedProducts,
   });
 });
 

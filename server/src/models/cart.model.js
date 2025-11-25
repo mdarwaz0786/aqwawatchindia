@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const cartSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     required: [true, "User is required"],
-    index: true,
+    index: true
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,9 +15,8 @@ const cartSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: true,
+    required: [true, "Quantity is required"],
     default: 1,
-    min: [1, "Quantity must be at least 1"],
   },
   price: {
     type: Number,
@@ -32,12 +31,12 @@ const cartSchema = new mongoose.Schema({
     default: true,
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     default: null,
   },
   updatedBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     default: null,
   },

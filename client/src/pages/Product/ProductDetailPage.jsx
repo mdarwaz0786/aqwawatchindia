@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -8,13 +9,21 @@ import amazonIcon from "../../assets/icon/amazon.svg";
 import aquaIcon from "../../assets/icon/aqwa.svg";
 import { useEffect, useState } from 'react';
 import Swiper from '../../components/Swiper/Swiper';
+import { useAuth } from '../../context/auth.context';
+import useFetchData from '../../hooks/useFetchData';
+import useCreate from '../../hooks/useCreate';
+import { toast } from 'react-toastify';
 
 const ProductDetailPage = () => {
+  const { userId } = useAuth();
   const navigate = useNavigate();
   const { slug } = useParams();
   const { data } = useFetch(apis.home.getAll);
-  const { data: productDetails } = useFetch(`${apis.product.getSingle}/${slug}`);
-  const { data: relatedProduct } = useFetch(`${apis.product.related}/${slug}`);
+
+  const { data: productDetails, refetch, setParams: setProductParams } = useFetchData(`${apis.product.getSingle}/${slug}`);
+  const { data: relatedProduct, refetch: refetchRelatedProduct, setParams: setRelatedParams } = useFetchData(`${apis.product.related}/${slug}`);
+  const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
+
   const categories = data?.data?.category;
   const productDetail = productDetails?.data;
   const relatedProducts = relatedProduct?.data || [];
@@ -37,6 +46,28 @@ const ProductDetailPage = () => {
       navigate(`/product-detail/${slug}`);
     }
   };
+
+  useEffect(() => {
+    if (userId) {
+      setProductParams({ userId });
+      setRelatedParams({ userId });
+    }
+  }, [userId, setProductParams, setRelatedParams]);
+
+  const handleAddToCart = async (e, productId, quantity = 1, userId) => {
+    e.preventDefault();
+    await addProductToCart({ productId, quantity, userId });
+  };
+
+  useEffect(() => {
+    if (cartResponse?.success) {
+      toast.success(cartResponse?.message || "Added to cart");
+      refetch();
+      refetchRelatedProduct();
+    } else if (cartError) {
+      toast.error("Something went wrong");
+    };
+  }, [cartResponse, cartError]);
 
   return (
     <>
@@ -165,40 +196,25 @@ const ProductDetailPage = () => {
                       </div>
                       <h3 className="price">Rs.{productDetail?.mrpPrice} <del>Rs.{productDetail?.salePrice}</del></h3>
                       {productDetail?.smallInfo && <p className="short_description" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
-                      {/* <div className="details_single_variant">
-                        <p className="variant_title">Size :</p>
-                        <ul className="details_variant_size">
-                          <li>s</li>
-                          <li className="active">M</li>
-                          <li>L</li>
-                          <li>xl</li>
-                          <li>xxl</li>
-                        </ul>
-                      </div> */}
                       <div className="d-flex flex-wrap align-items-center">
-                        <div className="details_qty_input">
-                          <button className="minus"><i className="fal fa-minus" /></button>
-                          <input type="text" placeholder="01" />
-                          <button className="plus"><i className="fal fa-plus" /></button>
-                        </div>
+                        {
+                          productDetail?.quantity > 0 &&
+                          <div className="details_qty_input">
+                            <button className="minus" onClick={(e) => handleAddToCart(e, productDetail?._id, -1, userId)}><i className="fal fa-minus" /></button>
+                            <input type="text" placeholder={productDetail?.quantity} disabled />
+                            <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
+                          </div>
+                        }
                         <div className="details_btn_area">
-                          <a className="common_btn buy_now" href="checkout.php">Buy Now <i className="fas fa-long-arrow-right" /></a>
-                          <a className="common_btn" href="cart.php">Add to cart <i className="fas fa-long-arrow-right" /></a>
+                          <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>
+                          <Link className="common_btn" to="#" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}>Add to cart <i className="fas fa-long-arrow-right" /></Link>
                         </div>
                       </div>
                       <ul className="details_tags_sku mt-3">
                         <li><span>SKU:</span> {productDetail?.skuCode}</li>
                         <li><span>Category:</span> {productDetail?.category?.name}</li>
                         <li><span>Brand:</span> {productDetail?.brand?.name}</li>
-                        {/* <li><span>Tag:</span> Clothing</li> */}
                       </ul>
-                      {/* <ul className="shop_details_shate">
-                        <li>Share:</li>
-                        <li><a href="#"><i className="fab fa-facebook-f" /></a></li>
-                        <li><a href="#"><i className="fab fa-twitter" /></a></li>
-                        <li><a href="#"><i className="fab fa-instagram" /></a></li>
-                        <li><a href="#"><i className="fab fa-whatsapp" /></a></li>
-                      </ul> */}
                     </div>
                   </div>
                 </div>
@@ -249,7 +265,7 @@ const ProductDetailPage = () => {
               <Swiper
                 items={relatedProducts}
                 slidesPerView={4}
-                autoplayDelay={2500}
+                autoplayDelay={10000}
                 spaceBetween={20}
                 breakpoints={{
                   320: { slidesPerView: 1 },
@@ -275,19 +291,19 @@ const ProductDetailPage = () => {
                       </ul>
                       <ul className="btn_list">
                         <li>
-                          <a href="#">
+                          <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>
                             <img
                               src="/assets/images/cart_icon_white.svg"
                               alt="Cart"
                               className="img-fluid"
                             />
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
 
-                    <div className="product_text" onClick={() => handleClick(d?.slug)}>
-                      <Link className="title" to="#">
+                    <div className="product_text">
+                      <Link className="title" to="#" onClick={() => { handleClick(d?.slug); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                         {d?.name}
                       </Link>
                       <p className="price">
@@ -305,6 +321,71 @@ const ProductDetailPage = () => {
                         ))}
                         <span>({d?.numberOfReviews} reviews)</span>
                       </p>
+                      <div className="d-flex justify-content-center">
+                        {d?.quantity > 0 ? (
+                          <div
+                            className="quantity_selector d-flex align-items-center"
+                            style={{
+                              width: "120px",
+                              height: "40px",
+                              background: "#fff",
+                            }}
+                          >
+                            <button
+                              onClick={(e) => handleAddToCart(e, d?._id, -1, userId)}
+                              style={{
+                                flex: "1",
+                                border: "none",
+                                background: "#df4738",
+                                color: "#fff",
+                                fontSize: "18px",
+                                fontWeight: "500",
+                                cursor: "pointer",
+                                borderRadius: "5px"
+                              }}
+                            >
+                              <i className="fal fa-minus" />
+                            </button>
+                            <input
+                              type="text"
+                              value={d.quantity}
+                              readOnly
+                              style={{
+                                flex: "1",
+                                textAlign: "center",
+                                border: "none",
+                                fontWeight: "600",
+                                fontSize: "18px",
+                                background: "#fff",
+                              }}
+                            />
+                            <button
+                              onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}
+                              style={{
+                                flex: "1",
+                                border: "none",
+                                background: "#df4738",
+                                color: "#fff",
+                                fontSize: "18px",
+                                fontWeight: "500",
+                                cursor: "pointer",
+                                borderRadius: "5px"
+                              }}
+                            >
+                              <i className="fal fa-plus" />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className="btn w-100 d-flex align-items-center justify-content-center"
+                            style={{ background: "#df4738", color: "#fff" }}
+                            onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}
+                          >
+                            <i className="fas fa-shopping-cart me-2" />
+                            Add to Cart
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}

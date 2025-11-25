@@ -9,14 +9,19 @@ import { API_BASE_URL } from "../../api/apis";
 import useFetch from "../../hooks/useFetch";
 import Swiper from "../../components/Swiper/Swiper";
 import useDebounce from "../../hooks/useDebounce";
+import { useAuth } from "../../context/auth.context";
+import useCreate from "../../hooks/useCreate";
+import { toast } from "react-toastify";
 
 const ProductPage = () => {
+  const { userId } = useAuth();
   const navigate = useNavigate();
   const { data: categoriesData } = useFetch(apis.home.getAll);
   const categories = categoriesData?.data?.category;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams = {
+    userId,
     page: searchParams.get("page") || 1,
     limit: searchParams.get("limit") || 12,
     search: searchParams.get("search") || "",
@@ -29,15 +34,16 @@ const ProductPage = () => {
     onSale: searchParams.get("onSale") === "true" || false,
     inStock: searchParams.get("inStock") === "true" || false,
     minPrice: searchParams.get("minPrice") ? parseFloat(searchParams.get("minPrice")) : 0,
-    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 100000,
+    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 1000000,
     rating: searchParams.get("rating") ? searchParams.get("rating").split(",").map(Number) : [],
   };
 
   const min = 0;
-  const max = 100000;
+  const max = 1000000;
 
-  const { data, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
-  const { data: relatedProduct } = useFetch(`${apis.product.relatedByCategory}/${searchParams.get("category")}`);
+  const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
+  const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: searchParams.get("userId") });
+  const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
   useEffect(() => {
     const urlParams = {};
@@ -54,8 +60,8 @@ const ProductPage = () => {
   const [localMin, setLocalMin] = useState(params.minPrice);
   const [localMax, setLocalMax] = useState(params.maxPrice);
 
-  const debouncedMin = useDebounce(localMin, 400);
-  const debouncedMax = useDebounce(localMax, 400);
+  const debouncedMin = useDebounce(localMin, 500);
+  const debouncedMax = useDebounce(localMax, 500);
 
   useEffect(() => {
     if (
@@ -78,12 +84,6 @@ const ProductPage = () => {
   const products = data?.data || [];
   const relatedProducts = relatedProduct?.data || [];
 
-  const handleClick = (slug) => {
-    if (slug) {
-      navigate(`/product-detail/${slug}`);
-    };
-  };
-
   const handleRatingChange = (value) => {
     let updatedRatings = [...params.rating];
 
@@ -95,6 +95,21 @@ const ProductPage = () => {
 
     handleFilterChange("rating", updatedRatings);
   };
+
+  const handleAddToCart = async (e, productId, quantity = 1, userId) => {
+    e.preventDefault();
+    await addProductToCart({ productId, quantity, userId });
+  };
+
+  useEffect(() => {
+    if (cartResponse?.success) {
+      toast.success(cartResponse?.message || "Added to cart");
+      refetch();
+      refetchRelatedProduct();
+    } else if (cartError) {
+      toast.error("Something went wrong");
+    };
+  }, [cartResponse, cartError]);
 
   return (
     <>
@@ -125,11 +140,10 @@ const ProductPage = () => {
           <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
               <div id="sticky_sidebar">
-                <div className="shop_filter_btn d-lg-none"> Filter </div>
+                <div className="shop_filter_btn d-lg-none"> Filter</div>
                 <div className="shop_filter_area">
                   <div className="sidebar_range">
                     <h3>Price Range</h3>
-
                     <div className="range-slider position-relative mb-1">
                       <input
                         type="range"
@@ -142,7 +156,6 @@ const ProductPage = () => {
                         }}
                         className="thumb thumb-left"
                       />
-
                       <input
                         type="range"
                         min={min}
@@ -154,7 +167,6 @@ const ProductPage = () => {
                         }}
                         className="thumb thumb-right"
                       />
-
                       <div
                         className="range-track"
                         style={{
@@ -163,7 +175,6 @@ const ProductPage = () => {
                         }}
                       />
                     </div>
-
                     <div className="text-center">
                       <small style={{ fontSize: "1.2rem", fontWeight: "500" }}>
                         ₹{params.minPrice}  —  ₹{params.maxPrice}
@@ -185,7 +196,6 @@ const ProductPage = () => {
                         On Sale
                       </label>
                     </div>
-
                     <div className="form-check">
                       <input
                         className="form-check-input"
@@ -202,7 +212,6 @@ const ProductPage = () => {
 
                   <div className="sidebar_rating">
                     <h3>Rating</h3>
-
                     {[5, 4, 3, 2, 1].map((star) => (
                       <div className="form-check" key={star}>
                         <input
@@ -232,9 +241,6 @@ const ProductPage = () => {
                           <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
                             <i className="fas fa-th" />
                           </button>
-                          {/* <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
-                            <i className="fas fa-list-ul" />
-                          </button> */}
                         </div>
                       </nav>
                       <p>
@@ -245,7 +251,6 @@ const ProductPage = () => {
                   </div>
                   <div className="col-8 col-xl-6 col-md-6">
                     <ul className="product_page_sorting">
-                      {/* Sorting */}
                       <li>
                         <select
                           className="form-select"
@@ -257,8 +262,6 @@ const ProductPage = () => {
                           <option value="price_desc">High to Low</option>
                         </select>
                       </li>
-
-                      {/* Show per page */}
                       <li>
                         <select
                           className="form-select"
@@ -298,9 +301,9 @@ const ProductPage = () => {
                               }
                               <ul className="btn_list">
                                 <li>
-                                  <a href="#">
-                                    <img src="assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                                  </a>
+                                  <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>
+                                    <img src="/assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
+                                  </Link>
                                 </li>
                               </ul>
                             </div>
@@ -319,6 +322,71 @@ const ProductPage = () => {
                                 ))}
                                 <span>({d?.numberOfReviews} reviews)</span>
                               </p>
+                              <div className="d-flex justify-content-center">
+                                {d?.quantity > 0 ? (
+                                  <div
+                                    className="quantity_selector d-flex align-items-center"
+                                    style={{
+                                      width: "120px",
+                                      height: "40px",
+                                      background: "#fff",
+                                    }}
+                                  >
+                                    <button
+                                      onClick={(e) => handleAddToCart(e, d?._id, -1, userId)}
+                                      style={{
+                                        flex: "1",
+                                        border: "none",
+                                        background: "#df4738",
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "500",
+                                        cursor: "pointer",
+                                        borderRadius: "5px"
+                                      }}
+                                    >
+                                      <i className="fal fa-minus" />
+                                    </button>
+                                    <input
+                                      type="text"
+                                      value={d.quantity}
+                                      readOnly
+                                      style={{
+                                        flex: "1",
+                                        textAlign: "center",
+                                        border: "none",
+                                        fontWeight: "600",
+                                        fontSize: "18px",
+                                        background: "#fff",
+                                      }}
+                                    />
+                                    <button
+                                      onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}
+                                      style={{
+                                        flex: "1",
+                                        border: "none",
+                                        background: "#df4738",
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "500",
+                                        cursor: "pointer",
+                                        borderRadius: "5px"
+                                      }}
+                                    >
+                                      <i className="fal fa-plus" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button
+                                    className="btn w-100 d-flex align-items-center justify-content-center"
+                                    style={{ background: "#df4738", color: "#fff" }}
+                                    onClick={(e) => handleAddToCart(e, d._id, 1, userId)}
+                                  >
+                                    <i className="fas fa-shopping-cart me-2" />
+                                    Add to Cart
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -353,7 +421,6 @@ const ProductPage = () => {
 
                               return (
                                 <>
-                                  {/* Prev Button */}
                                   <li className={`page-item ${prevDisabled ? "disabled" : ""}`}>
                                     <button
                                       type="button"
@@ -368,7 +435,6 @@ const ProductPage = () => {
                                     </button>
                                   </li>
 
-                                  {/* Page Numbers */}
                                   {pages.map((pageNum) => {
                                     const pageNumber = Number(pageNum);
                                     const isActive = Number(params.page) === pageNumber;
@@ -391,7 +457,6 @@ const ProductPage = () => {
                                     );
                                   })}
 
-                                  {/* Next Button */}
                                   <li className={`page-item ${nextDisabled ? "disabled" : ""}`}>
                                     <button
                                       type="button"
@@ -408,104 +473,11 @@ const ProductPage = () => {
                                 </>
                               );
                             })()}
-
                           </ul>
                         </nav>
                       </div>
                     </div>
                   )}
-                </div>
-
-                <div className="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabIndex={0}>
-                  <div className="row">
-                    {
-                      products?.map((d) => (
-                        <div className="col-6 col-xxl-10 col-sm-12" key={d?._id}>
-                          <div className="product_list_item product_item_2 product_item">
-                            <div className="row align-items-center">
-
-
-                              <div className="col-md-5 col-sm-6 col-xxl-4">
-                                <div className="product_img">
-                                  <img src="assets/images/product_23.png" alt="Product" className="img-fluid w-100" />
-                                  <ul className="discount_list">
-                                    <li className="new"> new</li>
-                                  </ul>
-                                  <ul className="btn_list">
-                                    <li>
-                                      <a href="#">
-                                        <img src="assets/images/compare_icon_white.svg" alt="Compare" className="img-fluid" />
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">
-                                        <img src="assets/images/love_icon_white.svg" alt="Love" className="img-fluid" />
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-
-                              <div className="col-md-7 col-sm-6 col-xxl-8">
-                                <div className="product_text">
-                                  <a className="title" href="shop_details.php">Full Sleeve Hoodie
-                                    Jacket</a>
-                                  <p className="rating">
-                                    <i className="fas fa-star" />
-                                    <i className="fas fa-star" />
-                                    <i className="fas fa-star" />
-                                    <i className="fas fa-star" />
-                                    <i className="fas fa-star" />
-                                    <span>(20 reviews)</span>
-                                  </p>
-                                  <p className="price">Rs.88.00</p>
-                                  <ul className="color">
-                                    <li className="active" style={{ background: '#DB4437' }} />
-                                    <li style={{ background: '#638C34' }} />
-                                    <li style={{ background: '#1C58F2' }} />
-                                    <li style={{ background: '#ffa500' }} />
-                                  </ul>
-                                  <p className="short_description">Lorem ipsum dolor sit amet consectetur,
-                                    adipisicing elit. Exercitationem inventore libero accusantium ex
-                                    ipsam, provident voluptas facere nemo, quas assumenda
-                                    reprehenderit nihil ratione quaerat ad.</p>
-                                  <a className="common_btn" href="shop_details.php">add to cart <i className="fas fa-long-arrow-right" /></a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    }
-                  </div>
-
-                  <div className="row">
-                    <div className="pagination_area">
-                      <nav aria-label="...">
-                        <ul className="pagination justify-content-start mt_50">
-                          <li className="page-item">
-                            <a className="page-link" href="#">
-                              <i className="far fa-arrow-left" />
-                            </a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link active" href="#">01</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">02</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">03</a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link" href="#">
-                              <i className="far fa-arrow-right" />
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -526,11 +498,10 @@ const ProductPage = () => {
                 </div>
               </div>
             </div>
-
             <Swiper
               items={relatedProducts}
               slidesPerView={4}
-              autoplayDelay={2500}
+              autoplayDelay={10000}
               spaceBetween={20}
               breakpoints={{
                 320: { slidesPerView: 1 },
@@ -556,19 +527,18 @@ const ProductPage = () => {
                     </ul>
                     <ul className="btn_list">
                       <li>
-                        <a href="#">
+                        <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>
                           <img
                             src="/assets/images/cart_icon_white.svg"
                             alt="Cart"
                             className="img-fluid"
                           />
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
-
-                  <div className="product_text" onClick={() => handleClick(d?.slug)}>
-                    <Link className="title" to="#">
+                  <div className="product_text">
+                    <Link className="title" to="#" onClick={() => navigate(`/product-detail/${d?.slug}`)}>
                       {d?.name}
                     </Link>
                     <p className="price">
@@ -586,6 +556,71 @@ const ProductPage = () => {
                       ))}
                       <span>({d?.numberOfReviews} reviews)</span>
                     </p>
+                    <div className="d-flex justify-content-center">
+                      {d?.quantity > 0 ? (
+                        <div
+                          className="quantity_selector d-flex align-items-center"
+                          style={{
+                            width: "120px",
+                            height: "40px",
+                            background: "#fff",
+                          }}
+                        >
+                          <button
+                            onClick={(e) => handleAddToCart(e, d?._id, -1, userId)}
+                            style={{
+                              flex: "1",
+                              border: "none",
+                              background: "#df4738",
+                              color: "#fff",
+                              fontSize: "18px",
+                              fontWeight: "500",
+                              cursor: "pointer",
+                              borderRadius: "5px"
+                            }}
+                          >
+                            <i className="fal fa-minus" />
+                          </button>
+                          <input
+                            type="text"
+                            value={d.quantity}
+                            readOnly
+                            style={{
+                              flex: "1",
+                              textAlign: "center",
+                              border: "none",
+                              fontWeight: "600",
+                              fontSize: "18px",
+                              background: "#fff",
+                            }}
+                          />
+                          <button
+                            onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}
+                            style={{
+                              flex: "1",
+                              border: "none",
+                              background: "#df4738",
+                              color: "#fff",
+                              fontSize: "18px",
+                              fontWeight: "500",
+                              cursor: "pointer",
+                              borderRadius: "5px"
+                            }}
+                          >
+                            <i className="fal fa-plus" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="btn w-100 d-flex align-items-center justify-content-center"
+                          style={{ background: "#df4738", color: "#fff" }}
+                          onClick={(e) => handleAddToCart(e, d._id, 1, userId)}
+                        >
+                          <i className="fas fa-shopping-cart me-2" />
+                          Add to Cart
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
