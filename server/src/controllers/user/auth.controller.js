@@ -33,6 +33,10 @@ export const signup = asyncHandler(async (req, res) => {
 
   const token = generateToken(user?._id);
 
+  if (!token) {
+    throw new ApiError(401, "Something went wrong");
+  }
+
   if (userId) {
     await CartModel.updateMany(
       { user: userId },
@@ -73,6 +77,10 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   const token = generateToken(user?._id);
+
+  if (!token) {
+    throw new ApiError(401, "Something went wrong");
+  }
 
   if (userId) {
     await CartModel.updateMany(

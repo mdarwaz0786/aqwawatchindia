@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../../api/apis";
+import apis, { API_BASE_URL } from "../../api/apis";
 import styles from './Header.module.css';
+import useFetchData from "../../hooks/useFetchData";
+import { useAuth } from "../../context/auth.context";
+import useDelete from "../../hooks/useDelete";
+import { toast } from "react-toastify";
 
 const Header = ({ categories }) => {
   const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(() => {
-    return JSON.parse(localStorage.getItem("showMore")) || false;
-  });
-
-  const [preview, setPreview] = React.useState({
-    img: "",
-    title: "",
-  });
-
+  const { userId, token, logOutUser } = useAuth();
+  const [showMore, setShowMore] = useState(() => { return JSON.parse(localStorage.getItem("showMore")) || false });
+  const [preview, setPreview] = useState({ img: "", title: "" });
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
+  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
+  const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +30,32 @@ const Header = ({ categories }) => {
   const visibleCategories = showMore
     ? categories?.slice(6) || []
     : categories?.slice(0, 6) || [];
+
+  const cart = cartData?.data;
+
+  const handleRemoveCartItem = async (e, id) => {
+    e.preventDefault();
+    await deleteCartData(`${apis.cart.remove}/${id}/${userId}`);
+  };
+
+  useEffect(() => {
+    if (deleteCartResponse?.success) {
+      toast.success("Product removed from cart");
+      refetchCart();
+    };
+  }, [deleteCartResponse]);
+
+  useEffect(() => {
+    if (deleteCartError) toast.error("Something went wrong");
+  }, [deleteCartError]);
+
+  const handleLogin = () => {
+    if (token) {
+      logOutUser();
+    } else {
+      navigate("/login");
+    };
+  };
 
   return (
     <>
@@ -107,26 +134,26 @@ const Header = ({ categories }) => {
 
             <div className="col-xxl-4 col-xl-5 col-lg-5 d-none d-lg-flex">
               <ul className="menu_icon">
-                <li>
+                {/* <li>
                   <a href="wishlist.php">
                     <b>
                       <img src="assets/images/love_black.svg" alt="Wishlist" className="img-fluid" />
                     </b>
                     <span style={{ background: "#df4838" }}>5</span>
                   </a>
-                </li>
-                <li>
+                </li> */}
+                <li onClick={refetchCart}>
                   <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <b>
-                      <img src="assets/images/cart_black.svg" alt="cart" className="img-fluid" />
+                      <img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" />
                     </b>
-                    <span style={{ background: "#df4838" }}>3</span>
+                    <span style={{ background: "#df4838" }}>{cart?.length}</span>
                   </a>
                 </li>
                 <li>
                   <Link className="user" to="/dashboard">
                     <b>
-                      <img src="assets/images/user_icon_black.svg" alt="cart" className="img-fluid" />
+                      <img src="/assets/images/user_icon_black.svg" alt="cart" className="img-fluid" />
                     </b>
                   </Link>
                   <ul className="user_dropdown">
@@ -147,11 +174,11 @@ const Header = ({ categories }) => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/login">
+                      <Link to="#" onClick={() => handleLogin()}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                         </svg>
-                        login
+                        {token ? "Logout" : "Login"}
                       </Link>
                     </li>
                   </ul>
@@ -200,9 +227,7 @@ const Header = ({ categories }) => {
                                           setPreview({ img: subcat?.image, title: subcat?.name });
                                         }}
                                         onClick={() =>
-                                          navigate(
-                                            `/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`
-                                          )
+                                          navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
                                         }
                                       >
                                         <h5><a href="#" style={{ color: "#111111" }}>{subcat?.name}</a></h5>
@@ -242,73 +267,28 @@ const Header = ({ categories }) => {
       <div className="mini_cart">
         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasRightLabel"> my cart <span>(05)</span></h5>
+            <h5 className="offcanvas-title" id="offcanvasRightLabel"> my cart <span>({cart?.length})</span></h5>
             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i className="far fa-times" /></button>
           </div>
           <div className="offcanvas-body">
             <ul>
-              <li>
-                <a href="shop_details.php" className="cart_img">
-                  <img src="assets/images/product_1.png" alt="product" className="img-fluid w-100" />
-                </a>
-                <div className="cart_text">
-                  <a className="cart_title" href="shop_details.php">Men's Fashionable Hoodie</a>
-                  <p>Rs.140 <del>Rs.150</del></p>
-                  <span><b>Color:</b> Red</span>
-                  <span><b>Size:</b> XL (Extra Large)</span>
-                </div>
-                <a className="del_icon" href="#"><i className="fal fa-times" /></a>
-              </li>
-              <li>
-                <a href="#shop_details.php" className="cart_img">
-                  <img src="assets/images/product_2.png" alt="product" className="img-fluid w-100" />
-                </a>
-                <div className="cart_text">
-                  <a className="cart_title" href="shop_details.php">Kids cotton Combo Set</a>
-                  <p>Rs.130 <del>Rs.160</del></p>
-                  <span><b>Color:</b> Orange</span>
-                  <span><b>Size:</b> M (Medium)</span>
-                </div>
-                <a className="del_icon" href="#"><i className="fal fa-times" /></a>
-              </li>
-              <li>
-                <a href="shop_details.php" className="cart_img">
-                  <img src="assets/images/product_3.png" alt="product" className="img-fluid w-100" />
-                </a>
-                <div className="cart_text">
-                  <a className="cart_title" href="shop_details.php">Women's Western Party Dress</a>
-                  <p>Rs.90 <del>Rs.100</del></p>
-                  <span><b>Color:</b> Purple</span>
-                  <span><b>Size:</b> S (Small)</span>
-                </div>
-                <a className="del_icon" href="#"><i className="fal fa-times" /></a>
-              </li>
-              <li>
-                <a href="shop_details.php" className="cart_img">
-                  <img src="assets/images/product_4.png" alt="product" className="img-fluid w-100" />
-                </a>
-                <div className="cart_text">
-                  <a className="cart_title" href="shop_details.php">Men's trendy formal shoes</a>
-                  <p>Rs.140</p>
-                  <span><b>Color:</b> Blue</span>
-                  <span><b>Size:</b> XL (Extra Large)</span>
-                </div>
-                <a className="del_icon" href="#"><i className="fal fa-times" /></a>
-              </li>
-              <li>
-                <a href="shop_details.php" className="cart_img">
-                  <img src="assets/images/product_5.png" alt="product" className="img-fluid w-100" />
-                </a>
-                <div className="cart_text">
-                  <a className="cart_title" href="shop_details.php">Kid's Western Party Dress</a>
-                  <p>Rs.99.00</p>
-                  <span><b>Color:</b> Black</span>
-                  <span><b>Size:</b> L (Large)</span>
-                </div>
-                <a className="del_icon" href="#"><i className="fal fa-times" /></a>
-              </li>
+              {
+                cart?.map((d) => (
+                  <li>
+                    <Link to={`/product-detail/${d?.product?.slug}`} className="cart_img">
+                      <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="product" className="img-fluid w-100" />
+                    </Link>
+                    <div className="cart_text">
+                      <a className="cart_title" href="shop_details.php">{d?.product?.name}</a>
+                      <p>Rs.{d?.price}</p>
+                      <span><b>Quantity:</b> {d?.quantity}</span>
+                    </div>
+                    <Link className="del_icon" to="#" onClick={(e) => handleRemoveCartItem(e, d?.product?._id)}><i className="fal fa-times" /></Link>
+                  </li>
+                ))
+              }
             </ul>
-            <h5>sub total <span>Rs.429.00</span></h5>
+            <h5>sub total <span>Rs.{cartData?.totalAmount}</span></h5>
             <div className="minicart_btn_area">
               <Link className="common_btn" to="/cart">view cart</Link>
             </div>
@@ -415,7 +395,6 @@ const Header = ({ categories }) => {
                                     <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
                                     <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
                                   </li>
-                                  {/* baaki items par bhi data-img / data-title add kar dena */}
                                 </ul>
                               </div>
                             </div>

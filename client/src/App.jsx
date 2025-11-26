@@ -55,7 +55,7 @@ const App = () => {
         <Route path="/blog-detail" element={<BlogDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/become-vendor" element={<BecomeVendorPage />} />
+        <Route path="/become-dealer" element={<BecomeVendorPage />} />
         <Route path="/terms-conditions" element={<TermsConditionsPage />} />
         <Route path="/return-refund-policy" element={<ReturnRefundPolicyPage />} />
         <Route path="/billing-shipping-policy" element={<BillingShippingPolicyPage />} />

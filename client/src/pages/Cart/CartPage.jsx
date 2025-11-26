@@ -1,12 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import useFetch from "../../hooks/useFetch";
-import apis from "../../api/apis";
+import apis, { API_BASE_URL } from "../../api/apis";
+import useFetchData from "../../hooks/useFetchData";
+import { useAuth } from "../../context/auth.context";
+import useDelete from "../../hooks/useDelete";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import useCreate from "../../hooks/useCreate";
 
 const CartPage = () => {
+  const { userId } = useAuth();
   const { data } = useFetch(apis.home.getAll);
+  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
+  const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
+  const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
+
+  const handleRemoveCartItem = async (e, id) => {
+    e.preventDefault();
+    await deleteCartData(`${apis.cart.remove}/${id}/${userId}`);
+  };
+
+  useEffect(() => {
+    if (deleteCartResponse?.success) {
+      toast.success("Product removed from cart");
+      refetchCart();
+    };
+  }, [deleteCartResponse]);
+
+  useEffect(() => {
+    if (deleteCartError) toast.error("Something went wrong");
+  }, [deleteCartError]);
+
+  const handleAddToCart = async (e, productId, quantity = 1, userId) => {
+    e.preventDefault();
+    await addProductToCart({ productId, quantity, userId });
+  };
+
+  useEffect(() => {
+    if (cartResponse?.success) {
+      toast.success(cartResponse?.message || "Added to cart");
+      refetchCart();
+    } else if (cartError) {
+      toast.error("Something went wrong");
+    };
+  }, [cartResponse, cartError]);
+
   const categories = data?.data?.category;
+  const cart = cartData?.data;
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("reloaded")) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    }
+  }, []);
 
   return (
     <>
@@ -60,74 +110,43 @@ const CartPage = () => {
                 <div className="table-responsive">
                   <table className="table">
                     <tbody>
-                      <tr>
-                        <td className="cart_page_checkbox">
-                          <div className="form-check">
-                            <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault2" />
-                          </div>
-                        </td>
-                        <td className="cart_page_img">
-                          <div className="img">
-                            <img src="assets/images/product_18.png" alt="Products" className="img-fluid w-100" />
-                          </div>
-                        </td>
-                        <td className="cart_page_details">
-                          <a className="title" href="shop_details.php">Full Sleeve Hoodie Jacket</a>
-                          <p>$59.00 <del>$65.00</del></p>
-                          <span><b>Brand:</b> Aquawatch India</span>
-                          <span><b>Category:</b> Water Purifier</span>
-                        </td>
-                        <td className="cart_page_price">
-                          <h3>$59.00</h3>
-                        </td>
-                        <td className="cart_page_quantity">
-                          <div className="details_qty_input">
-                            <button className="minus"><i className="fal fa-minus" aria-hidden="true" /></button>
-                            <input type="text" placeholder="01" />
-                            <button className="plus"><i className="fal fa-plus" aria-hidden="true" /></button>
-                          </div>
-                        </td>
-                        <td className="cart_page_total">
-                          <h3>$59.00</h3>
-                        </td>
-                        <td className="cart_page_action">
-                          <a href="#"> <i className="fal fa-times" /> Remove</a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="cart_page_checkbox">
-                          <div className="form-check">
-                            <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault6" />
-                          </div>
-                        </td>
-                        <td className="cart_page_img">
-                          <div className="img">
-                            <img src="assets/images/product_7.png" alt="Products" className="img-fluid w-100" />
-                          </div>
-                        </td>
-                        <td className="cart_page_details">
-                          <a className="title" href="shop_details.php">Denim 2 Quarter Pant</a>
-                          <p>$36.00</p>
-                          <span><b>Brand:</b> Aquawatch India</span>
-                          <span><b>Category:</b> Water Purifier</span>
-                        </td>
-                        <td className="cart_page_price">
-                          <h3>$36.00</h3>
-                        </td>
-                        <td className="cart_page_quantity">
-                          <div className="details_qty_input">
-                            <button className="minus"><i className="fal fa-minus" aria-hidden="true" /></button>
-                            <input type="text" placeholder="01" />
-                            <button className="plus"><i className="fal fa-plus" aria-hidden="true" /></button>
-                          </div>
-                        </td>
-                        <td className="cart_page_total">
-                          <h3>$36.00</h3>
-                        </td>
-                        <td className="cart_page_action">
-                          <a href="#"> <i className="fal fa-times" /> Remove</a>
-                        </td>
-                      </tr>
+                      {
+                        cart?.map((d) => (
+                          <tr>
+                            <td className="cart_page_checkbox">
+                              <div className="form-check">
+                                <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault2" />
+                              </div>
+                            </td>
+                            <td className="cart_page_img">
+                              <div className="img">
+                                <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img-fluid w-100" />
+                              </div>
+                            </td>
+                            <td className="cart_page_details">
+                              <Link className="title" to={`/product-detail/${d?.product?.slug}`}>{d?.product?.name}</Link>
+                              <p>Rs.{d?.price}</p>
+                              <span><b>Quantity:</b> {d?.quantity}</span>
+                            </td>
+                            <td className="cart_page_price">
+                              <h3>Rs.{d?.price}</h3>
+                            </td>
+                            <td className="cart_page_quantity">
+                              <div className="details_qty_input">
+                                <button className="minus" onClick={(e) => handleAddToCart(e, d?.product?._id, -1, userId)}><i className="fal fa-minus" aria-hidden="true" /></button>
+                                <input type="text" placeholder={d?.quantity} />
+                                <button className="plus" onClick={(e) => handleAddToCart(e, d?.product?._id, 1, userId)}><i className="fal fa-plus" aria-hidden="true" /></button>
+                              </div>
+                            </td>
+                            <td className="cart_page_total">
+                              <h3>Rs.{d?.totalPrice}</h3>
+                            </td>
+                            <td className="cart_page_action">
+                              <Link to="#" onClick={(e) => handleRemoveCartItem(e, d?.product?._id)}> <i className="fal fa-times" /> Remove</Link>
+                            </td>
+                          </tr>
+                        ))
+                      }
                     </tbody>
                   </table>
                 </div>
@@ -138,43 +157,35 @@ const CartPage = () => {
                 <div className="cart_page_summary">
                   <h3>Billing summary</h3>
                   <ul>
-                    <li>
-                      <a className="img" href="#">
-                        <img src="assets/images/product_18.png" alt="Products" className="img-fluid w-100" />
-                      </a>
-                      <div className="text">
-                        <a className="title" href="shop_details.php">Full Sleeve Hoodie Jacket</a>
-                        <p>$59.00 × 2</p>
-                        <p>Color: Red, Size: XL</p>
-                      </div>
-                    </li>
-                    <li>
-                      <a className="img" href="#">
-                        <img src="assets/images/product_16.png" alt="Products" className="img-fluid w-100" />
-                      </a>
-                      <div className="text">
-                        <a className="title" href="shop_details.php">cherry fabric western tops</a>
-                        <p>$75.00 × 1</p>
-                        <p>Color: Orange, Size: M</p>
-                      </div>
-                    </li>
+                    {
+                      cart?.map((d) => (
+                        <li>
+                          <Link className="img" to={`/product-detail/${d?.product?.slug}`}>
+                            <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img-fluid w-100 h-100" />
+                          </Link>
+                          <div className="text">
+                            <Link className="title" to={`/product-detail/${d?.product?.slug}`}>Full Sleeve Hoodie Jacket</Link>
+                            <p>Rs.{d?.price} × {d?.quantity}</p>
+                          </div>
+                        </li>
+                      ))
+                    }
                   </ul>
-                  <h6>subtotal <span>$395.00</span></h6>
-                  <h6>Tax <span>(+) $100.00</span></h6>
-                  <h6>Discount <span>(-) $45.00</span></h6>
-                  <h4>Total <span>$410.00</span></h4>
-                  <form action="#">
+                  <h6>subtotal <span>Rs.{cartData?.totalAmount}</span></h6>
+                  <h6>Delivery Charge <span>(+) Rs.40</span></h6>
+                  <h4>Total <span>Rs.{cartData?.totalAmount + 40}</span></h4>
+                  {/* <form action="#">
                     <input type="text" placeholder="Coupon code" />
                     <button type="submit" className="common_btn">Apply</button>
                     <p>
                       Coupon Code: HEM4556JL
                       <a href="#"><i className="fal fa-times" /></a>
                     </p>
-                  </form>
+                  </form> */}
                 </div>
                 <div className="cart_summary_btn">
-                  <Link className="common_btn continue_shopping" to="/products">Contiue shopping</Link>
-                  <Link className="common_btn" to="/checkout">checkout <i className="fas fa-long-arrow-right" /></Link>
+                  <Link className="common_btn continue_shopping" to="/products">Contiue shopping {cart?.lenght} </Link>
+                  {cart?.length > 0 && <Link className="common_btn" to="/checkout">checkout <i className="fas fa-long-arrow-right" /></Link>}
                 </div>
               </div>
             </div>

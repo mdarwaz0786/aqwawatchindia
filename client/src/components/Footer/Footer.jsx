@@ -78,7 +78,7 @@ const Footer = () => {
                   <li><Link to="/products"> Products</Link></li>
                   <li><Link to="/blogs"> Blogs</Link></li>
                   <li><Link to="/contact-us"> Contact Us</Link></li>
-                  <li><Link to="/become-vendor">Become A Dealer</Link></li>
+                  <li><Link to="/become-dealer">Become A Dealer</Link></li>
                 </ul>
               </div>
             </div>
@@ -91,7 +91,6 @@ const Footer = () => {
                   <li><Link to="/billing-shipping-policy">Billing and Shipping Policy</Link></li>
                   <li><Link to="/cookie-policy">Cookie Policy</Link></li>
                   <li><Link to="/privacy-policy">Privacy  Policies</Link></li>
-                  <li><a href="disclaimer.php">Disclaimer</a></li>
                 </ul>
               </div>
             </div>
