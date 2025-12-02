@@ -15,7 +15,7 @@ const TableImage = ({ src, alt = "image", width = 50, height = 50 }) => {
     <img
       src={`${API_BASE_URL}/${src}`}
       alt={alt}
-      style={{ width: `${width}px`, height: `${height}px`, objectFit: "contain" }}
+      style={{ width: `${width}px`, height: `${height}px`, objectFit: "fill" }}
     />
   );
 };

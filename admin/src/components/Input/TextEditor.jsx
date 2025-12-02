@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import JoditEditor from "jodit-pro-react";
 import { useMemo } from "react";
 
@@ -57,4 +57,4 @@ const TextEditor = ({
   );
 };
 
-export default TextEditor;
+export default React.memo(TextEditor);

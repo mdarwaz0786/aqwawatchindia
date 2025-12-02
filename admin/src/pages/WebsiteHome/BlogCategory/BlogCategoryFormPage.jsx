@@ -14,10 +14,10 @@ import Image from "../../../components/Input/Image";
 
 const initialState = {
   name: "",
-  logo: null,
+  image: null,
 };
 
-const ClientFormPage = () => {
+const BlogCategoryFormPage = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const ClientFormPage = () => {
   const [formData, setFormData] = useState(initialState);
 
   const { data: fetchedData } = useFetch(
-    isEdit ? `${apis.client.getSingle}/${id}` : null,
+    isEdit ? `${apis.blogCategory.getSingle}/${id}` : null,
     validToken
   );
 
@@ -33,25 +33,25 @@ const ClientFormPage = () => {
     postData,
     response: createResponse,
     postError,
-  } = useCreate(apis.client.create);
+  } = useCreate(apis.blogCategory.create);
 
   const {
     updateData,
     response: updateResponse,
     updateError,
-  } = usePatch(isEdit ? `${apis.client.update}/${id}` : null);
+  } = usePatch(isEdit ? `${apis.blogCategory.update}/${id}` : null);
 
   const { errors, validate } = useFormValidation();
 
   useEffect(() => {
     if (isEdit && fetchedData?.data) {
       const {
-        logo, name,
+        image, name,
       } = fetchedData.data;
 
       setFormData({
         name: name,
-        logo: logo ? `${API_BASE_URL}/${logo}` : null,
+        image: image ? `${API_BASE_URL}/${image}` : null,
       });
     }
   }, [fetchedData, isEdit]);
@@ -77,10 +77,10 @@ const ClientFormPage = () => {
     const form = new FormData();
     form.append("name", formData.name);
 
-    if (formData.logo === null) {
-      form.append("removeLogo", "true");
-    } else if (typeof formData.logo !== "string") {
-      form.append("logo", formData.logo);
+    if (formData.image === null) {
+      form.append("removeImage", "true");
+    } else if (typeof formData.image !== "string") {
+      form.append("image", formData.image);
     }
 
     if (isEdit) {
@@ -93,7 +93,7 @@ const ClientFormPage = () => {
   useEffect(() => {
     if (createResponse?.success) {
       toast.success("Created successfully");
-      navigate("/client/list");
+      navigate("/blog-category/list");
     } else if (postError) {
       toast.error(postError);
     }
@@ -102,7 +102,7 @@ const ClientFormPage = () => {
   useEffect(() => {
     if (updateResponse?.success) {
       toast.success("Updated successfully");
-      navigate("/client/list");
+      navigate("/blog-category/list");
     } else if (updateError) {
       toast.error(updateError);
     }
@@ -110,7 +110,7 @@ const ClientFormPage = () => {
 
   return (
     <FormWrapper
-      title={isEdit ? "Update Client" : "Add Client"}
+      title={isEdit ? "Update Blog Category" : "Add Blog Category"}
       onSubmit={handleSubmit}
     >
       <Input
@@ -125,16 +125,16 @@ const ClientFormPage = () => {
       />
 
       <Image
-        label="Logo"
-        name="logo"
-        value={formData.logo}
-        onChange={(file) => handleFileChange(file, "logo")}
+        label="Image"
+        name="image"
+        value={formData.image}
+        onChange={(file) => handleFileChange(file, "image")}
         width="col-md-6"
-        placeholder="logo"
+        placeholder="image"
         padding="6px"
       />
     </FormWrapper>
   );
 };
 
-export default ClientFormPage;
+export default BlogCategoryFormPage;

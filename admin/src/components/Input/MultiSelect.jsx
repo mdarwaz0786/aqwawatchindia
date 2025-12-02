@@ -1,11 +1,11 @@
 import React from "react";
 import Select from "react-select";
 
-const SearchableSelect = ({
+const MultiSelect = ({
   label,
-  placeholder = "Select an option",
+  placeholder = "Select options",
   name,
-  value,
+  value = [],
   onChange,
   options = [],
   required,
@@ -14,8 +14,13 @@ const SearchableSelect = ({
   optionKey,
   width,
 }) => {
-  const handleChange = (selectedOption) => {
-    onChange({ target: { name, value: selectedOption ? selectedOption?.value : "" } });
+  const handleChange = (selectedOptions) => {
+    onChange({
+      target: {
+        name,
+        value: selectedOptions ? selectedOptions?.map((opt) => opt?.value) : [],
+      },
+    });
   };
 
   const formattedOptions = options?.map((opt) => ({
@@ -23,7 +28,9 @@ const SearchableSelect = ({
     label: opt[optionValue],
   }));
 
-  const selectedOption = formattedOptions?.find((opt) => opt?.value === value);
+  const selectedValues = formattedOptions?.filter((item) =>
+    value?.includes(item?.value)
+  );
 
   const styles = {
     control: (base, state) => ({
@@ -50,9 +57,10 @@ const SearchableSelect = ({
       <Select
         id={name}
         name={name}
-        value={selectedOption || null}
+        value={selectedValues}
         onChange={handleChange}
         options={formattedOptions}
+        isMulti
         placeholder={placeholder}
         classNamePrefix="react-select"
         styles={styles}
@@ -63,4 +71,4 @@ const SearchableSelect = ({
   );
 };
 
-export default React.memo(SearchableSelect);
+export default React.memo(MultiSelect);

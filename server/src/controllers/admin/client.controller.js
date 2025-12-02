@@ -31,13 +31,20 @@ export const createClient = asyncHandler(async (req, res) => {
 });
 
 export const getClients = asyncHandler(async (req, res) => {
-  let { status, sort = "desc", page, limit } = req.query;
+  let { status, sort = "desc", page, limit, search } = req.query;
 
   page = parseInt(page, 10) || 1;
   limit = parseInt(limit, 10) || 10;
   const skip = (page - 1) * limit;
 
   const filters = {};
+
+  if (search) {
+    filters.$or = [
+      { name: { $regex: search, $options: "i" } },
+    ];
+  }
+
   if (status === "true" || status === "false") filters.status = status === "true";
 
   let sortOption = {};

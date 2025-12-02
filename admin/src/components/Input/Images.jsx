@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const Images = ({ onChange, placeholder = "image", required = false, label, error, width, existingImages = [] }) => {
   const [previews, setPreviews] = useState([]);
@@ -115,4 +115,4 @@ const Images = ({ onChange, placeholder = "image", required = false, label, erro
   );
 };
 
-export default Images;
+export default React.memo(Images);

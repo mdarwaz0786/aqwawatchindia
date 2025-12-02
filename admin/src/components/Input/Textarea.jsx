@@ -1,3 +1,5 @@
+import React from "react";
+
 const TextArea = ({
   label,
   name,
@@ -28,4 +30,4 @@ const TextArea = ({
   );
 };
 
-export default TextArea;
+export default React.memo(TextArea);

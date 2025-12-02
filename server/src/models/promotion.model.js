@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const promotionSchema = new mongoose.Schema({
   banner: {
     type: String,
+    trim: true,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,8 +19,7 @@ const promotionSchema = new mongoose.Schema({
   }],
   position: {
     type: String,
-    enum: ["left", "right"],
-    default: "left",
+    enum: ["Left", "Right"],
   },
   status: {
     type: Boolean,

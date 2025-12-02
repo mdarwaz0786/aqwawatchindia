@@ -1,3 +1,5 @@
+import React from "react";
+
 const Checkbox = ({ label, name, checked, onChange, required, error }) => (
   <div className="col-md-12">
     <div className="form-wrap">
@@ -19,4 +21,4 @@ const Checkbox = ({ label, name, checked, onChange, required, error }) => (
   </div>
 );
 
-export default Checkbox;
+export default React.memo(Checkbox);

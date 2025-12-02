@@ -77,10 +77,17 @@ export const getBlogCategoryById = asyncHandler(async (req, res) => {
 });
 
 export const updateBlogCategory = asyncHandler(async (req, res) => {
-  const { name, status } = req.body;
+  const { name, status, removeImage } = req.body;
 
   const category = await BlogCategoryModel.findById(req.params.id);
   if (!category) throw new ApiError(404, "Category not found");
+
+  if (removeImage === "true") {
+    if (category.image && fs.existsSync(path.join(process.cwd(), category.image))) {
+      fs.unlinkSync(path.join(process.cwd(), category.image));
+    }
+    category.image = null;
+  }
 
   if (req.files?.image?.[0]) {
     if (category?.image && fs.existsSync(path.join(process.cwd(), category.image))) {

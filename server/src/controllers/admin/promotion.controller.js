@@ -9,6 +9,11 @@ import { buildPagination } from "../../utils/pagination.js";
 export const createPromotion = asyncHandler(async (req, res) => {
   const { category, products, position } = req.body;
 
+  const alreadyExists = await PromotionModel.findOne({ position });
+  if (alreadyExists) {
+    throw new ApiError(400, `Only one promotion allowed for position "${position}".`);
+  }
+
   let bannerPath = null;
   try {
     if (req.files?.banner?.[0]) {
@@ -23,7 +28,7 @@ export const createPromotion = asyncHandler(async (req, res) => {
       createdBy: req.user?._id,
     });
 
-    return res.status(201).json({ success: true, data: promotion });
+    return res.status(201).json({ success: true, message: "Created successfully", data: promotion });
   } catch (error) {
     if (bannerPath && fs.existsSync(path.join(process.cwd(), bannerPath))) {
       fs.unlinkSync(path.join(process.cwd(), bannerPath));
@@ -77,10 +82,24 @@ export const getPromotionById = asyncHandler(async (req, res) => {
 });
 
 export const updatePromotion = asyncHandler(async (req, res) => {
-  const { category, products, position, status } = req.body;
+  const { category, products, position, status, removeBanner } = req.body;
 
   const promotion = await PromotionModel.findById(req.params.id);
   if (!promotion) throw new ApiError(404, "Promotion not found");
+
+  if (position && promotion?.position !== position) {
+    const exists = await PromotionModel.findOne({ position });
+    if (exists) {
+      throw new ApiError(400, `Position "${position}" is already assigned to another promotion.`);
+    }
+  }
+
+  if (removeBanner === "true") {
+    if (promotion.banner && fs.existsSync(path.join(process.cwd(), promotion.banner))) {
+      fs.unlinkSync(path.join(process.cwd(), promotion.banner));
+    }
+    promotion.banner = null;
+  }
 
   if (req.files?.banner?.[0]) {
     if (promotion?.banner && fs.existsSync(path.join(process.cwd(), promotion.banner))) {

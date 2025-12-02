@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const Image = ({ label, padding = "16px", placeholder = "image", name, value, onChange, required = false, error, width }) => {
   const [preview, setPreview] = useState(null);
@@ -102,4 +102,4 @@ const Image = ({ label, padding = "16px", placeholder = "image", name, value, on
   );
 };
 
-export default Image;
+export default React.memo(Image);

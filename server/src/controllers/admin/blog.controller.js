@@ -1,5 +1,4 @@
 import BlogModel from "../../models/blog.model.js";
-import BlogCategoryModel from "../../models/blogCategory.model.js";
 import SlugModel from "../../models/slug.model.js";
 import ApiError from "../../helpers/apiError.js";
 import asyncHandler from "../../helpers/asyncHandler.js";

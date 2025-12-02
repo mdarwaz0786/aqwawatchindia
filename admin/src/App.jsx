@@ -35,6 +35,12 @@ import TestimonialListPage from './pages/WebsiteHome/Testimonial/TestimonialList
 import TestimonialFormPage from './pages/WebsiteHome/Testimonial/TestimonialFormPage';
 import ClientListPage from './pages/WebsiteHome/Client/ClientListPage';
 import ClientFormPage from './pages/WebsiteHome/Client/ClientFormPage';
+import PromotionListPage from './pages/WebsiteHome/Promotion/PromotionListPage';
+import PromotionFormPage from './pages/WebsiteHome/Promotion/PromotionFormPage';
+import BlogCategoryListPage from './pages/WebsiteHome/BlogCategory/BlogCategoryListPage';
+import BlogCategoryFormPage from './pages/WebsiteHome/BlogCategory/BlogCategoryFormPage';
+import BlogListPage from './pages/WebsiteHome/Blog/BlogListPage';
+import BlogFormPage from './pages/WebsiteHome/Blog/BlogFormPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -99,6 +105,19 @@ const App = () => {
             <Route path="/client/list" element={<ClientListPage />} />
             <Route path="/client/add" element={<ClientFormPage />} />
             <Route path="/client/update/:id" element={<ClientFormPage />} />
+
+            <Route path="/promotion/list" element={<PromotionListPage />} />
+            <Route path="/promotion/add" element={<PromotionFormPage />} />
+            <Route path="/promotion/update/:id" element={<PromotionFormPage />} />
+
+            <Route path="/blog-category/list" element={<BlogCategoryListPage />} />
+            <Route path="/blog-category/add" element={<BlogCategoryFormPage />} />
+            <Route path="/blog-category/update/:id" element={<BlogCategoryFormPage />} />
+
+
+            <Route path="/blog/list" element={<BlogListPage />} />
+            <Route path="/blog/add" element={<BlogFormPage />} />
+            <Route path="/blog/update/:id" element={<BlogFormPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

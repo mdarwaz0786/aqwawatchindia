@@ -1,3 +1,5 @@
+import React from "react";
+
 const Input = ({ label, name, placeholder, type = "text", value, onChange, required, error, width }) => (
   <div className={`${width} mb-4`}>
     <label className="form-label" htmlFor={name}>
@@ -16,4 +18,4 @@ const Input = ({ label, name, placeholder, type = "text", value, onChange, requi
   </div>
 );
 
-export default Input;
+export default React.memo(Input);

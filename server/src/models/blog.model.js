@@ -9,18 +9,23 @@ const blogSchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    trim: true,
   },
   frontImage: {
     type: String,
+    trim: true,
   },
   detailImage: {
     type: String,
+    trim: true,
   },
   shortDescription: {
     type: String,
+    trim: true,
   },
   fullDescription: {
     type: String,
+    trim: true,
   },
   home: {
     type: Boolean,
@@ -30,9 +35,10 @@ const blogSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  tags: [{
+  tags: {
     type: String,
-  }],
+    trim: true,
+  },
   numberOfComment: {
     type: Number,
     default: 0,

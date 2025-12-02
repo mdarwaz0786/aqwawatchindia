@@ -7,6 +7,7 @@ const blogCategorySchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    trim: true,
   },
   status: {
     type: Boolean,
