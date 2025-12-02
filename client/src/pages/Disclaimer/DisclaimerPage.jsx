@@ -4,9 +4,10 @@ import Header from "../../components/Header/Header";
 import useFetch from "../../hooks/useFetch";
 import apis from "../../api/apis";
 
-const TermsConditionsPage = () => {
+const DisclaimerPage = () => {
   const { data } = useFetch(apis.home.getAll);
   const categories = data?.data?.category;
+
   return (
     <>
       <Header categories={categories} />
@@ -17,10 +18,10 @@ const TermsConditionsPage = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page_banner_text wow fadeInUp">
-                  <h1>Terms and Conditions</h1>
+                  <h1>Disclaimer</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
-                    <li><Link to="#">Terms and Conditions</Link></li>
+                    <li><Link to="#">Disclaimer</Link></li>
                   </ul>
                 </div>
               </div>
@@ -30,62 +31,18 @@ const TermsConditionsPage = () => {
       </section>
       {/*PAGE BANNER START*/}
 
-      {/*TERMS AND CONDITION START*/}
       <section className="terms_condition mt_55 mb_100">
         <div className="container">
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <h3>User Agreement</h3>
-                <p>Welcome to AQUAWATCH (INDIA).</p>
-                <p>AQUAWATCH (INDIA) provides its services to you subject to the following terms and
-                  conditions. If you access this web site or visit or shop at www.aquawatchindia.com, you
-                  accept these Terms and Conditions of Use, as well as our other terms and conditions on
-                  this web site, such as our Privacy Policy, Cancellation and Refund Policy, Delivery policy
-                  and Disclaimer. Please read them carefully. In addition, when you use any current or
-                  future AQUAWATCH (INDIA) service on this web site, you also will be subject to the
-                  guidelines and conditions applicable to such service.
-                </p>
-                <p>www.aquawatchindia.com reserves the right to accept or reject your offer.</p>
-
-                <h3>Applicable Law</h3>
-                <p>This site is created and controlled by Aquawatch India. The laws of India shall apply and
-                  jurisdiction courts in Gurugram, Haryana only shall have jurisdiction in respect of all the
-                  terms, conditions and disclaimers. Aquawatch India reserves the right to make changes to
-                  the web site and the terms, conditions and disclaimers at any time and without
-                  information to the customers/users of the services/web site of Aquawatch India.
-                </p>
-                <p>"Vendor" / "seller" /"affiliates" shall mean the person or any legal entity who offers for
-                  sale, sells the products on the aquawatchindia.com
-                </p>
-                <p>"Customer" / "buyer" shall mean the person or any legal entity who makes the offer for
-                  sale on aquawatchindia.com by placing an order for and or purchases any products
-                  through the platform of aquawatchindia.com
-                </p>
-                <p>
-                  "User" / "you" means and includes any person or an entity or any legal entity using or
-                  accessing the services provided on this site. "Product/Products" means and includes any
-                  goods / merchandise / products / services / offers / display items that are uploaded
-                  /showcased/displayed on aquawatchindia.com and the related description, information,
-                  procedure, processes, warranties, delivery schedule, etc.
+                <p>This site is provided to you by Aquawatch India. Aquawatch india does not warrant that
+                  this site, its servers or email sent from aquawatchindia.com are free of viruses and other
+                  harmful components.
                 </p>
 
-                <h3>Copyright and Trademarks</h3>
-                <p>Unless otherwise stated, copyright and all intellectual property rights in all material
-                  presented on the site (including but not limited to text, audio, video or graphical images),
-                  trademarks and logos appearing on this site are the property of Aquawatch India., its
-                  parent, affiliates and associates and are protected under applicable Indian laws. You agree
-                  not to use any framing techniques to enclose any trademark or logo or other proprietary
-                  information of Aquawatch India. Any infringement shall be vigorously defended and
-                  pursued to the fullest extent permitted by law.
-                </p>
-
-                <h3>Changes / Product Description</h3>
-                <p>. Aquawatch India reserves the right to suspend / cancel, or discontinue any or all
-                  products or service at any time without notice , make modifications and alterations in
-                  any or all of the content, products and services contained on the site without prior
-                  notice. If a product offered by aquawatchindia.com is not as described, your sole
-                  remedy is to return it to us in unused condition within 7 days of delivery.
+                <p>All products displayed in our catalogues may not be readily available for sale due to
+                  product unavailability or for any other reason.
                 </p>
 
                 {/* <h3>Who we are</h3>
@@ -169,10 +126,9 @@ const TermsConditionsPage = () => {
           </div>
         </div>
       </section>
-      {/*TERMS AND CONDITION END*/}
       <Footer />
     </>
   );
 };
 
-export default TermsConditionsPage;
+export default DisclaimerPage;

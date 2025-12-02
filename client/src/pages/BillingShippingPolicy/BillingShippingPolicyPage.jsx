@@ -36,7 +36,17 @@ const BillingShippingPolicyPage = () => {
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <h3>Who we are</h3>
+                <p>1. Most orders are dispatched within 2-3 buisness days. Delivery time will vary based on
+                  your location. Most packages get delivered within 7-30 days.
+                </p>
+
+                <p>2. Deliveries are made during office hours 9:00 am-7:00 pm.</p>
+
+                <p>3. The couriers deliver during office hours and for more specific details you can contact
+                  the courier company directly.
+                </p>
+
+                {/* <h3>Who we are</h3>
                 <p>When visitors leave comments on the site we collect the data shown in the comments form, and
                   also the visitor’s IP address and browser user agent string to help spam
                   detection. An anonymized string created from your email address (also called a hash) may be
@@ -111,7 +121,7 @@ const BillingShippingPolicyPage = () => {
                 <p>If you have an account on this site, or have left comments, you can request to receive an
                   exported file of the personal data we hold about you, including any data you have provided
                   to us. You can also request that we erase any personal data we hold about you. This does not
-                  include any data we are obliged to keep for administrative.</p>
+                  include any data we are obliged to keep for administrative.</p> */}
               </div>
             </div>
           </div>

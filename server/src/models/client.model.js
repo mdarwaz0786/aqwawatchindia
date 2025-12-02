@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 const clientSchema = new mongoose.Schema({
-  logo: {
+  name: {
     type: String,
     required: true,
+  },
+  logo: {
+    type: String,
+    trim: true,
   },
   status: {
     type: Boolean,

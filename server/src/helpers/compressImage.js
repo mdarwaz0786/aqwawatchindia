@@ -6,7 +6,7 @@ import ApiError from "./apiError.js";
 const compressImage = async (
   buffer,
   folder = "common",
-  maxSizeKB = 100,
+  maxSizeKB = 200,
   quality = 80,
   minQuality = 50,
   width = 1200,

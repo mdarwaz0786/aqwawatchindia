@@ -8,7 +8,7 @@ import { useAuth } from "../../context/auth.context";
 import useDelete from "../../hooks/useDelete";
 import { toast } from "react-toastify";
 
-const Header = ({ categories }) => {
+const Header = ({ categories, cartQuantity }) => {
   const navigate = useNavigate();
   const { userId, token, logOutUser } = useAuth();
   const [showMore, setShowMore] = useState(() => { return JSON.parse(localStorage.getItem("showMore")) || false });
@@ -30,8 +30,6 @@ const Header = ({ categories }) => {
   const visibleCategories = showMore
     ? categories?.slice(6) || []
     : categories?.slice(0, 6) || [];
-
-  const cart = cartData?.data;
 
   const handleRemoveCartItem = async (e, id) => {
     e.preventDefault();
@@ -57,6 +55,8 @@ const Header = ({ categories }) => {
     };
   };
 
+  const cart = cartData?.data;
+
   return (
     <>
       {/*TOPBAR START*/}
@@ -77,10 +77,35 @@ const Header = ({ categories }) => {
             <div className="col-lg-5">
               <div className="topbar_right d-flex flex-wrap align-items-center justify-content-end">
                 <ul className="topbar_icon d-flex flex-wrap">
-                  <li><a href="#"><i className="fab fa-facebook-f" /></a></li>
-                  <li><a href="#"><i className="fab fa-linkedin-in" /></a></li>
-                  <li><a href="#"><i className="fab fa-twitter" /></a></li>
-                  <li><a href="#"><i className="fab fa-behance" /></a></li>
+                  <li>
+                    <Link to="/" title="Home">
+                      <i className="fas fa-home" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-facebook-f" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-linkedin-in" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fab fa-instagram" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-twitter" />
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -96,7 +121,7 @@ const Header = ({ categories }) => {
             <div className="col-lg-2">
               <div className="header_logo_area">
                 <Link to="/" className="header_logo">
-                  <img src="assets/graphics/logo.jpeg" alt="Aqwawatch" className="img-fluid w-100" />
+                  <img src="/assets/graphics/logo.jpeg" alt="Aqwawatch" className="img-fluid w-100" />
                 </Link>
                 <div className="mobile_menu_icon d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
                   <span className="mobile_menu_icon"><i className="far fa-stream menu_icon_bar" /></span>
@@ -106,13 +131,14 @@ const Header = ({ categories }) => {
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
               <form onSubmit={handleSubmit} className={styles.searchForm}>
                 <select
+                  style={{ fontWeight: "600" }}
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className={styles.searchSelect}
                 >
-                  <option value="">All Categories</option>
+                  <option value="" style={{ fontWeight: "600" }}>All Categories</option>
                   {categories && categories?.map((cat) => (
-                    <option key={cat?._id} value={cat?.slug}>
+                    <option key={cat?._id} value={cat?.slug} style={{ fontWeight: "600" }}>
                       {cat?.name}
                     </option>
                   ))}
@@ -124,6 +150,7 @@ const Header = ({ categories }) => {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
                   className={styles.searchInput}
+                  style={{ fontWeight: "600" }}
                 />
 
                 <button type="submit" className={styles.searchBtn}>
@@ -147,7 +174,7 @@ const Header = ({ categories }) => {
                     <b>
                       <img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" />
                     </b>
-                    <span style={{ background: "#df4838" }}>{cart?.length}</span>
+                    <span style={{ background: "#df4838" }}>{cart?.length || cartQuantity}</span>
                   </a>
                 </li>
                 <li>
@@ -196,12 +223,12 @@ const Header = ({ categories }) => {
           <div className="main_menu_area">
             <ul className="menu_item" onMouseLeave={() => setPreview({ img: "", title: "" })} >
               <li>
-                <Link to="/" style={{ color: "#000000" }}>Home</Link>
+                <Link to="/" style={{ fontWeight: "600" }}>Home</Link>
               </li>
               {visibleCategories?.map((cat) => {
                 return (
                   <li>
-                    <Link style={{ color: "#000000" }} to={`/products?category=${cat?.slug}`}>{cat?.name} <i className="fas fa-chevron-down" /></Link>
+                    <Link style={{ fontWeight: "600" }} to={`/products?category=${cat?.slug}`}>{cat?.name} <i className="fas fa-chevron-down" /></Link>
                     <div className="megamenus">
                       <div className="container-fluid">
                         <div className="row">
@@ -230,8 +257,8 @@ const Header = ({ categories }) => {
                                           navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
                                         }
                                       >
-                                        <h5><a href="#" style={{ color: "#111111" }}>{subcat?.name}</a></h5>
-                                        <p style={{ marginTop: "-1rem" }}><a href="#" style={{ color: "#000000" }}>Explore All Products</a></p>
+                                        <h5><Link to="#">{subcat?.name}</Link></h5>
+                                        <p style={{ marginTop: "-1rem" }}><Link to="#">Explore All Products</Link></p>
                                       </li>
                                     ))
                                   }
@@ -246,7 +273,7 @@ const Header = ({ categories }) => {
                 )
               })}
               <li>
-                <a style={{ color: "#000" }}
+                <a style={{ fontWeight: "600" }}
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();

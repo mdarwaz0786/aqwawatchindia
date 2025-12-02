@@ -53,30 +53,30 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
         { label: "Add Sub Category", link: "/sub-category/add" },
       ],
     },
-    {
-      title: "Sub Sub Category",
-      icon: <MdViewModule />,
-      items: [
-        { label: "Sub Sub Category List", link: "/sub-sub-category/list" },
-        { label: "Add Sub Sub Category", link: "/sub-sub-category/add" },
-      ],
-    },
-    {
-      title: "Color",
-      icon: <MdPalette />,
-      items: [
-        { label: "Color List", link: "/color/list" },
-        { label: "Add Color", link: "/color/add" },
-      ],
-    },
-    {
-      title: "Size",
-      icon: <MdStraighten />,
-      items: [
-        { label: "Size List", link: "/size/list" },
-        { label: "Add Size", link: "/size/add" },
-      ],
-    },
+    // {
+    //   title: "Sub Sub Category",
+    //   icon: <MdViewModule />,
+    //   items: [
+    //     { label: "Sub Sub Category List", link: "/sub-sub-category/list" },
+    //     { label: "Add Sub Sub Category", link: "/sub-sub-category/add" },
+    //   ],
+    // },
+    // {
+    //   title: "Color",
+    //   icon: <MdPalette />,
+    //   items: [
+    //     { label: "Color List", link: "/color/list" },
+    //     { label: "Add Color", link: "/color/add" },
+    //   ],
+    // },
+    // {
+    //   title: "Size",
+    //   icon: <MdStraighten />,
+    //   items: [
+    //     { label: "Size List", link: "/size/list" },
+    //     { label: "Add Size", link: "/size/add" },
+    //   ],
+    // },
     {
       title: "Brand",
       icon: <MdStore />,
@@ -94,7 +94,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       ],
     },
     {
-      title: "Home",
+      title: "Website Home Page",
       icon: <MdHome />,
       items: [
         { label: "Carousel", link: "/carousel/list" },
@@ -111,9 +111,9 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
   const staticLinks = [
     { label: "Dashboard", icon: <MdDashboard />, link: "/" },
     { label: "Orders", icon: <MdShoppingCart />, link: "/orders" },
-    { label: "Coupons", icon: <MdLocalOffer />, link: "/coupons" },
+    // { label: "Coupons", icon: <MdLocalOffer />, link: "/coupons" },
     { label: "Transactions", icon: <MdAttachMoney />, link: "/transactions" },
-    { label: "Reviews", icon: <MdRateReview />, link: "/reviews" },
+    // { label: "Reviews", icon: <MdRateReview />, link: "/reviews" },
     { label: "Settings", icon: <MdSettings />, link: "/settings" },
   ];
 

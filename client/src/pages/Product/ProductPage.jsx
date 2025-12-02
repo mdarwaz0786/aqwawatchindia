@@ -34,16 +34,14 @@ const ProductPage = () => {
     onSale: searchParams.get("onSale") === "true" || false,
     inStock: searchParams.get("inStock") === "true" || false,
     minPrice: searchParams.get("minPrice") ? parseFloat(searchParams.get("minPrice")) : 0,
-    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 1000000,
+    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 100000,
     rating: searchParams.get("rating") ? searchParams.get("rating").split(",").map(Number) : [],
   };
-
-  const min = 0;
-  const max = 1000000;
 
   const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
   const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: searchParams.get("userId") });
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
+  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
 
   useEffect(() => {
     const urlParams = {};
@@ -81,9 +79,6 @@ const ProductPage = () => {
     }
   };
 
-  const products = data?.data || [];
-  const relatedProducts = relatedProduct?.data || [];
-
   const handleRatingChange = (value) => {
     let updatedRatings = [...params.rating];
 
@@ -106,14 +101,22 @@ const ProductPage = () => {
       toast.success(cartResponse?.message || "Added to cart");
       refetch();
       refetchRelatedProduct();
+      refetchCart();
     } else if (cartError) {
       toast.error("Something went wrong");
     };
   }, [cartResponse, cartError]);
 
+  const min = 0;
+  const max = 100000;
+
+  const products = data?.data || [];
+  const relatedProducts = relatedProduct?.data || [];
+  const cartQuantity = cartData?.data?.length;
+
   return (
     <>
-      <Header categories={categories} />
+      <Header categories={categories} cartQuantity={cartQuantity} />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

@@ -13312,17 +13312,17 @@ div#megaPreviewTitle {
 .videosec {
     padding-top: 50px;
     padding-bottom: 50px;
-    background: #333333;
+    background: #f9f9f9;
 }
 
 .youtubecontent h1 {
-    color: white;
+    color: #333;
     padding-bottom: 20px;
     font-size: 25px;
 }
 
 .youtubecontent p {
-    color: white;
+    color: #333;
     padding-bottom: 20px;
 }
 

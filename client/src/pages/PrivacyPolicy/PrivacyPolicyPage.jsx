@@ -36,7 +36,27 @@ const PrivacyPolicyPage = () => {
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <h3>Who we are</h3>
+                <p>
+                  Aquawatch (India) and its subsidiaries and affiliates respect your concerns about
+                  privacy. This Privacy Policy describes the types of personal information we collect about
+                  individuals through certain of our products and services, websites , how we may use the
+                  information, with whom we may share it, and the choices available regarding our use of
+                  the information.
+                </p>
+
+                <p>
+                  The Privacy Policy also describes the measures we take to safeguard the personal
+                  information, how long we retain it, and how individuals can contact us about our privacy
+                  practices and to exercise their rights.
+                </p>
+
+                <p>
+                  This Privacy Policy applies to information we collect through our products and services,
+                  including our websites here (collectively, the "Services"). If our Services have a separate
+                  privacy policy or notice, that policy or notice and not this one applies.
+                </p>
+
+                {/* <h3>Who we are</h3>
                 <p>When visitors leave comments on the site we collect the data shown in the comments form, and
                   also the visitor’s IP address and browser user agent string to help spam
                   detection. An anonymized string created from your email address (also called a hash) may be
@@ -111,7 +131,7 @@ const PrivacyPolicyPage = () => {
                 <p>If you have an account on this site, or have left comments, you can request to receive an
                   exported file of the personal data we hold about you, including any data you have provided
                   to us. You can also request that we erase any personal data we hold about you. This does not
-                  include any data we are obliged to keep for administrative.</p>
+                  include any data we are obliged to keep for administrative.</p> */}
               </div>
             </div>
           </div>

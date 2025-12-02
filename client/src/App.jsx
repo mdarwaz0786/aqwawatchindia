@@ -23,12 +23,15 @@ import DashboardPage from "./pages/UserDashboard/DashboardPage";
 import ProfilePage from "./pages/UserDashboard/ProfilePage";
 import InvoicePage from "./pages/UserDashboard/InvoicePage";
 import ShopPage from "./pages/Home/ShopPage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import VisitPopup from "./components/Modal/VisitPopup";
 import RightWidget from "./components/Widget/RightWiget";
+import DisclaimerPage from "./pages/Disclaimer/DisclaimerPage";
 
 const App = () => {
   const location = useLocation();
+  const [openPopup, setOpenPopup] = useState(false);
+  window.openVisitPopup = () => setOpenPopup(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -39,7 +42,7 @@ const App = () => {
   return (
     <>
       <ScrollToTop />
-      <VisitPopup />
+      <VisitPopup open={openPopup} setOpen={setOpenPopup} onClose={() => setOpenPopup(false)} />
       <RightWidget />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -61,6 +64,7 @@ const App = () => {
         <Route path="/billing-shipping-policy" element={<BillingShippingPolicyPage />} />
         <Route path="/cookie-policy" element={<CookiePolicyPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/disclaimer" element={<DisclaimerPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/invoice" element={<InvoicePage />} />

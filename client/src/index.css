@@ -31,8 +31,13 @@
   font-size: 1rem;
 }
 
+.menu_item li a {
+  font-size: 15px !important;
+  cursor: pointer !important;
+}
+
 .product_item_2 {
-  height: 415px !important;
+  height: 445px !important;
 }
 
 .product_img {

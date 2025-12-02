@@ -8,7 +8,7 @@ import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
 import useDelete from "../../hooks/useDelete";
 
-const Navbar = ({ categories }) => {
+const Navbar = ({ categories, cartQuantity }) => {
   const navigate = useNavigate();
   const { userId, token, logOutUser } = useAuth();
   const [category, setCategory] = useState("");
@@ -37,8 +37,6 @@ const Navbar = ({ categories }) => {
     if (deleteCartError) toast.error("Something went wrong");
   }, [deleteCartError]);
 
-  const cart = cartData?.data;
-
   const handleLogin = () => {
     if (token) {
       logOutUser();
@@ -46,6 +44,8 @@ const Navbar = ({ categories }) => {
       navigate("/login");
     };
   };
+
+  const cart = cartData?.data;
 
   return (
     <>
@@ -67,10 +67,35 @@ const Navbar = ({ categories }) => {
             <div className="col-lg-5">
               <div className="topbar_right d-flex flex-wrap align-items-center justify-content-end">
                 <ul className="topbar_icon d-flex flex-wrap">
-                  <li><a href="#"><i className="fab fa-facebook-f" /></a></li>
-                  <li><a href="#"><i className="fab fa-linkedin-in" /></a></li>
-                  <li><a href="#"><i className="fab fa-twitter" /></a></li>
-                  <li><a href="#"><i className="fab fa-behance" /></a></li>
+                  <li>
+                    <Link to="/" title="Home">
+                      <i className="fas fa-home" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-facebook-f" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fab fa-instagram" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-linkedin-in" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-twitter" />
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -86,7 +111,7 @@ const Navbar = ({ categories }) => {
             <div className="col-lg-2">
               <div className="header_logo_area">
                 <Link to="/" className="header_logo">
-                  <img src="assets/graphics/logo.jpeg" alt="Aqwawatch" className="img-fluid w-100" />
+                  <img src="/assets/graphics/logo.jpeg" alt="Aqwawatch" className="img-fluid w-100" />
                 </Link>
                 <div className="mobile_menu_icon d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
                   <span className="mobile_menu_icon"><i className="far fa-stream menu_icon_bar" /></span>
@@ -97,13 +122,14 @@ const Navbar = ({ categories }) => {
             <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
               <form onSubmit={handleSubmit} className={styles.searchForm}>
                 <select
+                  style={{ fontWeight: "600" }}
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className={styles.searchSelect}
                 >
-                  <option value="">All Categories</option>
+                  <option value="" style={{ fontWeight: "600" }}>All Categories</option>
                   {categories && categories?.map((cat) => (
-                    <option key={cat?._id} value={cat?.slug}>
+                    <option key={cat?._id} value={cat?.slug} style={{ fontWeight: "600" }}>
                       {cat?.name}
                     </option>
                   ))}
@@ -115,6 +141,7 @@ const Navbar = ({ categories }) => {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
                   className={styles.searchInput}
+                  style={{ fontWeight: "600" }}
                 />
 
                 <button type="submit" className={styles.searchBtn}>
@@ -150,12 +177,12 @@ const Navbar = ({ categories }) => {
             <div className="col-12 d-flex flex-wrap">
               <div className="main_menu_area">
                 <ul className="menu_item">
-                  <li><Link to="/"> Home</Link></li>
-                  <li><Link to="/about-us"> About Us </Link></li>
-                  <li><Link to="/shop"> All Products</Link></li>
-                  <li><Link to="/blogs"> Blogs</Link></li>
-                  <li><Link to="/contact-us"> Contact Us</Link></li>
-                  <li><Link to="/become-dealer">Become A Dealer</Link></li>
+                  <li><Link to="/" style={{ fontWeight: "600" }}> Home</Link></li>
+                  <li><Link to="/about-us" style={{ fontWeight: "600" }}> About Us </Link></li>
+                  <li><Link to="/shop" style={{ fontWeight: "600" }}> All Products</Link></li>
+                  <li><Link to="/blogs" style={{ fontWeight: "600" }}> Blogs</Link></li>
+                  <li><Link to="/contact-us" style={{ fontWeight: "600" }}> Contact Us</Link></li>
+                  <li><Link to="/become-dealer" style={{ fontWeight: "600" }}>Become A Dealer</Link></li>
                 </ul>
                 <ul className="menu_icon">
                   {/* <li>
@@ -171,7 +198,7 @@ const Navbar = ({ categories }) => {
                       <b>
                         <img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" />
                       </b>
-                      <span>{cart?.length}</span>
+                      <span>{cart?.length || cartQuantity}</span>
                     </a>
                   </li>
                   <li>

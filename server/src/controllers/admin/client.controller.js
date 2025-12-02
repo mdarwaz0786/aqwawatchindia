@@ -7,17 +7,21 @@ import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
 
 export const createClient = asyncHandler(async (req, res) => {
+  const { name } = req.body;
   let logoPath = null;
+
   try {
-    if (!req.files?.logo?.[0]) throw new ApiError(400, "Logo is required");
-    logoPath = await compressImage(req.files.logo[0].buffer, "client");
+    if (req.files?.logo?.[0]) {
+      logoPath = await compressImage(req.files?.logo?.[0]?.buffer, "client");
+    };
 
     const client = await ClientModel.create({
       logo: logoPath,
+      name,
       createdBy: req.user?._id,
     });
 
-    return res.status(201).json({ success: true, data: client });
+    return res.status(201).json({ success: true, message: "Created Successfully", data: client });
   } catch (error) {
     if (logoPath && fs.existsSync(path.join(process.cwd(), logoPath))) {
       fs.unlinkSync(path.join(process.cwd(), logoPath));
@@ -65,10 +69,17 @@ export const getClientById = asyncHandler(async (req, res) => {
 });
 
 export const updateClient = asyncHandler(async (req, res) => {
-  const { status } = req.body;
+  const { status, name, removeLogo } = req.body;
 
   const client = await ClientModel.findById(req.params.id);
   if (!client) throw new ApiError(404, "Client not found");
+
+  if (removeLogo === "true") {
+    if (client.logo && fs.existsSync(path.join(process.cwd(), client.logo))) {
+      fs.unlinkSync(path.join(process.cwd(), client.logo));
+    }
+    client.logo = null;
+  }
 
   if (req.files?.logo?.[0]) {
     if (client?.logo && fs.existsSync(path.join(process.cwd(), client.logo))) {
@@ -78,6 +89,7 @@ export const updateClient = asyncHandler(async (req, res) => {
   }
 
   client.status = typeof status === "boolean" ? status : client.status;
+  client.name = name || client?.name;
   client.updatedBy = req.user?._id;
   client.updatedAt = new Date();
 

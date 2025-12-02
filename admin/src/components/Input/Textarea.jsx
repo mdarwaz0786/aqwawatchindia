@@ -1,14 +1,16 @@
-const Textarea = ({
+const TextArea = ({
   label,
   name,
   value,
   onChange,
   required = false,
+  width,
   rows = 4,
   error,
+  placeholder = "Write",
 }) => {
   return (
-    <div className="form-wrap mb-3">
+    <div className={`${width} mb-4`}>
       <label className="col-form-label" htmlFor={name}>
         {label} {required && <span className="text-danger">*</span>}
       </label>
@@ -19,10 +21,11 @@ const Textarea = ({
         rows={rows}
         value={value}
         onChange={onChange}
+        placeholder={placeholder}
       />
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
 };
 
-export default Textarea;
+export default TextArea;

@@ -6,7 +6,7 @@ import useFetch from '../../hooks/useFetch';
 import apis, { API_BASE_URL } from '../../api/apis';
 import flipKartIcon from "../../assets/icon/flipkart.svg";
 import amazonIcon from "../../assets/icon/amazon.svg";
-import aquaIcon from "../../assets/icon/aqwa.svg";
+import aquaWatch from "../../assets/icon/aquawatch.jpg";
 import { useEffect, useState } from 'react';
 import Swiper from '../../components/Swiper/Swiper';
 import { useAuth } from '../../context/auth.context';
@@ -99,10 +99,9 @@ const ProductDetailPage = () => {
             <div className="row">
               <div className="col-lg-6">
                 {(productDetail?.youtubeVideoLink) &&
-                  <div
-                    className="youtubevideode"
-                    dangerouslySetInnerHTML={{ __html: productDetail?.youtubeVideoLink }}
-                  />
+                  <div className="youtubevideode">
+                    <iframe width="100%" height={400} src={productDetail?.youtubeVideoLink} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  </div>
                 }
               </div>
               <div className="col-lg-6">
@@ -110,9 +109,9 @@ const ProductDetailPage = () => {
                   <h1>{productDetail?.name}</h1>
                   {productDetail?.smallInfo && <p dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
                   <div className="amazonsbtn">
-                    {productDetail?.flipKartLink && <Link className="am1 me-3" to={productDetail?.flipKartLink} target="_blank"><img src={flipKartIcon} /> </Link>}
+                    {productDetail?.flipKartLink && <Link className="am1 me-3" to={productDetail?.flipKartLink} target="_blank"><img src={flipKartIcon} /></Link>}
                     {productDetail?.amazonLink && <Link className="am1 me-3" to={productDetail?.amazonLink} target="_blank"><img src={amazonIcon} /> </Link>}
-                    <a className="am1" href="#shopdet"><img src={aquaIcon} /> </a>
+                    <a className="am1" href="#shopdet"><img src={aquaWatch} /> </a>
                   </div>
                 </div>
               </div>

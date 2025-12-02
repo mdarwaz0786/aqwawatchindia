@@ -27,6 +27,14 @@ import UpdateSizePage from './pages/Size/UpdateSizePage';
 import Test from './Test';
 import ProductListPage from './pages/Product/ProductListPage';
 import UpdateProductPage from './pages/Product/UpdateProductPage';
+import CarouselListPage from './pages/WebsiteHome/CarouselListPage';
+import CarouselFormPage from './pages/WebsiteHome/CarouselFormPage';
+import YouTubeVideoListPage from './pages/WebsiteHome/YouTubeVideo/YouTubeVideoListPage';
+import YouTubeVideoFormPage from './pages/WebsiteHome/YouTubeVideo/YouTubeVideoForm';
+import TestimonialListPage from './pages/WebsiteHome/Testimonial/TestimonialListPage';
+import TestimonialFormPage from './pages/WebsiteHome/Testimonial/TestimonialFormPage';
+import ClientListPage from './pages/WebsiteHome/Client/ClientListPage';
+import ClientFormPage from './pages/WebsiteHome/Client/ClientFormPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -74,6 +82,23 @@ const App = () => {
             <Route path="/product/list" element={<ProductListPage />} />
             <Route path="/product/add" element={<AddProductPage />} />
             <Route path="/product/update/:id" element={<UpdateProductPage />} />
+
+            <Route path="/carousel/list" element={<CarouselListPage />} />
+            <Route path="/carousel/add" element={<CarouselFormPage />} />
+            <Route path="/carousel/update/:id" element={<CarouselFormPage />} />
+
+            <Route path="/youtube-video/list" element={<YouTubeVideoListPage />} />
+            <Route path="/youtube-video/add" element={<YouTubeVideoFormPage />} />
+            <Route path="/youtube-video/update/:id" element={<YouTubeVideoFormPage />} />
+
+
+            <Route path="/testimonial/list" element={<TestimonialListPage />} />
+            <Route path="/testimonial/add" element={<TestimonialFormPage />} />
+            <Route path="/testimonial/update/:id" element={<TestimonialFormPage />} />
+
+            <Route path="/client/list" element={<ClientListPage />} />
+            <Route path="/client/add" element={<ClientFormPage />} />
+            <Route path="/client/update/:id" element={<ClientFormPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import JoditEditor from "jodit-pro-react";
 import { useMemo } from "react";
-import debounce from "lodash.debounce";
 
 const TextEditor = ({
   label,
@@ -15,13 +14,6 @@ const TextEditor = ({
   error = "",
 }) => {
   const editor = useRef(null);
-
-  const debouncedChange = useMemo(() =>
-    debounce((val) => {
-      onChange(val);
-    }, 300),
-    [onChange]
-  );
 
   const config = useMemo(
     () => ({
@@ -55,8 +47,8 @@ const TextEditor = ({
           value={value}
           config={config}
           tabIndex={1}
-          onBlur={(newContent) => onChange(newContent)}
-          onChange={(newContent) => debouncedChange(newContent)}
+          onBlur={(content) => onChange(content)}
+          onChange={() => { }}
         />
       </div>
 

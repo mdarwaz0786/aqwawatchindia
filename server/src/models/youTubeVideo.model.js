@@ -13,9 +13,30 @@ const youTubeVideoSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  youTubeVideoLink: [{
+  youTubeVideoLink1: {
     type: String,
-  }],
+    trim: true,
+  },
+  youTubeVideoLink2: {
+    type: String,
+    trim: true,
+  },
+  youTubeVideoLink3: {
+    type: String,
+    trim: true,
+  },
+  youTubeVideoLink4: {
+    type: String,
+    trim: true,
+  },
+  youTubeVideoLink5: {
+    type: String,
+    trim: true,
+  },
+  youTubeVideoLink6: {
+    type: String,
+    trim: true,
+  },
   status: {
     type: Boolean,
     default: true,

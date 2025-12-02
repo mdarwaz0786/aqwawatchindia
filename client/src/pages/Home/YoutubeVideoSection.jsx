@@ -20,22 +20,22 @@ const YoutubeVideoSection = () => {
             <div className="col-lg-7">
               <div className="row">
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
                 <div className="col-xl-4 col-sm-6">
-                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" title="KENT RO Water Purifiers" frameBorder={0} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  <iframe width="100%" height={286} src="https://www.youtube.com/embed/c3cJM8B2c-k" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                 </div>
               </div>
             </div>

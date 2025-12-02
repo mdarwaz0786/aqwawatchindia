@@ -14,7 +14,7 @@ const Footer = () => {
             <div className="col-lg-3 col-sm-6">
               <div className="footer_info_item">
                 <div className="icon">
-                  <img src="assets/images/feature-icon_1.svg" alt="Icon" className="img-fluid w-100" />
+                  <img src="/assets/images/feature-icon_1.svg" alt="Icon" className="img-fluid w-100" />
                 </div>
                 <div className="text">
                   <h3>Trusted by 50k+ Customers</h3>
@@ -25,7 +25,7 @@ const Footer = () => {
             <div className="col-lg-3 col-sm-6">
               <div className="footer_info_item">
                 <div className="icon">
-                  <img src="assets/images/feature-icon_2.svg" alt="Icon" className="img-fluid w-100" />
+                  <img src="/assets/images/feature-icon_2.svg" alt="Icon" className="img-fluid w-100" />
                 </div>
                 <div className="text">
                   <h3>Verified Professionals</h3>
@@ -36,7 +36,7 @@ const Footer = () => {
             <div className="col-lg-3 col-sm-6">
               <div className="footer_info_item">
                 <div className="icon">
-                  <img src="assets/images/feature-icon_3.svg" alt="Icon" className="img-fluid w-100" />
+                  <img src="/assets/images/feature-icon_3.svg" alt="Icon" className="img-fluid w-100" />
                 </div>
                 <div className="text">
                   <h3>After Sales &amp; Support</h3>
@@ -47,7 +47,7 @@ const Footer = () => {
             <div className="col-lg-3 col-sm-6">
               <div className="footer_info_item">
                 <div className="icon">
-                  <img src="assets/images/feature-icon_4.svg" alt="Icon" className="img-fluid w-100" />
+                  <img src="/assets/images/feature-icon_4.svg" alt="Icon" className="img-fluid w-100" />
                 </div>
                 <div className="text">
                   <h3>Hassle-Free Booking</h3>
@@ -84,13 +84,14 @@ const Footer = () => {
             </div>
             <div className="col-xl-2 col-sm-6 col-md-4 col-lg-2 wow fadeInUp" data-wow-delay="1.6s">
               <div className="footer_link">
-                <h3>Company Policies</h3>
+                <h3>Company Policy</h3>
                 <ul>
-                  <li><Link to="/terms-conditions">Terms &amp;  Conditions</Link></li>
+                  <li><Link to="/terms-conditions">Terms and Conditions</Link></li>
                   <li><Link to="/return-refund-policy">Return and Refund Policy </Link></li>
                   <li><Link to="/billing-shipping-policy">Billing and Shipping Policy</Link></li>
-                  <li><Link to="/cookie-policy">Cookie Policy</Link></li>
-                  <li><Link to="/privacy-policy">Privacy  Policies</Link></li>
+                  <li><Link to="/privacy-policy">Privacy and Policy</Link></li>
+                  <li><Link to="/disclaimer">Disclaimer</Link></li>
+                  <li><Link to="/cookie-policy">Cookies</Link></li>
                 </ul>
               </div>
             </div>
@@ -99,14 +100,14 @@ const Footer = () => {
                 <h3>Contact Us</h3>
                 <p>Have questions or need support? Our team is always ready to help you find the perfect solution for your home or business.</p>
                 <span>
-                  <b><img src="assets/images/location_icon_white.png" alt="Map" className="img-fluid" /></b>
+                  <b><img src="/assets/images/location_icon_white.png" alt="Map" className="img-fluid" /></b>
                   Plot No: 2000, Street No: 03, Industrial Area Laxman Vihar Phase : II , Gurugram , Haryana (122001)</span>
                 <span>
-                  <b><img src="assets/images/phone_icon_white.png" alt="Call" className="img-fluid" /></b>
+                  <b><img src="/assets/images/phone_icon_white.png" alt="Call" className="img-fluid" /></b>
                   <a href="callto:7011781706" style={{ display: "block" }}>7011781706, 9212627964</a>
                 </span>
                 <span>
-                  <b><img src="assets/images/mail_icon_white.png" alt="Mail" className="img-fluid" /></b>
+                  <b><img src="/assets/images/mail_icon_white.png" alt="Mail" className="img-fluid" /></b>
                   <a href="mailto:support@mail.com">info@aquawatchindia.com</a>
                 </span>
               </div>

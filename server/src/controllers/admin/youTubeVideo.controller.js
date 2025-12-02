@@ -4,7 +4,22 @@ import asyncHandler from "../../helpers/asyncHandler.js";
 import { buildPagination } from "../../utils/pagination.js";
 
 export const createYouTubeVideo = asyncHandler(async (req, res) => {
-  const { title, subTitle, description, youTubeVideoLink } = req.body;
+  const {
+    title,
+    subTitle,
+    description,
+    youTubeVideoLink1,
+    youTubeVideoLink2,
+    youTubeVideoLink3,
+    youTubeVideoLink4,
+    youTubeVideoLink5,
+    youTubeVideoLink6,
+  } = req.body;
+
+  const existing = await YouTubeVideoModel.findOne();
+  if (existing) {
+    throw new ApiError(400, "Only one record is allowed. Please update the existing one.");
+  }
 
   if (!title) throw new ApiError(400, "Title is required");
 
@@ -12,11 +27,16 @@ export const createYouTubeVideo = asyncHandler(async (req, res) => {
     title,
     subTitle,
     description,
-    youTubeVideoLink,
+    youTubeVideoLink1,
+    youTubeVideoLink2,
+    youTubeVideoLink3,
+    youTubeVideoLink4,
+    youTubeVideoLink5,
+    youTubeVideoLink6,
     createdBy: req.user?._id,
   });
 
-  return res.status(201).json({ success: true, data: video });
+  return res.status(201).json({ success: true, message: "Created successfully", data: video });
 });
 
 export const getYouTubeVideos = asyncHandler(async (req, res) => {
@@ -62,7 +82,18 @@ export const getYouTubeVideoById = asyncHandler(async (req, res) => {
 });
 
 export const updateYouTubeVideo = asyncHandler(async (req, res) => {
-  const { title, subTitle, description, youTubeVideoLink, status } = req.body;
+  const {
+    title,
+    subTitle,
+    description,
+    youTubeVideoLink1,
+    youTubeVideoLink2,
+    youTubeVideoLink3,
+    youTubeVideoLink4,
+    youTubeVideoLink5,
+    youTubeVideoLink6,
+    status
+  } = req.body;
 
   const video = await YouTubeVideoModel.findById(req.params.id);
   if (!video) throw new ApiError(404, "YouTube video not found");
@@ -70,7 +101,12 @@ export const updateYouTubeVideo = asyncHandler(async (req, res) => {
   video.title = title || video.title;
   video.subTitle = subTitle || video.subTitle;
   video.description = description || video.description;
-  video.youTubeVideoLink = youTubeVideoLink || video.youTubeVideoLink;
+  video.youTubeVideoLink1 = youTubeVideoLink1 || video.youTubeVideoLink1;
+  video.youTubeVideoLink2 = youTubeVideoLink2 || video.youTubeVideoLink2;
+  video.youTubeVideoLink3 = youTubeVideoLink3 || video.youTubeVideoLink3;
+  video.youTubeVideoLink4 = youTubeVideoLink4 || video.youTubeVideoLink4;
+  video.youTubeVideoLink5 = youTubeVideoLink5 || video.youTubeVideoLink5;
+  video.youTubeVideoLink6 = youTubeVideoLink6 || video.youTubeVideoLink6;
   video.status = typeof status === "boolean" ? status : video.status;
   video.updatedBy = req.user?._id;
   video.updatedAt = new Date();
@@ -82,7 +118,7 @@ export const updateYouTubeVideo = asyncHandler(async (req, res) => {
 
 export const deleteYouTubeVideo = asyncHandler(async (req, res) => {
   const video = await YouTubeVideoModel.findById(req.params.id);
-  if (!video) throw new ApiError(404, "YouTube video not found");
+  if (!video) throw new ApiError(404, "YouTube video link not found");
 
   await video.deleteOne();
 

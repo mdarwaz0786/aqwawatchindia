@@ -36,7 +36,23 @@ const CookiePolicyPage = () => {
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <h3>Who we are</h3>
+                <p>Aquawatch India is committed to respecting your online privacy. This Cookie Policy
+                  explains how and why cookies and other similar technologies may be stored on and
+                  accessed from your device when you use or visit Aquawatch India Website that posts a
+                  link to this Policy (collectively, "the Sites").
+                </p>
+
+                <p>This Cookie Policy should be read together with our Privacy Policy and Terms of Use.</p>
+
+                <p>Cookies are small pieces of text stored by a website you visit in your browser and
+                  subsequently sent by your web browser in every request to the website.
+                </p>
+
+                <p>A cookie file is stored in your web browser and allows the Site or a third-party to
+                  recognize you and make your next visit easier and the Site more useful to you.
+                </p>
+
+                {/* <h3>Who we are</h3>
                 <p>When visitors leave comments on the site we collect the data shown in the comments form, and
                   also the visitor’s IP address and browser user agent string to help spam
                   detection. An anonymized string created from your email address (also called a hash) may be
@@ -111,7 +127,7 @@ const CookiePolicyPage = () => {
                 <p>If you have an account on this site, or have left comments, you can request to receive an
                   exported file of the personal data we hold about you, including any data you have provided
                   to us. You can also request that we erase any personal data we hold about you. This does not
-                  include any data we are obliged to keep for administrative.</p>
+                  include any data we are obliged to keep for administrative.</p> */}
               </div>
             </div>
           </div>

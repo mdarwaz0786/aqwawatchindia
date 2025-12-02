@@ -36,7 +36,62 @@ const ReturnRefundPolicyPage = () => {
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <h3>Who we are</h3>
+                <p>
+                  1. AQUAWATCH(INDIA) warrants all new products manufactured and sold under the brand
+                  name "AQUAWATCH (INDIA)" either "online" or "offline" to be free from defects in
+                  materials and workmanship (manufacturing defect).
+                </p>
+
+                <p>
+                  2. Products once sold and installed/used cannot be returned/refunded.
+                </p>
+
+                <p>
+                  3. When you order a product online, delivery will be done within 15 days of receipt
+                  of full payment made (through online payment gateway) on aquawatchindia.com.
+                </p>
+
+                <p>
+                  4. You may cancel the order before your product has shipped. No cancellation request
+                  will be processed after your product has shipped.
+                </p>
+
+                <p>
+                  5. Aquawatch India will not replace any damaged product caused by improper use,
+                  unauthorized/incorrect installation, modification, or changes to the product by you
+                  or any third party. Any depreciation in value for other reasons will also deem the
+                  product damaged or defective. Any decision by Aquawatch India in this regard shall
+                  be final and binding.
+                </p>
+
+                <p>
+                  6. To cancel an order (full payment made through online payment gateway) on
+                  aquawatchindia.com, the purchaser must call our customer care department AND send
+                  an email to sales@aquawatchindia.com (before the order is shipped) to initiate
+                  cancellation/refund with transaction details.
+                </p>
+
+                <p>
+                  7. No return or refund requests shall be entertained after 7 (Seven) days from the
+                  date of delivery. No refund request will be accepted after installation of the
+                  product, even if raised within the 7-day period.
+                </p>
+
+                <p>
+                  8. Refunds shall not be applicable in the case of purchase of Annual Maintenance
+                  Contracts (AMC).
+                </p>
+
+                <p>9. Please note We shall not refund in cases where the Product has been installed and is in
+                  operation.
+                </p>
+
+                <p>10. The refund will be made to the same payment option(s) originally used to pay for the
+                  order.Processing refund may take upto 15-30 Buisness days.Please note we will not be
+                  able to return the same by cheque or cash.
+                </p>
+
+                {/* <h3>Who we are</h3>
                 <p>When visitors leave comments on the site we collect the data shown in the comments form, and
                   also the visitor’s IP address and browser user agent string to help spam
                   detection. An anonymized string created from your email address (also called a hash) may be
@@ -111,7 +166,7 @@ const ReturnRefundPolicyPage = () => {
                 <p>If you have an account on this site, or have left comments, you can request to receive an
                   exported file of the personal data we hold about you, including any data you have provided
                   to us. You can also request that we erase any personal data we hold about you. This does not
-                  include any data we are obliged to keep for administrative.</p>
+                  include any data we are obliged to keep for administrative.</p> */}
               </div>
             </div>
           </div>
