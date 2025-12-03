@@ -1,76 +1,83 @@
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../api/apis";
+import MySwiper from "../../components/Swiper/Swiper";
 
-const CarouselSection = () => {
+const CarouselSection = ({ carousels = [] }) => {
   const navigate = useNavigate();
+
+  if (!carousels?.length) return null;
 
   return (
     <>
-      <div>
-        <section className="banner_2 ddesk">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="banner_content">
-                  <div className="row banner_2_slider">
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-3.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/Banner-4.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-5.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-6.jpg" />
-                      </div>
-                    </div>
-                  </div>
+      {/* Desktop */}
+      <section className="banner_2 ddesk">
+        <div className="w-100">
+          <MySwiper
+            items={carousels}
+            slidesPerView={1}
+            autoplayDelay={5000}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              320: { slidesPerView: 1 },
+              576: { slidesPerView: 1 },
+              768: { slidesPerView: 1 },
+              992: { slidesPerView: 1 },
+              1200: { slidesPerView: 1 },
+              1400: { slidesPerView: 1 }
+            }}
+            renderSlide={(d) => (
+              <div
+                key={d?._id}
+                style={{ cursor: "pointer", width: "100%" }}
+                onClick={() => navigate(`${d?.navigateTo}`)}
+              >
+                <div className="bannermain">
+                  <img
+                    src={`${API_BASE_URL}/${d?.banner}`}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                    alt="banner"
+                  />
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-        <section className="banner_2 dnone">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="banner_content">
-                  <div className="row banner_2_slider">
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-3.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/Banner-4.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-5.jpg" />
-                      </div>
-                    </div>
-                    <div style={{ cursor: "pointer" }} className="col-xl-12" onClick={() => navigate("/products")}>
-                      <div className="bannermain">
-                        <img src="assets/carousel/banner-6.jpg" />
-                      </div>
-                    </div>
-                  </div>
+            )}
+          />
+        </div>
+      </section>
+
+      {/* Mobile */}
+      <section className="banner_2 dnone">
+        <div className="w-100">
+          <MySwiper
+            items={carousels}
+            slidesPerView={1}
+            autoplayDelay={5000}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              320: { slidesPerView: 1 },
+              576: { slidesPerView: 1 },
+              768: { slidesPerView: 1 },
+              992: { slidesPerView: 1 },
+              1200: { slidesPerView: 1 },
+              1400: { slidesPerView: 1 }
+            }}
+            renderSlide={(d) => (
+              <div
+                key={d?._id}
+                style={{ cursor: "pointer", width: "100%" }}
+                onClick={() => navigate(`${d?.navigateTo}`)}
+              >
+                <div className="bannermain">
+                  <img
+                    src={`${API_BASE_URL}/${d?.banner}`}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                    alt="banner"
+                  />
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-      </div>
+            )}
+          />
+        </div>
+      </section>
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const ServiceBookingSection = () => {
   return (
     <>
-      <section className="threeboxes">
+      <section className="threeboxes mt-5 mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-4">

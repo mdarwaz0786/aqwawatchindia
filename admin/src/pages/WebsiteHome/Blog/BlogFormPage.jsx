@@ -12,6 +12,7 @@ import Input from "../../../components/Input/Input";
 import Image from "../../../components/Input/Image";
 import Select from "../../../components/Input/Select";
 import TextArea from "../../../components/Input/TextArea";
+import TextEditor from "../../../components/Input/TextEditor";
 
 const initialState = {
   title: "",
@@ -21,9 +22,9 @@ const initialState = {
   shortDescription: "",
   fullDescription: "",
   tags: "",
-  popularBlog: false,
-  home: false,
-  numberOfComment: "",
+  popularBlog: "",
+  home: "",
+  numberOfComment: 0,
 };
 
 const BlogFormPage = () => {
@@ -53,19 +54,36 @@ const BlogFormPage = () => {
     updateData,
     response: updateResponse,
     updateError,
-  } = usePatch(isEdit ? `${apis.client.update}/${id}` : null);
+  } = usePatch(isEdit ? `${apis.blog.update}/${id}` : null);
 
   const { errors, validate } = useFormValidation();
 
   useEffect(() => {
     if (isEdit && fetchedData?.data) {
       const {
-        logo, name,
+        title,
+        category,
+        frontImage,
+        detailImage,
+        shortDescription,
+        fullDescription,
+        tags,
+        home,
+        popularBlog,
+        numberOfComment,
       } = fetchedData.data;
 
       setFormData({
-        name: name,
-        logo: logo ? `${API_BASE_URL}/${logo}` : null,
+        title: title,
+        category: category?._id || null,
+        frontImage: frontImage ? `${API_BASE_URL}/${frontImage}` : null,
+        detailImage: frontImage ? `${API_BASE_URL}/${detailImage}` : null,
+        shortDescription: shortDescription || "",
+        fullDescription: fullDescription || "",
+        tags: tags || "",
+        home: home || "",
+        popularBlog: popularBlog || "",
+        numberOfComment: numberOfComment || 0,
       });
     }
   }, [fetchedData, isEdit]);
@@ -79,11 +97,22 @@ const BlogFormPage = () => {
     setFormData((prev) => ({ ...prev, [field]: file }));
   };
 
+  const handleEditorChange = (content, name) => {
+    setFormData((prev) => ({ ...prev, [name]: content }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValid = validate(formData, {
       title: { required: true, label: "title" },
+      category: { required: true, label: "category" },
+      shortDescription: { required: true, label: "shortDescription" },
+      fullDescription: { required: true, label: "fullDescription" },
+      home: { required: true, label: "home" },
+      popularBlog: { required: true, label: "popularBlog" },
+      tags: { required: true, label: "tags" },
+      numberOfComment: { required: true, label: "numberOfComment" },
     });
 
     if (!isValid) return;
@@ -136,13 +165,13 @@ const BlogFormPage = () => {
   }, [updateResponse, updateError, navigate]);
 
   const homeOptions = [
-    { _id: true, name: "true" },
-    { _id: false, name: "false" }
+    { _id: "true", name: "Yes" },
+    { _id: "false", name: "No" }
   ];
 
   const popularBlogOptions = [
-    { _id: true, name: "true" },
-    { _id: false, name: "false" }
+    { _id: "true", name: "Yes" },
+    { _id: "false", name: "No" }
   ];
 
   const categories = blogCategoryData?.data || [];
@@ -177,17 +206,6 @@ const BlogFormPage = () => {
         placeholder="Enter title"
       />
 
-      <Input
-        label="Number Of Comment"
-        name="numberOfComment"
-        value={formData.numberOfComment}
-        required
-        error={errors.numberOfComment}
-        onChange={handleChange}
-        width="col-md-6"
-        placeholder="Enter Number Of Comment"
-      />
-
       <Select
         label="Home"
         name="home"
@@ -217,14 +235,25 @@ const BlogFormPage = () => {
       />
 
       <Input
-        label="Tags"
+        label="Number Of Comment"
+        name="numberOfComment"
+        value={formData.numberOfComment}
+        required
+        error={errors.numberOfComment}
+        onChange={handleChange}
+        width="col-md-6"
+        placeholder="Enter Number Of Comment"
+      />
+
+      <Input
+        label="Meta Tags"
         name="tags"
         value={formData.tags}
         required
         error={errors.tags}
         onChange={handleChange}
         width="col-md-6"
-        placeholder="Enter Tags"
+        placeholder="e.g. Make Up, Cleansing, Eye Cream"
       />
 
       <Image
@@ -259,13 +288,12 @@ const BlogFormPage = () => {
         required
       />
 
-      <TextArea
+      <TextEditor
         label="Full Description"
         name="fullDescription"
         value={formData.fullDescription}
-        onChange={handleChange}
-        rows={6}
-        placeholder="Write Full Description"
+        onChange={(content) => handleEditorChange(content, "fullDescription")}
+        error={errors.description}
         required
       />
     </FormWrapper>

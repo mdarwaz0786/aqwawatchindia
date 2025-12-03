@@ -1,73 +1,39 @@
-const BrandSection = () => {
+import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../api/apis";
+
+const BrandSection = ({ clients = [] }) => {
   return (
     <>
-      <section className="brand_2 secpd">
-        <div className="container">
-          <div className="row">
-            <div className="col-xl-6 col-sm-9">
-              <div className="section_heading_2 section_heading">
-                <h3>Our <span>Clients</span></h3>
+      {
+        clients?.length > 0 && (
+          <section className="brand_2 secpd">
+            <div className="container">
+              <div className="row mb-3">
+                <div className="col-xl-6 col-sm-9">
+                  <div className="section_heading_2 section_heading">
+                    <h3>Our <span>Clients</span></h3>
+                  </div>
+                </div>
+              </div>
+              <div className="row ">
+                <div className="col-12">
+                  <ul>
+                    {
+                      clients?.map((d) => (
+                        <li className="wow fadeInUp">
+                          <Link to="#">
+                            <img src={`${API_BASE_URL}/${d?.logo}`} alt="client" className="img-fluid" />
+                          </Link>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
               </div>
             </div>
-            <div className="col-xl-6 col-sm-3">
-              <div className="view_all_btn_area">
-                <a className="view_all_btn" href="#">View all</a>
-              </div>
-            </div>
-          </div>
-          <div className="row ">
-            <div className="col-12">
-              <ul>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand2.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand3.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand4.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand5.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand7.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand8.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand9.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand10.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-                <li className="wow fadeInUp">
-                  <a href="shop.php">
-                    <img src="assets/images/brand1.png" alt="Brand" className="img-fluid" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        )
+      }
     </>
   );
 };

@@ -28,12 +28,12 @@ const blogSchema = new mongoose.Schema({
     trim: true,
   },
   home: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: "false",
   },
   popularBlog: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: "false",
   },
   tags: {
     type: String,

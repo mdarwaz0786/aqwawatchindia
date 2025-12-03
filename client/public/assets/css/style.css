@@ -211,7 +211,7 @@ button {
 }
 
 .section_heading {
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 .nextArrow,
@@ -5126,7 +5126,6 @@ footer {
 
 .farming_text {
     height: 100%;
-    margin-top: 25px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -5135,7 +5134,7 @@ footer {
 }
 
 .farming_text p {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 50px;
     max-width: 80%;
     line-height: 26px;
@@ -13328,6 +13327,8 @@ div#megaPreviewTitle {
 
 .promoimgtop img {
     width: 100%;
+    cursor: pointer;
+    border-radius: 7px;
 }
 
 .promobanner1 {
@@ -13353,14 +13354,14 @@ div#megaPreviewTitle {
 }
 
 .prom {
-    background: #808080;
-    border-radius: 10px;
+    background: #fff;
+    border-radius: 8px;
 }
 
 .promotitle {
     background: #ff5353;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 }
 
 .promotitle p {

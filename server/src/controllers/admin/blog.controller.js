@@ -9,7 +9,7 @@ import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
 
 export const createBlog = asyncHandler(async (req, res) => {
-  const { title, category, shortDescription, fullDescription, home, popularBlog, tags } = req.body;
+  const { title, category, shortDescription, fullDescription, home, popularBlog, tags, numberOfComment } = req.body;
 
   if (!title) throw new ApiError(400, "Title is required");
 
@@ -33,6 +33,7 @@ export const createBlog = asyncHandler(async (req, res) => {
       home,
       popularBlog,
       tags,
+      numberOfComment,
       frontImage: frontImagePath,
       detailImage: detailImagePath,
       createdBy: req.user?._id,
@@ -98,10 +99,24 @@ export const getBlogById = asyncHandler(async (req, res) => {
 });
 
 export const updateBlog = asyncHandler(async (req, res) => {
-  const { title, category, shortDescription, fullDescription, home, popularBlog, tags, status } = req.body;
+  const { title, category, numberOfComment, shortDescription, fullDescription, home, popularBlog, tags, status, removeFrontImage, removeDetailImage, } = req.body;
 
   const blog = await BlogModel.findById(req.params.id);
   if (!blog) throw new ApiError(404, "Blog not found");
+
+  if (removeFrontImage === "true") {
+    if (blog.frontImage && fs.existsSync(path.join(process.cwd(), blog.frontImage))) {
+      fs.unlinkSync(path.join(process.cwd(), blog.frontImage));
+    }
+    blog.frontImage = null;
+  }
+
+  if (removeDetailImage === "true") {
+    if (blog.detailImage && fs.existsSync(path.join(process.cwd(), blog.detailImage))) {
+      fs.unlinkSync(path.join(process.cwd(), blog.detailImage));
+    }
+    blog.detailImage = null;
+  }
 
   if (req.files?.frontImage?.[0]) {
     if (blog?.frontImage && fs.existsSync(path.join(process.cwd(), blog.frontImage))) {
@@ -127,8 +142,9 @@ export const updateBlog = asyncHandler(async (req, res) => {
   blog.category = category || blog.category;
   blog.shortDescription = shortDescription || blog.shortDescription;
   blog.fullDescription = fullDescription || blog.fullDescription;
-  blog.home = typeof home === "boolean" ? home : blog.home;
-  blog.popularBlog = typeof popularBlog === "boolean" ? popularBlog : blog.popularBlog;
+  blog.numberOfComment = numberOfComment || blog.numberOfComment;
+  blog.home = home || blog.home;
+  blog.popularBlog = popularBlog || blog.popularBlog;
   blog.tags = tags || blog.tags;
   blog.status = typeof status === "boolean" ? status : blog.status;
   blog.updatedBy = req.user?._id;

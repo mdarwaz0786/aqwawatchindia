@@ -21,7 +21,6 @@ const ProductPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams = {
-    userId,
     page: searchParams.get("page") || 1,
     limit: searchParams.get("limit") || 12,
     search: searchParams.get("search") || "",
@@ -38,8 +37,8 @@ const ProductPage = () => {
     rating: searchParams.get("rating") ? searchParams.get("rating").split(",").map(Number) : [],
   };
 
-  const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", initialParams);
-  const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: searchParams.get("userId") });
+  const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", { ...initialParams, userId });
+  const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: userId });
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
   const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
 
@@ -114,6 +113,9 @@ const ProductPage = () => {
   const relatedProducts = relatedProduct?.data || [];
   const cartQuantity = cartData?.data?.length;
 
+  const minPercent = ((localMin - min) / (max - min)) * 100;
+  const maxPercent = ((localMax - min) / (max - min)) * 100;
+
   return (
     <>
       <Header categories={categories} cartQuantity={cartQuantity} />
@@ -147,41 +149,28 @@ const ProductPage = () => {
                 <div className="shop_filter_area">
                   <div className="sidebar_range">
                     <h3>Price Range</h3>
-                    <div className="range-slider position-relative mb-1">
+                    <div className="range-slider">
+                      <div className="full-track"></div>
                       <input
                         type="range"
                         min={min}
                         max={max}
                         value={localMin}
-                        onChange={(e) => {
-                          const val = Number(e.target.value);
-                          setLocalMin(Math.min(val, localMax - 1));
-                        }}
-                        className="thumb thumb-left"
+                        onChange={(e) => setLocalMin(Math.min(Number(e.target.value), localMax - 1))}
                       />
                       <input
                         type="range"
                         min={min}
                         max={max}
                         value={localMax}
-                        onChange={(e) => {
-                          const val = Number(e.target.value);
-                          setLocalMax(Math.max(val, localMin + 1));
-                        }}
-                        className="thumb thumb-right"
+                        onChange={(e) => setLocalMax(Math.max(Number(e.target.value), localMin + 1))}
                       />
-                      <div
-                        className="range-track"
-                        style={{
-                          left: `${(params.minPrice / max) * 100}%`,
-                          width: `${((params.maxPrice - params.minPrice) / max) * 100}%`,
-                        }}
-                      />
-                    </div>
-                    <div className="text-center">
-                      <small style={{ fontSize: "1.2rem", fontWeight: "500" }}>
-                        ₹{params.minPrice}  —  ₹{params.maxPrice}
-                      </small>
+                      <div className="thumb-value" style={{ left: `${minPercent}%` }}>
+                        ₹{localMin}
+                      </div>
+                      <div className="thumb-value" style={{ left: `${maxPercent}%` }}>
+                        ₹{localMax}
+                      </div>
                     </div>
                   </div>
 

@@ -9,7 +9,7 @@ function useFetchData(apiUrl, token = "", initialParams = {}) {
   const [reloadFlag, setReloadFlag] = useState(false);
 
   useEffect(() => {
-    if (params === null) return;
+    if (!apiUrl) return;
 
     const fetchData = async () => {
       setIsLoading(true);
@@ -24,7 +24,9 @@ function useFetchData(apiUrl, token = "", initialParams = {}) {
         const response = await axios.get(apiUrl, config);
         if (response?.data?.success) {
           setData(response?.data);
-        };
+        } else {
+          setData(response?.data);
+        }
       } catch (err) {
         setError(err?.response?.data?.message || "Error while fetching data");
       } finally {
@@ -42,13 +44,17 @@ function useFetchData(apiUrl, token = "", initialParams = {}) {
     }));
   }, []);
 
+  const refetch = useCallback(() => {
+    setReloadFlag(prev => !prev);
+  }, []);
+
   return {
     data,
     isLoading,
     error,
     params,
     setParams: updateParams,
-    refetch: () => setReloadFlag((prev) => !prev),
+    refetch,
   };
 };
 

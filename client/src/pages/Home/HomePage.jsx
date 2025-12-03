@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import apis from "../../api/apis";
 import Footer from "../../components/Footer/Footer"
 import Navbar from "../../components/Navbar/Navbar";
+import { useAuth } from "../../context/auth.context";
 import useFetchData from "../../hooks/useFetchData";
 import BestSellerSection from "./BestSellerSection";
 import BlogSection from "./BlogSection";
@@ -14,24 +16,38 @@ import TestimonialSection from "./TestimonialSection";
 import YoutubeVideoSection from "./YoutubeVideoSection";
 
 const HomePage = () => {
-  const { data, refetch } = useFetchData(apis.home.getAll);
+  const { userId } = useAuth();
+  const { data, refetch, setParams } = useFetchData(apis.home.getAll, "", {});
+
+  useEffect(() => {
+    if (userId) {
+      setParams({ userId });
+    };
+  }, [userId, setParams]);
+
   const categories = data?.data?.category;
   const bestSellingProducts = data?.data?.bestSellingProduct;
   const newArrivalProducts = data?.data?.newArrivalProduct;
+  const carousels = data?.data?.carousel;
+  const promotions = data?.data?.promotion;
+  const youTubeVideos = data?.data?.youTubeVideo;
+  const testimonials = data?.data?.testimonial;
+  const clients = data?.data?.client;
+  const blogs = data?.data?.blog;
 
   return (
     <>
       <Navbar categories={categories} />
       <CategorySection categories={categories} />
-      <CarouselSection />
+      <CarouselSection carousels={carousels} />
       <BestSellerSection bestSellingProducts={bestSellingProducts} refetch={refetch} />
-      <PromoBannerSection />
+      <PromoBannerSection promotions={promotions} />
       <NewArrivalSection newArrivalProducts={newArrivalProducts} refetch={refetch} />
-      <YoutubeVideoSection />
-      <TestimonialSection />
-      <BrandSection />
+      <YoutubeVideoSection youTubeVideos={youTubeVideos} />
+      <TestimonialSection testimonials={testimonials} />
+      <BrandSection clients={clients} />
       <ServiceBookingSection />
-      <BlogSection />
+      <BlogSection blogs={blogs} />
       <Footer />
     </>
   );

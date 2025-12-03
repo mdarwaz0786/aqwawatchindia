@@ -88,7 +88,7 @@ const productSchema = new mongoose.Schema({
   },
   images: [{
     type: String,
-    required: [true, "images is required"],
+    required: [true, "images are required"],
   }],
   status: {
     type: Boolean,
