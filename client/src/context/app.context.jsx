@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, } from "react";
+import { createContext, useContext, useEffect, } from "react";
 import useFetchData from "../hooks/useFetchData";
 import apis from "../api/apis";
 import { useAuth } from "./auth.context";
@@ -8,7 +8,13 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const { userId } = useAuth();
-  const { data, refetch, loading, error } = useFetchData(apis.home.getAll, "", { userId });
+  const { data, refetch, setParams, loading, error } = useFetchData(apis.home.getAll, "", {});
+
+  useEffect(() => {
+    if (userId) {
+      setParams({ userId });
+    };
+  }, [userId, setParams]);
 
   const categories = data?.data?.category || [];
   const bestSellingProducts = data?.data?.bestSellingProduct || [];
@@ -31,8 +37,8 @@ export const AppProvider = ({ children }) => {
     clients,
     blogs,
     refetchHomePageData: refetch,
-    loading,
-    error
+    homePageLoading: loading,
+    homePageError: error,
   };
 
   return (

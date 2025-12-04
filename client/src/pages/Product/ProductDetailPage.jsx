@@ -2,7 +2,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import useFetch from '../../hooks/useFetch';
 import apis, { API_BASE_URL } from '../../api/apis';
 import flipKartIcon from "../../assets/icon/flipkart.svg";
 import amazonIcon from "../../assets/icon/amazon.svg";
@@ -13,18 +12,18 @@ import { useAuth } from '../../context/auth.context';
 import useFetchData from '../../hooks/useFetchData';
 import useCreate from '../../hooks/useCreate';
 import { toast } from 'react-toastify';
+import { useApp } from '../../context/app.context';
 
 const ProductDetailPage = () => {
   const { userId } = useAuth();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { data } = useFetch(apis.home.getAll);
+  const { categories } = useApp();
 
   const { data: productDetails, refetch, setParams: setProductParams } = useFetchData(`${apis.product.getSingle}/${slug}`);
   const { data: relatedProduct, refetch: refetchRelatedProduct, setParams: setRelatedParams } = useFetchData(`${apis.product.related}/${slug}`);
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
-  const categories = data?.data?.category;
   const productDetail = productDetails?.data;
   const relatedProducts = relatedProduct?.data || [];
 

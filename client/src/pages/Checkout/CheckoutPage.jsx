@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import useFetch from '../../hooks/useFetch';
 import apis, { API_BASE_URL } from '../../api/apis';
 import { useAuth } from '../../context/auth.context';
 import useFetchData from '../../hooks/useFetchData';
+import { useApp } from '../../context/app.context';
 
 const CheckoutPage = () => {
   const { userId } = useAuth();
-  const { data } = useFetch(apis.home.getAll);
+  const { categories } = useApp();
   const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
 
-  const categories = data?.data?.category;
   const cart = cartData?.data;
 
   return (

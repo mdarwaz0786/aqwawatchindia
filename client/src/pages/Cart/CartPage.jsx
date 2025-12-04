@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import useFetch from "../../hooks/useFetch";
 import apis, { API_BASE_URL } from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import { useAuth } from "../../context/auth.context";
@@ -10,10 +9,11 @@ import useDelete from "../../hooks/useDelete";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import useCreate from "../../hooks/useCreate";
+import { useApp } from "../../context/app.context";
 
 const CartPage = () => {
   const { userId } = useAuth();
-  const { data } = useFetch(apis.home.getAll);
+  const { categories } = useApp();
   const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
@@ -48,7 +48,6 @@ const CartPage = () => {
     };
   }, [cartResponse, cartError]);
 
-  const categories = data?.data?.category;
   const cart = cartData?.data;
 
   useEffect(() => {

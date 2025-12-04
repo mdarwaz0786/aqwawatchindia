@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import useFetch from "../../hooks/useFetch";
-import apis from "../../api/apis";
+import { useApp } from "../../context/app.context";
 
 const BlogDetailPage = () => {
-  const { data } = useFetch(apis.home.getAll);
-  const categories = data?.data?.category;
+  const { categories } = useApp();
 
   return (
     <>

@@ -6,18 +6,17 @@ import apis from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../api/apis";
-import useFetch from "../../hooks/useFetch";
 import Swiper from "../../components/Swiper/Swiper";
 import useDebounce from "../../hooks/useDebounce";
 import { useAuth } from "../../context/auth.context";
 import useCreate from "../../hooks/useCreate";
 import { toast } from "react-toastify";
+import { useApp } from "../../context/app.context";
 
 const ProductPage = () => {
   const { userId } = useAuth();
+  const { categories } = useApp();
   const navigate = useNavigate();
-  const { data: categoriesData } = useFetch(apis.home.getAll);
-  const categories = categoriesData?.data?.category;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams = {

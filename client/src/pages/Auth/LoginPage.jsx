@@ -3,17 +3,16 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import useFetch from "../../hooks/useFetch";
 import apis from "../../api/apis";
 import useCreate from "../../hooks/useCreate";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
+import { useApp } from "../../context/app.context";
 
 const LoginPage = () => {
   const { storeToken, userId } = useAuth();
   const navigate = useNavigate();
-  const { data } = useFetch(apis.home.getAll);
-  const categories = data?.data?.category;
+  const { categories } = useApp();
 
   const [form, setForm] = useState({
     emailOrMobile: "",

@@ -178,9 +178,9 @@ const Navbar = ({ categories, cartQuantity }) => {
               <div className="main_menu_area">
                 <ul className="menu_item">
                   <li><Link to="/" style={{ fontWeight: "600" }}> Home</Link></li>
-                  <li><Link to="/about-us" style={{ fontWeight: "600" }}> About Us </Link></li>
                   <li><Link to="/shop" style={{ fontWeight: "600" }}> All Products</Link></li>
                   <li><Link to="/blogs" style={{ fontWeight: "600" }}> Blogs</Link></li>
+                  <li><Link to="/about-us" style={{ fontWeight: "600" }}> About Us </Link></li>
                   <li><Link to="/contact-us" style={{ fontWeight: "600" }}> Contact Us</Link></li>
                   <li><Link to="/become-dealer" style={{ fontWeight: "600" }}>Become A Dealer</Link></li>
                 </ul>

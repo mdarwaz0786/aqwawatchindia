@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Select from "react-select";
 import "./VisitPopup.css";
 
 const VisitPopup = ({ open, setOpen, onClose }) => {
@@ -9,6 +10,9 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
     service: "",
     message: "",
   });
+
+  const [cities, setCities] = useState([]);
+  const [loadingCities, setLoadingCities] = useState(true);
 
   useEffect(() => {
     const alreadyShown = sessionStorage.getItem("visitPopupShown");
@@ -22,10 +26,45 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
     }
   }, [setOpen]);
 
+  useEffect(() => {
+    async function loadCities() {
+      try {
+        const response = await fetch(
+          "https://countriesnow.space/api/v0.1/countries/cities",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country: "India" }),
+          }
+        );
+
+        const data = await response.json();
+        const cityList = data.data || [];
+
+        const formatted = cityList.map((city) => ({
+          label: city,
+          value: city,
+        }));
+
+        setCities(formatted);
+      } catch (error) {
+        console.error("Failed to load cities", error);
+      } finally {
+        setLoadingCities(false);
+      }
+    }
+
+    loadCities();
+  }, []);
+
   if (!open) return null;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCityChange = (option) => {
+    setForm({ ...form, city: option.value });
   };
 
   const handleSubmit = (e) => {
@@ -46,19 +85,15 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
 
           <input type="tel" name="phone" placeholder="Phone Number" required value={form.phone} onChange={handleChange} pattern="[0-9]{10}" maxLength="10" />
 
-          <select name="city" className="form-select" required value={form.city} onChange={handleChange}>
-            <option value="">Select City</option>
-            <option>Delhi</option>
-            <option>Mumbai</option>
-            <option>Kolkata</option>
-            <option>Chennai</option>
-            <option>Bangalore</option>
-            <option>Hyderabad</option>
-            <option>Pune</option>
-            <option>Jaipur</option>
-            <option>Lucknow</option>
-            <option>Other</option>
-          </select>
+          <div className="mb-3">
+            <Select
+              options={cities}
+              isSearchable
+              isLoading={loadingCities}
+              placeholder="Select City"
+              onChange={handleCityChange}
+            />
+          </div>
 
           <select name="service" required value={form.service} onChange={handleChange}>
             <option value="">Select Service Type</option>

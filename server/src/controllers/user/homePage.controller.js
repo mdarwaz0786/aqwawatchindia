@@ -13,7 +13,6 @@ import CartModel from "../../models/cart.model.js";
 // Get home page data
 export const getHomePageData = asyncHandler(async (req, res) => {
   const { userId } = req.query;
-  console.log(userId)
 
   let categories = await CategoryModel
     .find({ status: true })

@@ -1,11 +1,9 @@
-import apis from "../../api/apis";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import useFetch from "../../hooks/useFetch";
+import { useApp } from "../../context/app.context";
 
 const ForgotPasswordPage = () => {
-  const { data } = useFetch(apis.home.getAll);
-  const categories = data?.data?.category;
+  const { categories } = useApp();
 
   return (
     <>
