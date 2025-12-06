@@ -29,7 +29,6 @@ const LoginPage = () => {
       return;
     }
 
-
     if (!form.password) {
       toast.error("Password is required");
       return;
@@ -40,9 +39,14 @@ const LoginPage = () => {
       const response = await axios.post(apis.auth.login, form);
 
       if (response?.data?.success) {
-        storeToken(response?.data?.data?.token);
-        toast.success(response?.data?.message || "Login successful");
-        navigate("/");
+        if (response?.data?.data?.user?.role !== "admin") {
+          toast.error("Unauthorized");
+          navigate("/login");
+        } else {
+          storeToken(response?.data?.data?.token);
+          toast.success(response?.data?.message || "Login successful");
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error(error);

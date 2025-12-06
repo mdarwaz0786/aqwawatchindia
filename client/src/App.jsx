@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import VisitPopup from "./components/Modal/VisitPopup";
 import RightWidget from "./components/Widget/RightWiget";
 import DisclaimerPage from "./pages/Disclaimer/DisclaimerPage";
+import OrderSuccessPage from "./pages/Order/OrderSuccessPage";
 
 const App = () => {
   const location = useLocation();
@@ -68,6 +69,7 @@ const App = () => {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/invoice" element={<InvoicePage />} />
+        <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

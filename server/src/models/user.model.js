@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    trim: true,
   },
   role: {
     type: String,

@@ -14,6 +14,8 @@ import clientRoute from "./client.route.js";
 import promotionRoute from "./promotion.route.js";
 import testimonialRoute from "./testimonial.route.js";
 import youTubeVideoRoute from "./youTubeVideo.route.js";
+import orderRoute from "./order.route.js";
+import dashboardRoute from "./dashboard.route.js";
 
 const router = express.Router();
 
@@ -32,5 +34,7 @@ router.use("/client", clientRoute);
 router.use("/promotion", promotionRoute);
 router.use("/testimonial", testimonialRoute);
 router.use("/youtube-video", youTubeVideoRoute);
+router.use("/order", orderRoute);
+router.use("/dashboard", dashboardRoute);
 
 export default router;

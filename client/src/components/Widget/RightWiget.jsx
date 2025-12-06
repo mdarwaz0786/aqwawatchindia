@@ -9,7 +9,7 @@ const RightWidget = () => {
   return (
     <div className="right-widget">
       <div className="demo-btn" onClick={() => window.openVisitPopup()}>
-        <span>BOOK A FREE DEMO</span>
+        <span>BOOK FREE DEMO</span>
       </div>
       <a
         href={`https://wa.me/7011781706?text=${encodedMsg}`}

@@ -1,0 +1,70 @@
+.orderSuccessSection {
+  padding: 60px 0;
+  background: #f8f9fa;
+}
+
+.successCard {
+  width: 450px;
+  background: #fff;
+  border-radius: 20px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.successIcon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  background: #e8f9f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkmark {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid #28a745;
+  border-left-color: transparent;
+  animation: rotateCheck 1s ease forwards;
+  position: relative;
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 17px;
+  width: 10px;
+  height: 25px;
+  border-right: 4px solid #28a745;
+  border-bottom: 4px solid #28a745;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: showTick 0.5s ease 0.7s forwards;
+}
+
+@keyframes rotateCheck {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes showTick {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

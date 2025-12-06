@@ -48,14 +48,20 @@ const CartPage = () => {
     };
   }, [cartResponse, cartError]);
 
-  const cart = cartData?.data;
-
   useEffect(() => {
-    if (!sessionStorage.getItem("reloaded")) {
-      sessionStorage.setItem("reloaded", "true");
+    const hasReloaded = sessionStorage.getItem("cart_reloaded");
+
+    if (!hasReloaded) {
+      sessionStorage.setItem("cart_reloaded", "true");
       window.location.reload();
     }
+
+    return () => {
+      sessionStorage.removeItem("cart_reloaded");
+    };
   }, []);
+
+  const cart = cartData?.data;
 
   return (
     <>

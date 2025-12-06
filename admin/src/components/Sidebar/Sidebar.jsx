@@ -19,7 +19,7 @@ import {
   MdStraighten,
   MdHome
 } from "react-icons/md";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.jpeg";
 import styles from "./Sidebar.module.css";
 import { Link } from "react-router-dom";
 
@@ -110,11 +110,11 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
 
   const staticLinks = [
     { label: "Dashboard", icon: <MdDashboard />, link: "/" },
-    { label: "Orders", icon: <MdShoppingCart />, link: "/orders" },
+    { label: "Orders", icon: <MdShoppingCart />, link: "/order/list" },
     // { label: "Coupons", icon: <MdLocalOffer />, link: "/coupons" },
-    { label: "Transactions", icon: <MdAttachMoney />, link: "/transactions" },
+    { label: "Transactions", icon: <MdAttachMoney />, link: "/transaction/list" },
     // { label: "Reviews", icon: <MdRateReview />, link: "/reviews" },
-    { label: "Settings", icon: <MdSettings />, link: "/settings" },
+    // { label: "Settings", icon: <MdSettings />, link: "/settings" },
   ];
 
   const dropdownRefs = useMemo(() => dropdownData.map(() => ({ current: null })), []);

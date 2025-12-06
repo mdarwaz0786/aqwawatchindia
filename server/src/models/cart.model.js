@@ -42,8 +42,6 @@ const cartSchema = new mongoose.Schema({
   },
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-cartSchema.index({ user: 1, product: 1 }, { unique: true });
-
 const CartModel = mongoose.model("Cart", cartSchema);
 
 export default CartModel;

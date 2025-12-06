@@ -41,6 +41,7 @@ import BlogCategoryListPage from './pages/WebsiteHome/BlogCategory/BlogCategoryL
 import BlogCategoryFormPage from './pages/WebsiteHome/BlogCategory/BlogCategoryFormPage';
 import BlogListPage from './pages/WebsiteHome/Blog/BlogListPage';
 import BlogFormPage from './pages/WebsiteHome/Blog/BlogFormPage';
+import OrderListPage from './pages/Order/OrderListPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -118,6 +119,8 @@ const App = () => {
             <Route path="/blog/list" element={<BlogListPage />} />
             <Route path="/blog/add" element={<BlogFormPage />} />
             <Route path="/blog/update/:id" element={<BlogFormPage />} />
+
+            <Route path="/order/list" element={<OrderListPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

@@ -5,6 +5,9 @@ const apis = {
     login: `${API_BASE_URL}/api/v1/admin/auth/login`,
     loggedIn: `${API_BASE_URL}/api/v1/admin/auth/loggedin-user`,
   },
+  dashboard: {
+    getAll: `${API_BASE_URL}/api/v1/admin/dashboard`,
+  },
   category: {
     create: `${API_BASE_URL}/api/v1/admin/category`,
     update: `${API_BASE_URL}/api/v1/admin/category`,
@@ -102,6 +105,12 @@ const apis = {
     getAll: `${API_BASE_URL}/api/v1/admin/youtube-video`,
     getSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
+  },
+  order: {
+    update: `${API_BASE_URL}/api/v1/admin/order`,
+    getAll: `${API_BASE_URL}/api/v1/admin/order`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/order`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/order`,
   },
 };
 

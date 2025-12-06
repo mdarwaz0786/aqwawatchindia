@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { MdMenu } from "react-icons/md";
 import styles from "./Navbar.module.css";
 import avatar from "../../assets/avatar.png";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.jpeg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
 
@@ -50,7 +50,6 @@ const Navbar = ({ handleToggleSidebar }) => {
           {dropdownOpen && (
             <ul className={styles.dropdownMenu}>
               <Link to="#" className="text-decoration-none"><li className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>My Profile</li></Link>
-              <Link to="#" className="text-decoration-none"><li className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>Settings</li></Link>
               <Link to="#" className="text-decoration-none"><li className={styles.dropdownItem} onClick={() => { setDropdownOpen(false); logOutUser() }}>Logout</li></Link>
             </ul>
           )}

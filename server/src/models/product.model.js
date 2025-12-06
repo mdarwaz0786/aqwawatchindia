@@ -70,21 +70,27 @@ const productSchema = new mongoose.Schema({
   },
   smallInfo: {
     type: String,
+    trim: true,
   },
   description: {
     type: String,
+    trim: true,
   },
   specification: {
     type: String,
+    trim: true,
   },
   amazonLink: {
     type: String,
+    trim: true,
   },
   flipKartLink: {
     type: String,
+    trim: true,
   },
   youtubeVideoLink: {
     type: String,
+    trim: true,
   },
   images: [{
     type: String,

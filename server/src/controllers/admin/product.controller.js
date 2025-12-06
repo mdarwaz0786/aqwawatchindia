@@ -199,7 +199,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
       collectionName: "Product",
       documentId: product._id,
     });
-    const newSlug = await generateUniqueSlug(name, "Product", product._id, "products");
+    const newSlug = await generateUniqueSlug(name, "Product", product?._id, "products");
     product.slug = newSlug;
   }
 

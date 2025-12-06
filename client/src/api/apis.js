@@ -15,12 +15,22 @@ const apis = {
     related: `${API_BASE_URL}/api/v1/user/product/related`,
     relatedByCategory: `${API_BASE_URL}/api/v1/user/product/related-category`,
   },
+  address: {
+    create: `${API_BASE_URL}/api/v1/user/address`,
+    getAll: `${API_BASE_URL}/api/v1/user/address`,
+    getSingle: `${API_BASE_URL}/api/v1/user/address`,
+    update: `${API_BASE_URL}/api/v1/user/update`,
+    delete: `${API_BASE_URL}/api/v1/user/address`,
+  },
   cart: {
     add: `${API_BASE_URL}/api/v1/user/cart/add`,
     get: `${API_BASE_URL}/api/v1/user/cart`,
     update: `${API_BASE_URL}/api/v1/user/cart/update`,
     remove: `${API_BASE_URL}/api/v1/user/cart/remove`,
     clear: `${API_BASE_URL}/api/v1/user/cart/clear`,
+  },
+  order: {
+    create: `${API_BASE_URL}/api/v1/user/order`,
   },
 };
 

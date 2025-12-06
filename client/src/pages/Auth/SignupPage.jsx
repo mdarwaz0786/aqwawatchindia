@@ -41,7 +41,7 @@ const SignupPage = () => {
     if (response?.success) {
       const token = response?.data?.token;
       storeToken(token);
-      navigate("/");
+      navigate(-1);
     };
   }, [response, navigate]);
 

@@ -46,7 +46,7 @@ const LoginPage = () => {
       toast.success("Login Successful")
       const token = response?.data?.token;
       storeToken(token);
-      navigate("/");
+      navigate(-1);
     };
   }, [response, navigate, form.remember]);
 
