@@ -27,8 +27,8 @@ import UpdateSizePage from './pages/Size/UpdateSizePage';
 import Test from './Test';
 import ProductListPage from './pages/Product/ProductListPage';
 import UpdateProductPage from './pages/Product/UpdateProductPage';
-import CarouselListPage from './pages/WebsiteHome/CarouselListPage';
-import CarouselFormPage from './pages/WebsiteHome/CarouselFormPage';
+import CarouselListPage from './pages/WebsiteHome/Carousel/CarouselListPage';
+import CarouselFormPage from './pages/WebsiteHome/Carousel/CarouselFormPage';
 import YouTubeVideoListPage from './pages/WebsiteHome/YouTubeVideo/YouTubeVideoListPage';
 import YouTubeVideoFormPage from './pages/WebsiteHome/YouTubeVideo/YouTubeVideoForm';
 import TestimonialListPage from './pages/WebsiteHome/Testimonial/TestimonialListPage';
@@ -42,6 +42,12 @@ import BlogCategoryFormPage from './pages/WebsiteHome/BlogCategory/BlogCategoryF
 import BlogListPage from './pages/WebsiteHome/Blog/BlogListPage';
 import BlogFormPage from './pages/WebsiteHome/Blog/BlogFormPage';
 import OrderListPage from './pages/Order/OrderListPage';
+import PrivacyPolicyFormPage from './pages/FooterPage/PrivacyPolicyFormPage';
+import BillingShippingFormPage from './pages/FooterPage/BillingShippingFormPage';
+import CookiePolicyFormPage from './pages/FooterPage/CookiePolicyPage';
+import DisclaimerFormPage from './pages/FooterPage/DisclaimerFormPage';
+import ReturnRefundPolicyFormPage from './pages/FooterPage/returnRefundPolicyFormPage';
+import TermConditionFormPage from './pages/FooterPage/TermConditionFormPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -98,7 +104,6 @@ const App = () => {
             <Route path="/youtube-video/add" element={<YouTubeVideoFormPage />} />
             <Route path="/youtube-video/update/:id" element={<YouTubeVideoFormPage />} />
 
-
             <Route path="/testimonial/list" element={<TestimonialListPage />} />
             <Route path="/testimonial/add" element={<TestimonialFormPage />} />
             <Route path="/testimonial/update/:id" element={<TestimonialFormPage />} />
@@ -115,12 +120,18 @@ const App = () => {
             <Route path="/blog-category/add" element={<BlogCategoryFormPage />} />
             <Route path="/blog-category/update/:id" element={<BlogCategoryFormPage />} />
 
-
             <Route path="/blog/list" element={<BlogListPage />} />
             <Route path="/blog/add" element={<BlogFormPage />} />
             <Route path="/blog/update/:id" element={<BlogFormPage />} />
 
             <Route path="/order/list" element={<OrderListPage />} />
+
+            <Route path="/privacy-policy/add" element={<PrivacyPolicyFormPage />} />
+            <Route path="/billing-shipping-policy/add" element={<BillingShippingFormPage />} />
+            <Route path="/cookie-policy/add" element={<CookiePolicyFormPage />} />
+            <Route path="/disclaimer/add" element={<DisclaimerFormPage />} />
+            <Route path="/return-refund-policy/add" element={<ReturnRefundPolicyFormPage />} />
+            <Route path="/term-condition/add" element={<TermConditionFormPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

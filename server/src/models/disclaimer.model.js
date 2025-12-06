@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const disclaimeSchema = new mongoose.Schema({
+const disclaimerSchema = new mongoose.Schema({
   title: {
     type: String,
     trim: true,
@@ -11,21 +11,21 @@ const disclaimeSchema = new mongoose.Schema({
     trim: true,
   },
   status: {
-    type: Boolean,
-    default: true,
+    type: String,
+    default: "true",
   },
   createdBy: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     default: null,
   },
   updatedBy: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     default: null,
   },
 }, { timestamps: true });
 
-const DisclaimerModel = mongoose.model("Disclaime", disclaimeSchema);
+const DisclaimerModel = mongoose.model("Disclaimer", disclaimerSchema);
 
 export default DisclaimerModel;

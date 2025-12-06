@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../../context/auth.context";
-import apis, { API_BASE_URL } from "../../apis/apis";
-import useFetch from "../../hooks/useFetch";
-import useCreate from "../../hooks/useCreate";
-import usePatch from "../../hooks/usePatch";
-import FormWrapper from "../../components/Form/FormWrapper";
-import useFormValidation from "../../hooks/useFormValidation";
-import Image from "../../components/Input/Image";
-import Input from "../../components/Input/Input";
+import { useAuth } from "../../../context/auth.context";
+import apis, { API_BASE_URL } from "../../../apis/apis";
+import useFetch from "../../../hooks/useFetch";
+import useCreate from "../../../hooks/useCreate";
+import usePatch from "../../../hooks/usePatch";
+import FormWrapper from "../../../components/Form/FormWrapper";
+import useFormValidation from "../../../hooks/useFormValidation";
+import Image from "../../../components/Input/Image";
+import Input from "../../../components/Input/Input";
 
 const initialState = {
   navigateTo: "",

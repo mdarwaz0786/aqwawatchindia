@@ -79,7 +79,7 @@ const OrderListPage = () => {
         <thead className="table-dark">
           <tr>
             <th>#</th>
-            <th>Customer Deatil</th>
+            <th>Customer Detail</th>
             <th>Total Amount</th>
             <th>Payment Method</th>
             <th>Payment Status</th>

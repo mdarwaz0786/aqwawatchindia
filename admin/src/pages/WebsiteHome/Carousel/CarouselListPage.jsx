@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import SearchBar from '../../components/Table/SearchBar';
-import Pagination from '../../components/Table/Pagination';
-import TableWrapper from '../../components/Table/TableWrapper';
-import useFetchData from '../../hooks/useFetchData';
-import { useAuth } from '../../context/auth.context';
-import PageSizeSelector from '../../components/Table/PageSizeSelector';
-import useDelete from '../../hooks/useDelete';
+import SearchBar from '../../../components/Table/SearchBar';
+import Pagination from '../../../components/Table/Pagination';
+import TableWrapper from '../../../components/Table/TableWrapper';
+import useFetchData from '../../../hooks/useFetchData';
+import { useAuth } from '../../../context/auth.context';
+import PageSizeSelector from '../../../components/Table/PageSizeSelector';
+import useDelete from '../../../hooks/useDelete';
 import { toast } from 'react-toastify';
 import { Link, useSearchParams } from 'react-router-dom';
-import apis from '../../apis/apis';
-import useDebounce from '../../hooks/useDebounce';
-import useToggleStatus from '../../hooks/useToggleStatus';
-import StatusToggle from '../../components/Table/StatusToggle';
-import TableImage from '../../components/Table/TableImage';
+import apis from '../../../apis/apis';
+import useDebounce from '../../../hooks/useDebounce';
+import useToggleStatus from '../../../hooks/useToggleStatus';
+import StatusToggle from '../../../components/Table/StatusToggle';
+import TableImage from '../../../components/Table/TableImage';
 
 const CarouselListPage = () => {
   const { validToken } = useAuth();

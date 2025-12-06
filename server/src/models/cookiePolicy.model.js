@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const termConditionSchema = new mongoose.Schema({
+const cookiePolicySchema = new mongoose.Schema({
   title: {
     type: String,
     trim: true,
-    default: "Term and Condition"
+    default: "Disclaimer"
   },
   description: {
     type: String,
@@ -26,6 +26,6 @@ const termConditionSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const TermConditionModel = mongoose.model("TermCondition", termConditionSchema);
+const CookiePolicyModel = mongoose.model("CookiePolicy", cookiePolicySchema);
 
-export default TermConditionModel;
+export default CookiePolicyModel;

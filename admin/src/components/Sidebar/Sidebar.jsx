@@ -5,19 +5,14 @@ import {
   MdShoppingCart,
   MdPeople,
   MdAttachMoney,
-  MdLocalOffer,
-  MdRateReview,
-  MdSettings,
   MdChevronRight,
   MdClose,
   MdStorefront,
   MdCategory,
   MdLayers,
-  MdViewModule,
-  MdPalette,
   MdStore,
-  MdStraighten,
-  MdHome
+  MdArticle,
+  MdHome,
 } from "react-icons/md";
 import logo from "../../assets/logo.jpeg";
 import styles from "./Sidebar.module.css";
@@ -53,30 +48,6 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
         { label: "Add Sub Category", link: "/sub-category/add" },
       ],
     },
-    // {
-    //   title: "Sub Sub Category",
-    //   icon: <MdViewModule />,
-    //   items: [
-    //     { label: "Sub Sub Category List", link: "/sub-sub-category/list" },
-    //     { label: "Add Sub Sub Category", link: "/sub-sub-category/add" },
-    //   ],
-    // },
-    // {
-    //   title: "Color",
-    //   icon: <MdPalette />,
-    //   items: [
-    //     { label: "Color List", link: "/color/list" },
-    //     { label: "Add Color", link: "/color/add" },
-    //   ],
-    // },
-    // {
-    //   title: "Size",
-    //   icon: <MdStraighten />,
-    //   items: [
-    //     { label: "Size List", link: "/size/list" },
-    //     { label: "Add Size", link: "/size/add" },
-    //   ],
-    // },
     {
       title: "Brand",
       icon: <MdStore />,
@@ -94,7 +65,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       ],
     },
     {
-      title: "Website Home Page",
+      title: "Home Page",
       icon: <MdHome />,
       items: [
         { label: "Carousel", link: "/carousel/list" },
@@ -106,15 +77,24 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
         { label: "Blog", link: "/blog/list" },
       ],
     },
+    {
+      title: "Footer Page",
+      icon: <MdArticle />,
+      items: [
+        { label: "Privacy Policy", link: "/privacy-policy/add" },
+        { label: "Billing & Shipping Policy", link: "/billing-shipping-policy/add" },
+        { label: "Cookie Policy", link: "/cookie-policy/add" },
+        { label: "Disclaimer", link: "/disclaimer/add" },
+        { label: "Return & Refund Policy", link: "/return-refund-policy/add" },
+        { label: "Terms & Conditions", link: "/term-condition/add" },
+      ],
+    },
   ];
 
   const staticLinks = [
     { label: "Dashboard", icon: <MdDashboard />, link: "/" },
     { label: "Orders", icon: <MdShoppingCart />, link: "/order/list" },
-    // { label: "Coupons", icon: <MdLocalOffer />, link: "/coupons" },
     { label: "Transactions", icon: <MdAttachMoney />, link: "/transaction/list" },
-    // { label: "Reviews", icon: <MdRateReview />, link: "/reviews" },
-    // { label: "Settings", icon: <MdSettings />, link: "/settings" },
   ];
 
   const dropdownRefs = useMemo(() => dropdownData.map(() => ({ current: null })), []);

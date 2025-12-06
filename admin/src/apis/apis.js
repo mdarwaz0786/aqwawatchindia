@@ -112,6 +112,30 @@ const apis = {
     getSingle: `${API_BASE_URL}/api/v1/admin/order`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/order`,
   },
+  billingShippingPolicy: {
+    create: `${API_BASE_URL}/api/v1/admin/billing-shipping-policy`,
+    get: `${API_BASE_URL}/api/v1/admin/billing-shipping-policy`,
+  },
+  cookiePolicy: {
+    create: `${API_BASE_URL}/api/v1/admin/cookie-policy`,
+    get: `${API_BASE_URL}/api/v1/admin/cookie-policy`,
+  },
+  disclaimer: {
+    create: `${API_BASE_URL}/api/v1/admin/disclaimer`,
+    get: `${API_BASE_URL}/api/v1/admin/disclaimer`,
+  },
+  privacyPolicy: {
+    create: `${API_BASE_URL}/api/v1/admin/privacy-policy`,
+    get: `${API_BASE_URL}/api/v1/admin/privacy-policy`,
+  },
+  returnRefundPolicy: {
+    create: `${API_BASE_URL}/api/v1/admin/return-refund-policy`,
+    get: `${API_BASE_URL}/api/v1/admin/return-refund-policy`,
+  },
+  termCondition: {
+    create: `${API_BASE_URL}/api/v1/admin/term-condition`,
+    get: `${API_BASE_URL}/api/v1/admin/term-condition`,
+  },
 };
 
 export default apis;

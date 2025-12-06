@@ -21,7 +21,7 @@ export const singleDocumentController = (Model) => ({
       // Update existing document
       if (title) record.title = title;
       if (description) record.description = description;
-      if (status !== undefined) record.status = status;
+      if (status) record.status = status;
       record.updatedBy = req.user?._id;
       record.updatedAt = new Date();
 

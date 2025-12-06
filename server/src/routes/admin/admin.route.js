@@ -16,6 +16,12 @@ import testimonialRoute from "./testimonial.route.js";
 import youTubeVideoRoute from "./youTubeVideo.route.js";
 import orderRoute from "./order.route.js";
 import dashboardRoute from "./dashboard.route.js";
+import billingShippingPolicyRoute from "./billingShippingPolicy.route.js";
+import cookiePolicyRoute from "./cookiePolicy.route.js";
+import disclaimerRoute from "./disclaimer.route.js";
+import privacyPolicyRoute from "./privacyPolicy.route.js";
+import returnRefundPolicyRoute from "./returnRefundPolicy.route.js";
+import termConditionRoute from "./termCondition.route.js";
 
 const router = express.Router();
 
@@ -36,5 +42,11 @@ router.use("/testimonial", testimonialRoute);
 router.use("/youtube-video", youTubeVideoRoute);
 router.use("/order", orderRoute);
 router.use("/dashboard", dashboardRoute);
+router.use("/billing-shipping-policy", billingShippingPolicyRoute);
+router.use("/cookie-policy", cookiePolicyRoute);
+router.use("/disclaimer", disclaimerRoute);
+router.use("/privacy-policy", privacyPolicyRoute);
+router.use("/return-refund-policy", returnRefundPolicyRoute);
+router.use("/term-condition", termConditionRoute);
 
 export default router;

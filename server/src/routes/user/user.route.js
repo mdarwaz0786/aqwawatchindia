@@ -5,6 +5,7 @@ import cartRoute from "./cart.route.js";
 import authRoute from "./auth.route.js";
 import addressRoute from "./address.route.js";
 import orderRoute from "./order.route.js";
+import blogRoute from "./blog.route.js";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/cart", cartRoute);
 router.use("/auth", authRoute);
 router.use("/address", addressRoute);
 router.use("/order", orderRoute);
+router.use("/blog", blogRoute);
 
 export default router;

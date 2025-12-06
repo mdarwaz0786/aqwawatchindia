@@ -31,6 +31,28 @@ const apis = {
   },
   order: {
     create: `${API_BASE_URL}/api/v1/user/order`,
+    get: `${API_BASE_URL}/api/v1/user/order`,
+  },
+  billingShippingPolicy: {
+    get: `${API_BASE_URL}/api/v1/admin/billing-shipping-policy`,
+  },
+  cookiePolicy: {
+    get: `${API_BASE_URL}/api/v1/admin/cookie-policy`,
+  },
+  disclaimer: {
+    get: `${API_BASE_URL}/api/v1/admin/disclaimer`,
+  },
+  privacyPolicy: {
+    get: `${API_BASE_URL}/api/v1/admin/privacy-policy`,
+  },
+  returnRefundPolicy: {
+    get: `${API_BASE_URL}/api/v1/admin/return-refund-policy`,
+  },
+  termCondition: {
+    get: `${API_BASE_URL}/api/v1/admin/term-condition`,
+  },
+  blog: {
+    get: `${API_BASE_URL}/api/v1/user/blog`,
   },
 };
 

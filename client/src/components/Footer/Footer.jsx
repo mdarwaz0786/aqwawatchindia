@@ -90,8 +90,8 @@ const Footer = () => {
                   <li><Link to="/return-refund-policy">Return and Refund Policy </Link></li>
                   <li><Link to="/billing-shipping-policy">Billing and Shipping Policy</Link></li>
                   <li><Link to="/privacy-policy">Privacy and Policy</Link></li>
+                  <li><Link to="/cookie-policy">Cookies Policy</Link></li>
                   <li><Link to="/disclaimer">Disclaimer</Link></li>
-                  <li><Link to="/cookie-policy">Cookies</Link></li>
                 </ul>
               </div>
             </div>

@@ -11,16 +11,16 @@ const billingShippingPolicySchema = new mongoose.Schema({
     trim: true,
   },
   status: {
-    type: Boolean,
-    default: true,
+    type: String,
+    default: "true",
   },
   createdBy: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     default: null,
   },
   updatedBy: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     default: null,
   },

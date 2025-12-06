@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer"
 import Header from "../../components/Header/Header";
 import { useApp } from "../../context/app.context";
+import apis from "../../api/apis";
+import useFetchData from "../../hooks/useFetchData";
 
 const CookiePolicyPage = () => {
   const { categories } = useApp();
+  const { data } = useFetchData(apis.cookiePolicy.get);
 
   return (
     <>
@@ -34,98 +37,17 @@ const CookiePolicyPage = () => {
           <div className="row wow fadeInUp">
             <div className="col-12">
               <div className="privacy_policy_text">
-                <p>Aquawatch India is committed to respecting your online privacy. This Cookie Policy
-                  explains how and why cookies and other similar technologies may be stored on and
-                  accessed from your device when you use or visit Aquawatch India Website that posts a
-                  link to this Policy (collectively, "the Sites").
-                </p>
-
-                <p>This Cookie Policy should be read together with our Privacy Policy and Terms of Use.</p>
-
-                <p>Cookies are small pieces of text stored by a website you visit in your browser and
-                  subsequently sent by your web browser in every request to the website.
-                </p>
-
-                <p>A cookie file is stored in your web browser and allows the Site or a third-party to
-                  recognize you and make your next visit easier and the Site more useful to you.
-                </p>
-
-                {/* <h3>Who we are</h3>
-                <p>When visitors leave comments on the site we collect the data shown in the comments form, and
-                  also the visitor’s IP address and browser user agent string to help spam
-                  detection. An anonymized string created from your email address (also called a hash) may be
-                  provided to the Gravatar service to see if you are using it. The Gravatar service
-                  privacy policy is available here. created from your email address (also called a hash) may.
-                </p>
-                <h3>Comments</h3>
-                <p>When visitors leave comments on the site we collect the data shown in the comments form, and
-                  also the visitor’s IP address and browser user agent string to help spam detection. An
-                  anonymized string created from your email address (also called a hash) may be provided to
-                  the Gravatar service to see if you are using it.
-                </p>
-                <ul>
-                  <li>Isitors to the website can download and extract any location data</li>
-                  <li>Gravatar service privacy policy is available here. created from your email address</li>
-                  <li>These are for your convenience so that you do not have to fill in
-                    your details again</li>
-                </ul>
-                <h3>Media</h3>
-                <p>If you leave a comment on our site you may opt-in to saving your name, email address and
-                  website in cookies. These are for your convenience so that you do not have to fill in your
-                  details again when you leave another comment. These cookies will last for one year. If you
-                  visit our login page, we will set a temporary cookie to determine if your brow ser accepts
-                  cookies. This cookie contains no personal data and is discarded when you close your browser.
-                  When you log in, we will also set up several cookies to save your login information and your
-                  screen display choices. Login cookies last for two days, and screen options cookies last for
-                  a year</p>
-                <ul>
-                  <li>You should avoid uploading images with embedded location</li>
-                  <li>Isitors to the website can download and extract any location data</li>
-                  <li>Gravatar service privacy policy is available here. created from your email address</li>
-                  <li>When visitors leave comments on the site we collect the data shown in the comments</li>
-                  <li>These are for your convenience so that you do not have to fill in
-                    your details again</li>
-                </ul>
-                <p>When visitors leave comments on the site we collect the data shown in the comments form, and
-                  also the visitor’s IP address and browser user agent string to help spam detection. An
-                  anonymized string created from your email address (also called a hash) may be provided to
-                  the Gravatar service to see if you are using it.
-                </p>
-                <h3>Cookies</h3>
-                <p>If you leave a comment on our site you may opt-in to saving your name, email address and
-                  website in cookies. These are for your convenience so that you do not have to fill in your
-                  details again when you leave another comment. These cookies will last for one year. If you
-                  visit our login page, we will set a temporary cookie to determine if your brow ser accepts
-                  cookies. This cookie contains no personal data and is discarded when you close your browser.
-                  When you log in, we will also set up several cookies to save your login information and your
-                  screen display choices. Login cookies last for two days, and screen options cookies last for
-                  a year.</p>
-                <h3>Embedded content from other websites</h3>
-                <p>When visitors leave comments on the site we collect the data shown in the comments form, and
-                  also the visitor’s IP address and browser user agent string to help spam dete
-                  ction. Suggested text: Articles on this site may include embedded content (e.g. videos,
-                  images, articles, etc.). Embedded content from other websites behaves in the exact
-                  same way as if the visitor has visited the other website. These websites may collect data
-                  about you, use cookies, embed additional third-party tracking, and monitor your in
-                  teraction with that embedded content, including tracking your interaction with the embedded
-                  content if you have an account and are logged in to that website.</p>
-                <h3>How long we retain your data</h3>
-                <p>If you leave a comment, the comment and its metadata are retained indefinitely. This is so we
-                  can recognize and approve any follow-up comments automatically instead
-                  of holding them in a moderation queue. For users that register on our website (if any), we
-                  also store the personal information they provide in their user profile. All users can
-                  see, edit, or delete their personal information at any time (except they cannot change their
-                  username). Website administrators can also see and edit that information.</p>
-                <ul>
-                  <li>You should avoid uploading images with embedded location</li>
-                  <li>Isitors to the website can download and extract any location data</li>
-                  <li>Gravatar service privacy policy is available here. created from your email address</li>
-                </ul>
-                <h3>What rights you have over your data</h3>
-                <p>If you have an account on this site, or have left comments, you can request to receive an
-                  exported file of the personal data we hold about you, including any data you have provided
-                  to us. You can also request that we erase any personal data we hold about you. This does not
-                  include any data we are obliged to keep for administrative.</p> */}
+                {
+                  data?.data?.status === "true" ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: data?.data?.description || ""
+                      }}
+                    />
+                  ) : (
+                    null
+                  )
+                }
               </div>
             </div>
           </div>
