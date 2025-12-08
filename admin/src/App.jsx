@@ -51,6 +51,10 @@ import TermConditionFormPage from './pages/FooterPage/TermConditionFormPage';
 import AboutUsFormPage from './pages/Aboutus/AboutusFormPage';
 import ContactusFormPage from './pages/Contactus/ContactusFormPage';
 import ContactEnquiryListPage from './pages/ContactEnquiry/ContactEnquiryListPage';
+import ContactEnquiryDealerListPage from './pages/ContactEnquiry/ContactEnquiryDealerListPage';
+import ContactEnquiryServiceListPage from './pages/ContactEnquiry/ContactEnquiryServiceListPage';
+import ContactEnquiryContactListPage from './pages/ContactEnquiry/ContactEnquiryContactListPage';
+import OrderDetailPage from './pages/Order/OrderDetailPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -128,6 +132,7 @@ const App = () => {
             <Route path="/blog/update/:id" element={<BlogFormPage />} />
 
             <Route path="/order/list" element={<OrderListPage />} />
+            <Route path="/order/detail/:id" element={<OrderDetailPage />} />
 
             <Route path="/privacy-policy/add" element={<PrivacyPolicyFormPage />} />
             <Route path="/billing-shipping-policy/add" element={<BillingShippingFormPage />} />
@@ -140,6 +145,9 @@ const App = () => {
             <Route path="/contactus/add" element={<ContactusFormPage />} />
 
             <Route path="/contact-enquiry/list" element={<ContactEnquiryListPage />} />
+            <Route path="/contact-enquiry/list/dealer" element={<ContactEnquiryDealerListPage />} />
+            <Route path="/contact-enquiry/list/service" element={<ContactEnquiryServiceListPage />} />
+            <Route path="/contact-enquiry/list/contact" element={<ContactEnquiryContactListPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

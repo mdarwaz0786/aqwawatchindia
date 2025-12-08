@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
@@ -8,11 +9,22 @@ import useFetchData from "../../hooks/useFetchData";
 import { useApp } from "../../context/app.context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Select from "react-select";
+import { selectStyles } from "../../components/Constants/style";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { userId, isLoggedIn, logOutUser, user, validToken } = useAuth();
+  const { userId, isLoggedIn, user, validToken } = useAuth();
   const { categories } = useApp();
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [loadingCountries, setLoadingCountries] = useState(false);
+  const [loadingStates, setLoadingStates] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
 
   const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
   const { data: addressData } = useFetchData(validToken ? apis.address.getAll : null, validToken);
@@ -23,6 +35,7 @@ const CheckoutPage = () => {
 
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
+
   const [newAddress, setNewAddress] = useState({
     label: "Home",
     name: "",
@@ -37,6 +50,96 @@ const CheckoutPage = () => {
   });
 
   const [useNewAddress, setUseNewAddress] = useState(false);
+
+  useEffect(() => {
+    async function loadCountries() {
+      setLoadingCountries(true);
+      try {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/positions");
+        const data = await res?.json();
+
+        const list = data?.data?.map((c) => ({
+          label: c?.name,
+          value: c?.name,
+        })) || [];
+
+        setCountries(list);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingCountries(false);
+      };
+    };
+
+    loadCountries();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCountry) return;
+
+    async function loadStates() {
+      setLoadingStates(true);
+      try {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/states", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ country: selectedCountry?.value }),
+        });
+
+        const data = await res?.json();
+
+        const list = data?.data?.states?.map((s) => ({
+          label: s?.name,
+          value: s?.name,
+        })) || [];
+
+        setStates(list);
+        setSelectedState(null);
+        setSelectedCity(null);
+        setCities([]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingStates(false);
+      }
+    }
+
+    loadStates();
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (!selectedState) return;
+
+    async function loadCities() {
+      setLoadingCities(true);
+      try {
+        const res = await fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            country: selectedCountry?.value,
+            state: selectedState?.value,
+          }),
+        });
+
+        const data = await res.json();
+
+        const list = data?.data?.map((c) => ({
+          label: c,
+          value: c,
+        })) || [];
+
+        setCities(list);
+        setSelectedCity(null);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingCities(false);
+      }
+    }
+
+    loadCities();
+  }, [selectedState]);
 
   const handleChange = (e) => {
     setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
@@ -53,6 +156,11 @@ const CheckoutPage = () => {
       return;
     };
 
+    if (paymentMethod === "Online") {
+      toast.error("Onlone payment method is not available");
+      return;
+    };
+
     const payload = {
       paymentMethod,
       shippingCharge,
@@ -66,7 +174,7 @@ const CheckoutPage = () => {
         return;
       };
       payload.addressId = selectedAddressId;
-    }
+    };
 
     try {
       const res = await axios.post(
@@ -81,7 +189,7 @@ const CheckoutPage = () => {
 
       if (res?.data?.success) {
         navigate("/order-success");
-      }
+      };
     } catch (error) {
       console.log(error)
       toast.error(error?.response?.data?.message || "Something went wrong");
@@ -116,15 +224,19 @@ const CheckoutPage = () => {
           <div className="row">
             {/* LEFT SIDE */}
             <div className="col-lg-8">
-              <div className="checkout_header">
-                <h3>Shipping Information</h3>
-                <p>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                  </svg>
-                  account: <b>{user?.name}</b>{isLoggedIn ? <Link to="#" onClick={logOutUser}>(logout)</Link> : <Link to="/login">(login)</Link>}
-                </p>
-              </div>
+              {
+                user?.name && (
+                  <div className="checkout_header">
+                    <h3>Shipping Information</h3>
+                    <p>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>
+                      <b>{user?.name}</b>
+                    </p>
+                  </div>
+                )
+              }
 
               {/* Saved Addresses */}
               <div className="checkout_address_area">
@@ -180,42 +292,106 @@ const CheckoutPage = () => {
                   {useNewAddress && (
                     <div className="accordion-body p-0">
                       <div className="row">
-                        {["name", "email", "mobile", "country", "city", "state", "zip"].map((field) => (
-                          <div className="col-md-6" key={field}>
-                            <div className="single_input">
-                              <label>{field.toUpperCase()} *</label>
-                              <input
-                                type="text"
-                                name={field}
-                                value={newAddress[field]}
-                                onChange={handleChange}
-                              />
-                            </div>
-                          </div>
-                        ))}
+                        <div className="col-md-6 mb-4 mt-4">
+                          <input
+                            type="text"
+                            name="name"
+                            value={newAddress.name}
+                            onChange={handleChange}
+                            placeholder="Enter Name"
+                          />
+                        </div>
 
-                        <div className="col-xl-12">
-                          <div className="single_input">
-                            <label>Address *</label>
-                            <textarea
-                              rows={4}
-                              name="address"
-                              value={newAddress.address}
-                              onChange={handleChange}
-                            />
-                          </div>
+                        <div className="col-md-6 mb-4 mt-4">
+                          <input
+                            type="email"
+                            name="email"
+                            value={newAddress.email}
+                            onChange={handleChange}
+                            placeholder="Enter Email"
+                          />
+                        </div>
+
+                        <div className="col-md-6 mb-4">
+                          <input
+                            type="tel"
+                            name="mobile"
+                            value={newAddress.mobile}
+                            onChange={handleChange}
+                            placeholder="Enter Mobile"
+                          />
+                        </div>
+
+                        <div className="col-md-6 mb-4">
+                          <input
+                            type="text"
+                            name="zip"
+                            value={newAddress.zip}
+                            onChange={handleChange}
+                            placeholder="Enter Zip"
+                          />
+                        </div>
+
+                        <div className="col-md-6 mb-4">
+                          <Select
+                            options={countries}
+                            styles={selectStyles}
+                            placeholder="Select Country"
+                            isLoading={loadingCountries}
+                            value={selectedCountry}
+                            onChange={(opt) => {
+                              setSelectedCountry(opt);
+                              setNewAddress({ ...newAddress, country: opt.value });
+                            }}
+                          />
+                        </div>
+
+                        <div className="col-md-6 mb-4">
+                          <Select
+                            options={states}
+                            styles={selectStyles}
+                            placeholder="Select State"
+                            isLoading={loadingStates}
+                            value={selectedState}
+                            onChange={(opt) => {
+                              setSelectedState(opt);
+                              setNewAddress({ ...newAddress, state: opt.value });
+                            }}
+                          />
+                        </div>
+
+                        <div className="col-md-6 mb-4">
+                          <Select
+                            options={cities}
+                            styles={selectStyles}
+                            placeholder="Select City"
+                            isLoading={loadingCities}
+                            value={selectedCity}
+                            onChange={(opt) => {
+                              setSelectedCity(opt);
+                              setNewAddress({ ...newAddress, city: opt.value });
+                            }}
+                          />
                         </div>
 
                         <div className="col-xl-12">
-                          <div className="single_input">
-                            <label>Instruction (optional)</label>
-                            <textarea
-                              rows={2}
-                              name="instruction"
-                              value={newAddress.instruction}
-                              onChange={handleChange}
-                            />
-                          </div>
+                          <textarea
+                            rows={4}
+                            name="address"
+                            value={newAddress.address}
+                            onChange={handleChange}
+                            placeholder="Write Address"
+                          />
+                        </div>
+
+                        <div className="col-xl-12 mt-3">
+                          <textarea
+                            rows={2}
+                            name="instruction"
+                            value={newAddress.instruction}
+                            onChange={handleChange}
+                            placeholder="Write Instruction (Optional)"
+                          />
                         </div>
                       </div>
                     </div>

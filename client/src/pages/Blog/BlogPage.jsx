@@ -41,7 +41,7 @@ const BlogPage = () => {
               data?.data?.map((d) => (
                 <div className="col-lg-4 col-xxl-3 col-md-6 wow fadeInUp">
                   <div className="blog_item">
-                    <Link to="/blog-detail" className="blog_img">
+                    <Link to={`/blog-detail/${d?.slug}`} className="blog_img">
                       <img src={`${API_BASE_URL}/${d?.frontImage}`} alt="blog" className="img-fluid w-100" />
                     </Link>
                     <div className="blog_text">
@@ -54,7 +54,7 @@ const BlogPage = () => {
                         </li>
                         <li>
                           <span>
-                            <img src="assets/images/calender.png" alt="Message" className="img-fluid w-100" />
+                            <img src="/assets/images/calender.png" alt="Message" className="img-fluid w-100" />
                           </span>
                           {formatDate(d?.createdAt)}
                         </li>
@@ -62,7 +62,7 @@ const BlogPage = () => {
                       <Link className="title" to="/blog-detail">{d?.title}</Link>
                       <p>{d?.shortDescription}</p>
                       <ul className="bottom">
-                        <li><Link to="/blog-detail">read more <i className="fas fa-long-arrow-right" /></Link>
+                        <li><Link to={`/blog-detail/${d?.slug}`}>read more <i className="fas fa-long-arrow-right" /></Link>
                         </li><li><span><i className="far fa-comment-dots" /> {d?.numberOfComment} Comments</span></li>
                       </ul>
                     </div>

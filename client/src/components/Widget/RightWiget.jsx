@@ -3,7 +3,7 @@ import { BiPhoneCall, } from "react-icons/bi";
 import "./RightWidget.css";
 
 const RightWidget = () => {
-  const message = "Hello, I want to book a free demo";
+  const message = "Hi";
   const encodedMsg = encodeURIComponent(message);
 
   return (

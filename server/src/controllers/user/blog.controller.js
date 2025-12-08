@@ -2,6 +2,7 @@ import BlogModel from "../../models/blog.model.js";
 import ApiError from "../../helpers/apiError.js";
 import asyncHandler from "../../helpers/asyncHandler.js";
 import { buildPagination } from "../../utils/pagination.js";
+import mongoose from "mongoose";
 
 export const getBlogs = asyncHandler(async (req, res) => {
   let { search, category, status, sort = "desc", page, limit } = req.query;
@@ -39,10 +40,27 @@ export const getBlogs = asyncHandler(async (req, res) => {
 });
 
 export const getBlogById = asyncHandler(async (req, res) => {
-  const blog = await BlogModel.findById(req.params.id)
-    .populate({ path: "category", strictPopulate: false }).populate("createdBy", "name").lean()
+  const { id } = req.params;
+
+  let blog;
+
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    blog = await BlogModel.findById(id)
+      .populate({ path: "category", strictPopulate: false })
+      .populate("createdBy", "name")
+      .lean();
+  } else {
+    blog = await BlogModel.findOne({ slug: id })
+      .populate({ path: "category", strictPopulate: false })
+      .populate("createdBy", "name")
+      .lean();
+  };
 
   if (!blog) throw new ApiError(404, "Blog not found");
 
-  return res.status(200).json({ success: true, data: blog });
+  return res.status(200).json({
+    success: true,
+    message: "Data fetched successfully",
+    data: blog,
+  });
 });

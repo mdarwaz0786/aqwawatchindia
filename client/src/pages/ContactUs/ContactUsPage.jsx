@@ -15,9 +15,10 @@ const ContactUsPage = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
+    mobile: "",
     subject: "",
     message: "",
+    from: "Contact",
   });
 
   const { postData, response, postError } = useCreate(apis.contactEnquiry.create);
@@ -29,7 +30,7 @@ const ContactUsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.phone || !form.message) {
+    if (!form.name || !form.email || !form.mobile || !form.message) {
       toast.error("All fields are required");
       return;
     }
@@ -40,7 +41,7 @@ const ContactUsPage = () => {
   useEffect(() => {
     if (response?.success) {
       toast.success("Message sent successfully ✔");
-      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+      setForm({ name: "", email: "", mobile: "", subject: "", message: "" });
     }
     if (postError) toast.error(postError);
   }, [response, postError]);
@@ -148,11 +149,11 @@ const ContactUsPage = () => {
 
                     <div className="col-md-6">
                       <div className="single_input">
-                        <label>Phone</label>
+                        <label>Mobile</label>
                         <input
                           type="text"
-                          name="phone"
-                          value={form.phone}
+                          name="mobile"
+                          value={form.mobile}
                           onChange={handleChange}
                           placeholder="Enter mobile"
                           required

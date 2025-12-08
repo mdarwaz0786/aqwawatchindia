@@ -56,7 +56,7 @@ const App = () => {
         <Route path="/products" element={<ProductPage key={location.search} />} />
         <Route path="/product-detail/:slug" element={<ProductDetailPage key={location.search} />} />
         <Route path="/blogs" element={<BlogPage />} />
-        <Route path="/blog-detail" element={<BlogDetailPage />} />
+        <Route path="/blog-detail/:slug" element={<BlogDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/become-dealer" element={<BecomeVendorPage />} />
@@ -68,7 +68,7 @@ const App = () => {
         <Route path="/disclaimer" element={<DisclaimerPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/invoice" element={<InvoicePage />} />
+        <Route path="/invoice/:id" element={<InvoicePage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -24,8 +24,13 @@ const contactEnquirySchema = new mongoose.Schema(
     },
     from: {
       type: String,
-      enum: ["Dealer", "Other"],
-      default: "Other",
+      enum: ["Dealer", "Contact", "Service", "Other"],
+      default: "Other"
+    },
+    service: {
+      type: String,
+      enum: ["New Product", "Service/Repair", "AMC Plans", "Installation", "Become a Dealer", "Other"],
+      default: null,
     },
     country: {
       type: String,

@@ -8,13 +8,13 @@ import { useAuth } from '../../context/auth.context';
 import PageSizeSelector from '../../components/Table/PageSizeSelector';
 import useDelete from '../../hooks/useDelete';
 import { toast } from 'react-toastify';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
 import useToggleStatus from '../../hooks/useToggleStatus';
 import StatusToggle from '../../components/Table/StatusToggle';
 
-const OrderListPage = () => {
+const ContactEnquiryContactListPage = () => {
   const { validToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -25,12 +25,12 @@ const OrderListPage = () => {
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput, 500);
 
-  const fetchDataUrl = apis.order.getAll;
-  const singleDeleteUrl = apis.order.deleteSingle;
-  const updateStatusUrl = apis.order.update;
+  const fetchDataUrl = apis.contactEnquiry.getAll;
+  const singleDeleteUrl = apis.contactEnquiry.deleteSingle;
+  const updateStatusUrl = apis.contactEnquiry.update;
 
   const { deleteData, deleteResponse, deleteError } = useDelete();
-  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search });
+  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
   const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
@@ -65,13 +65,13 @@ const OrderListPage = () => {
     if (deleteError) toast.error(deleteError);
   }, [deleteError]);
 
-  const orders = data?.data || [];
+  const enquiries = data?.data || [];
   const total = data?.pagination?.total || 0;
 
   return (
     <div className="container mt-1">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5>Order<span className="badge bg-secondary ms-2">{total}</span></h5>
+        <h5>Contact Enquiry<span className="badge bg-secondary ms-2">{total}</span></h5>
         <SearchBar value={searchInput} onChange={(val) => setSearchInput(val)} />
       </div>
 
@@ -79,29 +79,45 @@ const OrderListPage = () => {
         <thead className="table-dark">
           <tr>
             <th>#</th>
-            <th>Customer Detail</th>
-            <th>Total Amount</th>
-            <th>Payment Method</th>
-            <th>Payment Status</th>
-            <th>Order Status</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Subject</th>
+            <th>Message</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {orders?.length > 0 ? (
-            orders?.map((item, index) => (
+          {enquiries?.length > 0 ? (
+            enquiries?.map((item, index) => (
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
-                <td>
-                  <a style={{ display: "block" }}>{item?.user?.name}</a>
-                  <a style={{ display: "block" }}>{item?.user?.email}</a>
-                  <a style={{ display: "block" }}>{item?.user?.mobile}</a>
+                <td>{item?.name}</td>
+                <td>{item?.email}</td>
+                <td>{item?.mobile}</td>
+                <td
+                  title={item?.subject}
+                  style={{
+                    maxWidth: "100px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {item?.subject}
                 </td>
-                <td>{item?.totalAmount}</td>
-                <td>{item?.paymentMethod}</td>
-                <td>{item?.orderStatus}</td>
-                <td>{item?.paymentStatus}</td>
+                <td
+                  title={item?.message}
+                  style={{
+                    maxWidth: "100px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {item?.message}
+                </td>
                 <td>
                   <StatusToggle
                     id={item?._id}
@@ -112,9 +128,6 @@ const OrderListPage = () => {
                 </td>
                 <td>
                   <div className="d-flex flex-wrap gap-2">
-                    <Link to={`/order/detail/${item?._id}`}>
-                      <button className="btn btn-primary">View</button>
-                    </Link>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(item?._id)}
@@ -152,4 +165,4 @@ const OrderListPage = () => {
   );
 };
 
-export default OrderListPage;
+export default ContactEnquiryContactListPage;

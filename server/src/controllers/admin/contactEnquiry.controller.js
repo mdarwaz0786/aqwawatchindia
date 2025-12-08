@@ -4,7 +4,7 @@ import asyncHandler from "../../helpers/asyncHandler.js";
 import { buildPagination } from "../../utils/pagination.js";
 
 export const createContactEnquiry = asyncHandler(async (req, res) => {
-  const { name, mobile, email, subject, message, from, country, state, city, zip, address } = req.body;
+  const { name, mobile, email, subject, message, service, from, country, state, city, zip, address } = req.body;
 
   const data = await ContactEnquiryModel.create({
     name,
@@ -13,6 +13,7 @@ export const createContactEnquiry = asyncHandler(async (req, res) => {
     subject,
     message,
     from,
+    service,
     country,
     state,
     city,
@@ -29,7 +30,7 @@ export const createContactEnquiry = asyncHandler(async (req, res) => {
 });
 
 export const getContactEnquiries = asyncHandler(async (req, res) => {
-  let { search, status, sort = "desc", page, limit } = req.query;
+  let { search, from, status, sort = "desc", page, limit } = req.query;
 
   page = parseInt(page, 10);
   limit = parseInt(limit, 10);
@@ -47,6 +48,10 @@ export const getContactEnquiries = asyncHandler(async (req, res) => {
 
   if (status !== undefined) {
     filters.status = status === "true";
+  }
+
+  if (from !== undefined) {
+    filters.from = from;
   }
 
   let sortOption = {};
@@ -96,6 +101,7 @@ export const updateContactEnquiry = asyncHandler(async (req, res) => {
   data.email = email || data.email;
   data.subject = subject || data.subject;
   data.message = message || data.message;
+  data.service = service || data.service;
   data.from = from || data.from;
   data.country = country || data.country;
   data.state = state || data.state;

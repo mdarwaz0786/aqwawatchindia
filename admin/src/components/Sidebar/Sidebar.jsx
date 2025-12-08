@@ -4,7 +4,6 @@ import {
   MdDashboard,
   MdShoppingCart,
   MdPeople,
-  MdAttachMoney,
   MdChevronRight,
   MdClose,
   MdStorefront,
@@ -14,7 +13,6 @@ import {
   MdArticle,
   MdHome,
   MdContactMail,
-  MdContactPhone,
   MdInfo,
 } from "react-icons/md";
 import logo from "../../assets/logo.jpeg";
@@ -99,13 +97,20 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
         { label: "About Us", link: "/aboutus/add" },
       ],
     },
+    {
+      title: "Contact Enquiry",
+      icon: <MdContactMail />,
+      items: [
+        { label: "Dealer", link: "/contact-enquiry/list/dealer" },
+        { label: "Service", link: "/contact-enquiry/list/service" },
+        { label: "Contact", link: "/contact-enquiry/ist/contact" },
+      ],
+    },
   ];
 
   const staticLinks = [
     { label: "Dashboard", icon: <MdDashboard />, link: "/" },
     { label: "Orders", icon: <MdShoppingCart />, link: "/order/list" },
-    // { label: "Transactions", icon: <MdAttachMoney />, link: "/transaction/list" },
-    { label: "Contact Enquiry", icon: <MdContactMail />, link: "/contact-enquiry/list" },
   ];
 
   const dropdownRefs = useMemo(() => dropdownData.map(() => ({ current: null })), []);
@@ -161,7 +166,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       <div className={styles.sidebarScrollArea}>
         <nav className={styles.sidebarNav}>
           <ul className={styles.navList}>
-            {staticLinks.slice(0, 1).map((link) => (
+            {staticLinks.slice(0, 2).map((link) => (
               <li className={styles.navItem} key={link.label}>
                 <Link
                   to={link.link}
@@ -208,7 +213,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
               </li>
             ))}
 
-            {staticLinks.slice(1).map((link) => (
+            {staticLinks.slice(2).map((link) => (
               <li className={styles.navItem} key={link.label}>
                 <Link
                   to={link.link}
