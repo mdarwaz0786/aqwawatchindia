@@ -49,7 +49,6 @@ const Navbar = ({ handleToggleSidebar }) => {
           </div>
           {dropdownOpen && (
             <ul className={styles.dropdownMenu}>
-              <Link to="#" className="text-decoration-none"><li className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>My Profile</li></Link>
               <Link to="#" className="text-decoration-none"><li className={styles.dropdownItem} onClick={() => { setDropdownOpen(false); logOutUser() }}>Logout</li></Link>
             </ul>
           )}

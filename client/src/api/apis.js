@@ -54,6 +54,15 @@ const apis = {
   blog: {
     get: `${API_BASE_URL}/api/v1/user/blog`,
   },
+  aboutus: {
+    get: `${API_BASE_URL}/api/v1/admin/aboutus`,
+  },
+  contactus: {
+    get: `${API_BASE_URL}/api/v1/admin/contactus`,
+  },
+  contactEnquiry: {
+    create: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+  },
 };
 
 export default apis;

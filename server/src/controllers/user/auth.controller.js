@@ -44,7 +44,7 @@ export const signup = asyncHandler(async (req, res) => {
     );
   };
 
-  res.status(201).json({
+  return res.status(201).json({
     success: true,
     message: "Registered successfully",
     data: { user, token },
@@ -89,7 +89,7 @@ export const login = asyncHandler(async (req, res) => {
     );
   };
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Login successful",
     data: { user, token },
@@ -105,7 +105,7 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User not found");
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
     message: "Loggedin user fetched successfully",
     data: user,

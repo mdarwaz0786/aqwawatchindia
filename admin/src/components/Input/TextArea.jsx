@@ -9,7 +9,7 @@ const TextArea = ({
   width,
   rows = 4,
   error,
-  placeholder = "Write",
+  placeholder = "Write...",
 }) => {
   return (
     <div className={`${width} mb-4`}>

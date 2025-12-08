@@ -48,6 +48,9 @@ import CookiePolicyFormPage from './pages/FooterPage/CookiePolicyPage';
 import DisclaimerFormPage from './pages/FooterPage/DisclaimerFormPage';
 import ReturnRefundPolicyFormPage from './pages/FooterPage/returnRefundPolicyFormPage';
 import TermConditionFormPage from './pages/FooterPage/TermConditionFormPage';
+import AboutUsFormPage from './pages/Aboutus/AboutusFormPage';
+import ContactusFormPage from './pages/Contactus/ContactusFormPage';
+import ContactEnquiryListPage from './pages/ContactEnquiry/ContactEnquiryListPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -132,6 +135,11 @@ const App = () => {
             <Route path="/disclaimer/add" element={<DisclaimerFormPage />} />
             <Route path="/return-refund-policy/add" element={<ReturnRefundPolicyFormPage />} />
             <Route path="/term-condition/add" element={<TermConditionFormPage />} />
+
+            <Route path="/aboutus/add" element={<AboutUsFormPage />} />
+            <Route path="/contactus/add" element={<ContactusFormPage />} />
+
+            <Route path="/contact-enquiry/list" element={<ContactEnquiryListPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
           <Route path="/test" element={<Test />} />

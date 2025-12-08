@@ -13,6 +13,9 @@ import {
   MdStore,
   MdArticle,
   MdHome,
+  MdContactMail,
+  MdContactPhone,
+  MdInfo,
 } from "react-icons/md";
 import logo from "../../assets/logo.jpeg";
 import styles from "./Sidebar.module.css";
@@ -61,7 +64,6 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       icon: <MdPeople />,
       items: [
         { label: "Customer", link: "/user/customer" },
-        { label: "Admin", link: "/user/admin" },
       ],
     },
     {
@@ -78,7 +80,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       ],
     },
     {
-      title: "Footer Page",
+      title: "Company Policy",
       icon: <MdArticle />,
       items: [
         { label: "Privacy Policy", link: "/privacy-policy/add" },
@@ -89,12 +91,21 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
         { label: "Terms & Conditions", link: "/term-condition/add" },
       ],
     },
+    {
+      title: "Company Detail",
+      icon: <MdInfo />,
+      items: [
+        { label: "Contact Us", link: "/contactus/add" },
+        { label: "About Us", link: "/aboutus/add" },
+      ],
+    },
   ];
 
   const staticLinks = [
     { label: "Dashboard", icon: <MdDashboard />, link: "/" },
     { label: "Orders", icon: <MdShoppingCart />, link: "/order/list" },
-    { label: "Transactions", icon: <MdAttachMoney />, link: "/transaction/list" },
+    // { label: "Transactions", icon: <MdAttachMoney />, link: "/transaction/list" },
+    { label: "Contact Enquiry", icon: <MdContactMail />, link: "/contact-enquiry/list" },
   ];
 
   const dropdownRefs = useMemo(() => dropdownData.map(() => ({ current: null })), []);

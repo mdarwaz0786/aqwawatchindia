@@ -136,6 +136,19 @@ const apis = {
     create: `${API_BASE_URL}/api/v1/admin/term-condition`,
     get: `${API_BASE_URL}/api/v1/admin/term-condition`,
   },
+  aboutus: {
+    create: `${API_BASE_URL}/api/v1/admin/aboutus`,
+    get: `${API_BASE_URL}/api/v1/admin/aboutus`,
+  },
+  contactus: {
+    create: `${API_BASE_URL}/api/v1/admin/contactus`,
+    get: `${API_BASE_URL}/api/v1/admin/contactus`,
+  },
+  contactEnquiry: {
+    getAll: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+  },
 };
 
 export default apis;

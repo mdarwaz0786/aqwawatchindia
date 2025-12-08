@@ -22,6 +22,9 @@ import disclaimerRoute from "./disclaimer.route.js";
 import privacyPolicyRoute from "./privacyPolicy.route.js";
 import returnRefundPolicyRoute from "./returnRefundPolicy.route.js";
 import termConditionRoute from "./termCondition.route.js";
+import aboutusRoute from "./aboutus.route.js";
+import contactRoute from "./contactus.route.js";
+import contactEnquiryRoute from "./contactEnquiry.route.js";
 
 const router = express.Router();
 
@@ -48,5 +51,8 @@ router.use("/disclaimer", disclaimerRoute);
 router.use("/privacy-policy", privacyPolicyRoute);
 router.use("/return-refund-policy", returnRefundPolicyRoute);
 router.use("/term-condition", termConditionRoute);
+router.use("/aboutus", aboutusRoute);
+router.use("/contactus", contactRoute);
+router.use("/contact-enquiry", contactEnquiryRoute);
 
 export default router;
