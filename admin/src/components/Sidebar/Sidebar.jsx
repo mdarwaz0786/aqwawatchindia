@@ -61,7 +61,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       title: "User",
       icon: <MdPeople />,
       items: [
-        { label: "Customer", link: "/user/customer" },
+        { label: "Customer", link: "/customer/list" },
       ],
     },
     {
@@ -103,7 +103,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       items: [
         { label: "Dealer", link: "/contact-enquiry/list/dealer" },
         { label: "Service", link: "/contact-enquiry/list/service" },
-        { label: "Contact", link: "/contact-enquiry/ist/contact" },
+        { label: "Contact", link: "/contact-enquiry/list/contact" },
       ],
     },
   ];

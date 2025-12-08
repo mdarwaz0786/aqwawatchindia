@@ -79,6 +79,7 @@ const AddProductPage = () => {
       name: { required: true, label: "Name" },
       category: { required: true, label: "Category" },
       images: { required: true, label: "Images" },
+      skuCode: { required: true, label: "SKU Code" },
     });
 
     if (!isValid) return;
@@ -182,6 +183,7 @@ const AddProductPage = () => {
           onChange={handleChange}
           error={errors.skuCode}
           width="col-md-4"
+          required
           placeholder="Enter SKU Code"
         />
       </div>

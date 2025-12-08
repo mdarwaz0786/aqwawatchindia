@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const Images = ({ onChange, placeholder = "image", required = false, label, error, width, existingImages = [] }) => {
+const Images = ({ onChange, onRemovedIndexesChange, placeholder = "image", required = false, label, error, width, existingImages = [] }) => {
   const [previews, setPreviews] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const dropRef = useRef(null);
 
   useEffect(() => {
     if (existingImages?.length > 0) {
-      const existingPreviews = existingImages.map((img) => ({
+      const existingPreviews = existingImages.map((img, idx) => ({
         file: img,
         url: img,
-        isExisting: true
+        isExisting: true,
+        originalIndex: idx,
       }));
       setPreviews(existingPreviews);
     }
@@ -46,6 +47,12 @@ const Images = ({ onChange, placeholder = "image", required = false, label, erro
   const handleDragLeave = () => setIsDragging(false);
 
   const removeImage = (index) => {
+    const removedImage = previews[index];
+
+    if (removedImage.isExisting && onRemovedIndexesChange) {
+      onRemovedIndexesChange((prev) => [...prev, removedImage.originalIndex]);
+    };
+
     const updated = previews.filter((_, i) => i !== index);
     setPreviews(updated);
     onChange(updated.map((p) => p.file));

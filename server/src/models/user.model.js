@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
     enum: ["customer", "admin"],
     default: "customer",
   },
+  status: {
+    type: Boolean,
+    default: true,
+  },
 }, { timestamps: true });
 
 userSchema.pre("save", async function (next) {

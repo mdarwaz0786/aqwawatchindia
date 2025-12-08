@@ -55,6 +55,7 @@ import ContactEnquiryDealerListPage from './pages/ContactEnquiry/ContactEnquiryD
 import ContactEnquiryServiceListPage from './pages/ContactEnquiry/ContactEnquiryServiceListPage';
 import ContactEnquiryContactListPage from './pages/ContactEnquiry/ContactEnquiryContactListPage';
 import OrderDetailPage from './pages/Order/OrderDetailPage';
+import CustomerListPage from './pages/User/CustomerListPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -75,6 +76,8 @@ const App = () => {
         <>
           <Route path="/" element={<Layout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} handleToggleSidebar={handleToggleSidebar} />}>
             <Route index element={<Dashboard />} />
+            <Route path="/customer/list" element={<CustomerListPage />} />
+
             <Route path="/category/list" element={<CategoryListPage />} />
             <Route path="/category/add" element={<AddCategoryPage />} />
             <Route path="/category/update/:id" element={<UpdateCategoryPage />} />

@@ -1,14 +1,42 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import { useApp } from "../../context/app.context";
 import apis, { API_BASE_URL } from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import formatDate from "../../helpers/formatDate";
+import { useEffect } from "react";
 
 const BlogPage = () => {
   const { categories } = useApp();
-  const { data } = useFetchData(apis.blog.get);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const initialParams = {
+    page: searchParams.get("page") || 1,
+    limit: searchParams.get("limit") || 12,
+  };
+
+  const { data, params, setParams } = useFetchData(apis.blog.get, "", { ...initialParams });
+
+  useEffect(() => {
+    const urlParams = {};
+    Object.keys(params).forEach((key) => {
+      if (Array.isArray(params[key])) {
+        if (params[key].length > 0) urlParams[key] = params[key].join(",");
+      } else if (params[key] !== "" && params[key] !== null && params[key] !== undefined) {
+        urlParams[key] = params[key];
+      }
+    });
+    setSearchParams(urlParams);
+  }, [params, setSearchParams]);
+
+  const handleFilterChange = (filterName, value) => {
+    if (filterName === "page") {
+      setParams({ page: value });
+    } else {
+      setParams({ [filterName]: value, page: 1 });
+    }
+  };
 
   return (
     <>
@@ -72,33 +100,82 @@ const BlogPage = () => {
             }
           </div>
 
-          <div className="row">
-            <div className="pagination_area">
-              <nav aria-label="...">
-                <ul className="pagination justify-content-center mt_50">
-                  <li className="page-item">
-                    <a className="page-link" href="blog_details.php">
-                      <i className="far fa-arrow-left" />
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link active" href="blog_details.php">01</a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="blog_details.php">02</a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="blog_details.php">03</a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="blog_details.php">
-                      <i className="far fa-arrow-right" />
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+          {data?.pagination && (
+            <div className="row">
+              <div className="pagination_area">
+                <nav aria-label="Pagination">
+                  <ul className="pagination justify-content-start mt_50">
+                    {(() => {
+                      const current = Number(data.pagination.currentPage || 1);
+                      const total = Number(data.pagination.totalPages || 1);
+
+                      const prevDisabled = current <= 1;
+                      const nextDisabled = current >= total;
+
+                      const pages = (data.pagination.pages || [])
+                        .map(p => Number(p))
+                        .filter((p, i, arr) => !Number.isNaN(p) && arr.indexOf(p) === i)
+                        .sort((a, b) => a - b);
+
+                      return (
+                        <>
+                          <li className={`page-item ${prevDisabled ? "disabled" : ""}`}>
+                            <button
+                              type="button"
+                              className="page-link"
+                              disabled={prevDisabled}
+                              aria-disabled={prevDisabled}
+                              onClick={() => {
+                                if (!prevDisabled) handleFilterChange("page", current - 1);
+                              }}
+                            >
+                              <i className="far fa-arrow-left" />
+                            </button>
+                          </li>
+
+                          {pages.map((pageNum) => {
+                            const pageNumber = Number(pageNum);
+                            const isActive = Number(params.page) === pageNumber;
+
+                            return (
+                              <li
+                                key={pageNumber}
+                                className={`page-item ${isActive ? "active" : ""}`}
+                              >
+                                <button
+                                  type="button"
+                                  className={`page-link ${isActive ? "active" : ""}`}
+                                  onClick={() => {
+                                    if (!isActive) handleFilterChange("page", pageNumber);
+                                  }}
+                                >
+                                  {String(pageNumber).padStart(2, "0")}
+                                </button>
+                              </li>
+                            );
+                          })}
+
+                          <li className={`page-item ${nextDisabled ? "disabled" : ""}`}>
+                            <button
+                              type="button"
+                              className="page-link"
+                              disabled={nextDisabled}
+                              aria-disabled={nextDisabled}
+                              onClick={() => {
+                                if (!nextDisabled) handleFilterChange("page", current + 1);
+                              }}
+                            >
+                              <i className="far fa-arrow-right" />
+                            </button>
+                          </li>
+                        </>
+                      );
+                    })()}
+                  </ul>
+                </nav>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
       {/*BLOG CLASSIC START*/}

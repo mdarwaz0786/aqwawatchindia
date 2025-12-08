@@ -181,18 +181,33 @@ export const updateProduct = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
-  if (req.files?.images?.length) {
-    if (product.images?.length) {
-      for (const img of product.images) {
-        if (fs.existsSync(path.resolve(img))) {
-          fs.unlinkSync(path.resolve(img));
-        }
-      }
-    }
+  const removedIndexes = req.body.removedIndexes
+    ? JSON.parse(req.body.removedIndexes)
+    : [];
 
-    const newImages = await Promise.all(req.files.images.map((file) => compressImage(file.buffer, "product")));
-    product.images = newImages;
+  console.log(removedIndexes)
+
+  let updatedImages = [];
+
+  for (let i = 0; i < product.images.length; i++) {
+    if (removedIndexes.includes(i)) {
+      const filePath = path.resolve(product.images[i]);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    } else {
+      updatedImages.push(product.images[i]);
+    }
   }
+
+  if (req.files?.images?.length) {
+    const newUploads = await Promise.all(
+      req.files.images.map(file =>
+        compressImage(file.buffer, "product")
+      )
+    );
+    updatedImages.push(...newUploads);
+  }
+
+  product.images = updatedImages;
 
   if (name && name !== product.name) {
     await SlugModel.deleteOne({
@@ -201,30 +216,33 @@ export const updateProduct = asyncHandler(async (req, res) => {
     });
     const newSlug = await generateUniqueSlug(name, "Product", product?._id, "products");
     product.slug = newSlug;
-  }
+  };
 
-  product.name = name || product.name;
-  product.category = category || product.category;
-  product.subCategory = subCategory || product.subCategory;
-  product.brand = brand || product.brand;
-  product.skuCode = skuCode || product.skuCode;
-  product.mrpPrice = mrpPrice || product.mrpPrice;
-  product.salePrice = salePrice || product.salePrice;
-  product.rating = rating || product.rating;
-  product.numberOfReviews = numberOfReviews || product.numberOfReviews;
-  product.smallInfo = smallInfo || product.smallInfo;
-  product.description = description || product.description;
-  product.specification = specification || product.specification;
-  product.amazonLink = amazonLink || product.amazonLink;
-  product.flipKartLink = flipKartLink || product.flipKartLink;
-  product.youtubeVideoLink = youtubeVideoLink || product.youtubeVideoLink;
+  const setValue = (newVal, oldVal) => (newVal !== undefined ? newVal : oldVal);
+
+  product.name = setValue(name, product.name);
+  product.category = setValue(category, product.category);
+  product.subCategory = setValue(subCategory, product.subCategory);
+  product.brand = setValue(brand, product.brand);
+  product.skuCode = setValue(skuCode, product.skuCode);
+  product.mrpPrice = setValue(mrpPrice, product.mrpPrice);
+  product.salePrice = setValue(salePrice, product.salePrice);
+  product.rating = setValue(rating, product.rating);
+  product.numberOfReviews = setValue(numberOfReviews, product.numberOfReviews);
+  product.smallInfo = setValue(smallInfo, product.smallInfo);
+  product.description = setValue(description, product.description);
+  product.specification = setValue(specification, product.specification);
+  product.amazonLink = setValue(amazonLink, product.amazonLink);
+  product.flipKartLink = setValue(flipKartLink, product.flipKartLink);
+  product.youtubeVideoLink = setValue(youtubeVideoLink, product.youtubeVideoLink);
+  product.stock = setValue(stock, product.stock);
+
   if (bestSellingProduct !== undefined) {
     product.bestSellingProduct = bestSellingProduct === "true";
   };
   if (newArrivalProduct !== undefined) {
     product.newArrivalProduct = newArrivalProduct === "true";
   };
-  product.stock = stock || product.stock;
   product.status = typeof status === "boolean" ? status : product.status;
   product.updatedBy = req.user?._id;
   product.updatedAt = new Date();

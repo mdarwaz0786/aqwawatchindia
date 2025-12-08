@@ -22,7 +22,6 @@ const initialState = {
   shortDescription: "",
   fullDescription: "",
   tags: "",
-  popularBlog: "",
   home: "",
   numberOfComment: 0,
 };
@@ -69,7 +68,6 @@ const BlogFormPage = () => {
         fullDescription,
         tags,
         home,
-        popularBlog,
         numberOfComment,
       } = fetchedData.data;
 
@@ -82,7 +80,6 @@ const BlogFormPage = () => {
         fullDescription: fullDescription || "",
         tags: tags || "",
         home: home || "",
-        popularBlog: popularBlog || "",
         numberOfComment: numberOfComment || 0,
       });
     }
@@ -110,7 +107,6 @@ const BlogFormPage = () => {
       shortDescription: { required: true, label: "shortDescription" },
       fullDescription: { required: true, label: "fullDescription" },
       home: { required: true, label: "home" },
-      popularBlog: { required: true, label: "popularBlog" },
       tags: { required: true, label: "tags" },
       numberOfComment: { required: true, label: "numberOfComment" },
     });
@@ -123,7 +119,6 @@ const BlogFormPage = () => {
     form.append("shortDescription", formData.shortDescription);
     form.append("fullDescription", formData.fullDescription);
     form.append("home", formData.home);
-    form.append("popularBlog", formData.popularBlog);
     form.append("tags", formData.tags);
     form.append("numberOfComment", formData.numberOfComment);
 
@@ -169,11 +164,6 @@ const BlogFormPage = () => {
     { _id: "false", name: "No" }
   ];
 
-  const popularBlogOptions = [
-    { _id: "true", name: "Yes" },
-    { _id: "false", name: "No" }
-  ];
-
   const categories = blogCategoryData?.data || [];
 
   return (
@@ -207,7 +197,7 @@ const BlogFormPage = () => {
       />
 
       <Select
-        label="Home"
+        label="Show in Home"
         name="home"
         value={formData.home}
         onChange={handleChange}
@@ -215,20 +205,6 @@ const BlogFormPage = () => {
         optionKey="_id"
         optionValue="name"
         error={errors.home}
-        width="col-md-6"
-        placeholder="Select"
-        required
-      />
-
-      <Select
-        label="Popular Blog"
-        name="popularBlog"
-        value={formData.popularBlog}
-        onChange={handleChange}
-        options={popularBlogOptions}
-        optionKey="_id"
-        optionValue="name"
-        error={errors.popularBlog}
         width="col-md-6"
         placeholder="Select"
         required
@@ -252,7 +228,7 @@ const BlogFormPage = () => {
         required
         error={errors.tags}
         onChange={handleChange}
-        width="col-md-6"
+        width="col-md-12"
         placeholder="e.g. Make Up, Cleansing, Eye Cream"
       />
 

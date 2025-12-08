@@ -3,6 +3,8 @@ import CartModel from "../../models/cart.model.js";
 import asyncHandler from "../../helpers/asyncHandler.js";
 import ApiError from "../../helpers/apiError.js";
 import generateToken from "../../helpers/generateToken.js";
+import fs from "fs";
+import path from "path";
 
 // ------------------ SIGNUP ------------------
 export const signup = asyncHandler(async (req, res) => {
@@ -108,6 +110,58 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
   return res.status(200).json({
     success: true,
     message: "Loggedin user fetched successfully",
+    data: user,
+  });
+});
+
+// ------------------ UPDATE USER ------------------
+export const updateUser = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+  const { name, email, mobile, password, status } = req.body;
+
+  const user = await UserModel.findById(userId).select("+password");
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (req.files?.avatar?.[0]) {
+    if (user.avatar && fs.existsSync(path.join(process.cwd(), user.avatar))) {
+      fs.unlinkSync(path.join(process.cwd(), user.avatar));
+    }
+
+    user.avatar = await compressImage(req.files.avatar[0].buffer, "users");
+  }
+
+  if (email && email !== user.email) {
+    const emailExists = await UserModel.findOne({ email });
+    if (emailExists) {
+      throw new ApiError(400, "Email already in use");
+    }
+    user.email = email;
+  }
+
+  if (mobile && mobile !== user.mobile) {
+    const mobileExists = await UserModel.findOne({ mobile });
+    if (mobileExists) {
+      throw new ApiError(400, "Mobile number already in use");
+    }
+    user.mobile = mobile;
+  }
+
+  user.name = name || user.name;
+  user.status = typeof status === "boolean" ? status : user.status;
+
+  if (password) {
+    user.password = password;
+  }
+
+  user.updatedAt = new Date();
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "Updated successfully",
     data: user,
   });
 });

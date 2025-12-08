@@ -12,6 +12,7 @@ import ProductModel from "../../models/product.model.js";
 import PromotionModel from "../../models/promotion.model.js";
 import TestimonialModel from "../../models/testimonial.model.js";
 import YouTubeVideoModel from "../../models/youTubeVideo.model.js";
+import ContactEnquiryModel from "../../models/contactEnquiry.model.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -29,7 +30,8 @@ export const getDashboardStats = async (req, res) => {
       totalProducts,
       totalPromotions,
       totalTestimonials,
-      totalYouTubeVideos
+      totalYouTubeVideos,
+      totalContactEnquiries,
     ] = await Promise.all([
       UserModel.countDocuments(),
       AddressModel.countDocuments(),
@@ -45,6 +47,7 @@ export const getDashboardStats = async (req, res) => {
       PromotionModel.countDocuments(),
       TestimonialModel.countDocuments(),
       YouTubeVideoModel.countDocuments(),
+      ContactEnquiryModel.countDocuments(),
     ]);
 
     return res.status(200).json({
@@ -65,6 +68,7 @@ export const getDashboardStats = async (req, res) => {
         totalPromotions,
         totalTestimonials,
         totalYouTubeVideos,
+        totalContactEnquiries,
         totalSettings: 1,
       },
     });

@@ -36,13 +36,13 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
                     </h3>
                   </div>
                 </div>
-                <div className="col-xxl-6 col-xl-6 text-end">
+                {/* <div className="col-xxl-6 col-xl-6 text-end">
                   <div className="view_all_btn_area">
                     <a className="view_all_btn" href="#">
                       View all
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <Swiper

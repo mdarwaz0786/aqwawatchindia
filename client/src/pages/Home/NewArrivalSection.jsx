@@ -34,11 +34,11 @@ const NewArrivalSection = ({ newArrivalProducts = [], refetch }) => {
                     <h3><span>New</span> Arrivals</h3>
                   </div>
                 </div>
-                <div className="col-xxl-6 col-xl-6">
+                {/* <div className="col-xxl-6 col-xl-6">
                   <div className="view_all_btn_area">
                     <a className="view_all_btn" href="#">View all</a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <Swiper

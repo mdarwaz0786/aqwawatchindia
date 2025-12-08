@@ -83,6 +83,8 @@ const ProductListPage = () => {
             <th>#</th>
             <th>Image</th>
             <th>Name</th>
+            <th>Category</th>
+            <th>Sub Category</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -100,7 +102,33 @@ const ProductListPage = () => {
                     height={50}
                   />
                 </td>
-                <td>{item?.name}</td>
+                <td
+                  title={item?.name}
+                  style={{
+                    maxWidth: "450px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >{item?.name}</td>
+                <td
+                  title={item?.category?.name}
+                  style={{
+                    maxWidth: "100px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >{item?.category?.name}</td>
+                <td
+                  title={item?.subCategory?.name}
+                  style={{
+                    maxWidth: "100px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >{item?.subCategory?.name}</td>
                 <td>
                   <StatusToggle
                     id={item?._id}

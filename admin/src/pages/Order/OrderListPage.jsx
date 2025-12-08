@@ -21,6 +21,9 @@ const OrderListPage = () => {
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
   const search = searchParams.get("search") || "";
+  const orderStatus = searchParams.get("orderStatus") || "";
+  const paymentMethod = searchParams.get("paymentMethod") || "";
+  const paymentStatus = searchParams.get("paymentStatus") || "";
 
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput, 500);
@@ -30,12 +33,19 @@ const OrderListPage = () => {
   const updateStatusUrl = apis.order.update;
 
   const { deleteData, deleteResponse, deleteError } = useDelete();
-  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search });
+  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, orderStatus, paymentMethod, paymentStatus });
   const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
-    setParams({ page, limit, search });
-  }, [page, limit, search]);
+    setParams({
+      page,
+      limit,
+      search,
+      orderStatus,
+      paymentMethod,
+      paymentStatus
+    });
+  }, [page, limit, search, orderStatus, paymentMethod, paymentStatus]);
 
   const updateQueryParams = (updates = {}) => {
     const updatedParams = { page, limit, search, ...updates };
@@ -73,6 +83,50 @@ const OrderListPage = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h5>Order<span className="badge bg-secondary ms-2">{total}</span></h5>
         <SearchBar value={searchInput} onChange={(val) => setSearchInput(val)} />
+      </div>
+
+      <div className="row mb-3">
+        <div className="col-md-4">
+          <select
+            className="form-select"
+            value={searchParams.get("orderStatus") || ""}
+            onChange={(e) => updateQueryParams({ orderStatus: e.target.value, page: 1 })}
+          >
+            <option value="">All Order Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Processing">Processing</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Completed">Completed</option>
+            <option value="Returned">Returned</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div className="col-md-4">
+          <select
+            className="form-select"
+            value={searchParams.get("paymentMethod") || ""}
+            onChange={(e) => updateQueryParams({ paymentMethod: e.target.value, page: 1 })}
+          >
+            <option value="">All Payment Methods</option>
+            <option value="COD">COD</option>
+            <option value="ONLINE">ONLINE</option>
+          </select>
+        </div>
+
+        <div className="col-md-4">
+          <select
+            className="form-select"
+            value={searchParams.get("paymentStatus") || ""}
+            onChange={(e) => updateQueryParams({ paymentStatus: e.target.value, page: 1 })}
+          >
+            <option value="">All Payment Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+          </select>
+        </div>
       </div>
 
       <TableWrapper>

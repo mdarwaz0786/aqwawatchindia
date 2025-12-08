@@ -52,6 +52,8 @@ const UpdateProductPage = () => {
     images: [],
   });
 
+  const [removedIndexes, setRemovedIndexes] = useState([]);
+
   useEffect(() => {
     if (productData?.data) {
       const product = productData?.data;
@@ -109,6 +111,7 @@ const UpdateProductPage = () => {
       name: { required: true, label: "Name" },
       category: { required: true, label: "Category" },
       images: { required: true, label: "Images" },
+      skuCode: { required: true, label: "SKU Code" },
     });
 
     if (!isValid) return;
@@ -123,6 +126,8 @@ const UpdateProductPage = () => {
         formData.append(key, value);
       }
     });
+
+    formData.append("removedIndexes", JSON.stringify(removedIndexes));
 
     await updateData(formData, validToken, true);
   };
@@ -219,6 +224,7 @@ const UpdateProductPage = () => {
           error={errors.skuCode}
           width="col-md-4"
           placeholder="Enter SKU Code"
+          required
         />
       </div>
 
@@ -335,6 +341,7 @@ const UpdateProductPage = () => {
       <Images
         label="Images"
         onChange={handleImageChange}
+        onRemovedIndexesChange={setRemovedIndexes}
         placeholder="Images"
         error={errors.images}
         existingImages={form.images}

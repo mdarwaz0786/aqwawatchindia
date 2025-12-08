@@ -9,8 +9,10 @@ import PageSizeSelector from '../../components/Table/PageSizeSelector';
 import { useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
+import useToggleStatus from '../../hooks/useToggleStatus';
+import StatusToggle from '../../components/Table/StatusToggle';
 
-const ContactEnquiryServiceListPage = () => {
+const CustomerListPage = () => {
   const { validToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,8 +23,11 @@ const ContactEnquiryServiceListPage = () => {
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput, 500);
 
-  const fetchDataUrl = apis.contactEnquiry.getAll;
-  const { data, params, setParams, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Service" });
+  const fetchDataUrl = apis.auth.getAll;
+  const updateStatusUrl = apis.auth.update;
+
+  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, role: "customer" });
+  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
     setParams({ page, limit, search });
@@ -40,13 +45,13 @@ const ContactEnquiryServiceListPage = () => {
   const handlePageChange = (newPage) => updateQueryParams({ page: newPage });
   const handlePageSizeChange = (newLimit) => updateQueryParams({ limit: newLimit, page: 1 });
 
-  const enquiries = data?.data || [];
+  const customers = data?.data || [];
   const total = data?.pagination?.total || 0;
 
   return (
     <div className="container mt-1">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5>Contact Enquiry<span className="badge bg-secondary ms-2">{total}</span></h5>
+        <h5>Customer<span className="badge bg-secondary ms-2">{total}</span></h5>
         <SearchBar value={searchInput} onChange={(val) => setSearchInput(val)} />
       </div>
 
@@ -55,33 +60,26 @@ const ContactEnquiryServiceListPage = () => {
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Mobile</th>
-            <th>State</th>
-            <th>City</th>
-            <th>Service</th>
-            <th>Message</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {enquiries?.length > 0 ? (
-            enquiries?.map((item, index) => (
+          {customers?.length > 0 ? (
+            customers?.map((item, index) => (
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>{item?.name}</td>
+                <td>{item?.email}</td>
                 <td>{item?.mobile}</td>
-                <td>{item?.state}</td>
-                <td>{item?.city}</td>
-                <td>{item?.service}</td>
-                <td
-                  title={item?.message}
-                  style={{
-                    maxWidth: "100px",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {item?.message}
+                <td>
+                  <StatusToggle
+                    id={item?._id}
+                    status={item?.status}
+                    toggling={toggling}
+                    onToggle={() => toggleStatus(updateStatusUrl, item?._id, item?.status)}
+                  />
                 </td>
               </tr>
             ))
@@ -112,4 +110,4 @@ const ContactEnquiryServiceListPage = () => {
   );
 };
 
-export default ContactEnquiryServiceListPage;
+export default CustomerListPage;

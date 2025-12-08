@@ -113,6 +113,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 // ---------------- GET ALL ORDERS ----------------
 export const getOrders = asyncHandler(async (req, res) => {
   let { search, orderStatus, paymentMethod, paymentStatus, page = 1, limit = 10, sort = "desc" } = req.query;
+  const userId = req.user?._id;
 
   page = parseInt(page, 10);
   limit = parseInt(limit, 10);
@@ -131,6 +132,7 @@ export const getOrders = asyncHandler(async (req, res) => {
   if (orderStatus) filters.orderStatus = orderStatus;
   if (paymentStatus) filters.paymentStatus = paymentStatus;
   if (paymentMethod) filters.paymentMethod = paymentMethod;
+  filters.user = userId;
 
   const sortOption = sort === "asc" ? { createdAt: 1 } : { createdAt: -1 };
 
@@ -155,12 +157,17 @@ export const getOrders = asyncHandler(async (req, res) => {
 
 // ---------------- GET SINGLE ORDER ----------------
 export const getOrderById = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
   const order = await OrderModel.findById(req.params.id)
     .populate("user", "-password")
     .populate("items")
     .populate("address");
 
   if (!order) throw new ApiError(404, "Order not found");
+
+  if (order?.user?._id.toString() !== userId.toString()) {
+    throw new ApiError(403, "You are not allowed to view this order");
+  };
 
   return res.status(200).json({
     success: true,

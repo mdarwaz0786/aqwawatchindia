@@ -16,11 +16,11 @@ const BlogSection = ({ blogs = [] }) => {
                     <h3 className="mb-2">Our <span>News</span> &amp; Articles</h3>
                   </div>
                 </div>
-                <div className="col-xl-6 col-sm-3">
+                {/* <div className="col-xl-6 col-sm-3">
                   <div className="view_all_btn_area">
                     <Link className="view_all_btn" to="/blogs">View all</Link>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="row">
                 {

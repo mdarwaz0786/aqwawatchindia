@@ -6,13 +6,9 @@ import TableWrapper from '../../components/Table/TableWrapper';
 import useFetchData from '../../hooks/useFetchData';
 import { useAuth } from '../../context/auth.context';
 import PageSizeSelector from '../../components/Table/PageSizeSelector';
-import useDelete from '../../hooks/useDelete';
-import { toast } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
-import useToggleStatus from '../../hooks/useToggleStatus';
-import StatusToggle from '../../components/Table/StatusToggle';
 
 const ContactEnquiryContactListPage = () => {
   const { validToken } = useAuth();
@@ -26,12 +22,7 @@ const ContactEnquiryContactListPage = () => {
   const debouncedSearch = useDebounce(searchInput, 500);
 
   const fetchDataUrl = apis.contactEnquiry.getAll;
-  const singleDeleteUrl = apis.contactEnquiry.deleteSingle;
-  const updateStatusUrl = apis.contactEnquiry.update;
-
-  const { deleteData, deleteResponse, deleteError } = useDelete();
-  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
-  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
+  const { data, params, setParams, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
 
   useEffect(() => {
     setParams({ page, limit, search });
@@ -48,22 +39,6 @@ const ContactEnquiryContactListPage = () => {
 
   const handlePageChange = (newPage) => updateQueryParams({ page: newPage });
   const handlePageSizeChange = (newLimit) => updateQueryParams({ limit: newLimit, page: 1 });
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete?")) return;
-    await deleteData(`${singleDeleteUrl}/${id}`, validToken);
-  };
-
-  useEffect(() => {
-    if (deleteResponse?.success) {
-      toast.success("Deleted successfully");
-      refetch();
-    }
-  }, [deleteResponse]);
-
-  useEffect(() => {
-    if (deleteError) toast.error(deleteError);
-  }, [deleteError]);
 
   const enquiries = data?.data || [];
   const total = data?.pagination?.total || 0;
@@ -84,8 +59,6 @@ const ContactEnquiryContactListPage = () => {
             <th>Mobile</th>
             <th>Subject</th>
             <th>Message</th>
-            <th>Status</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -117,24 +90,6 @@ const ContactEnquiryContactListPage = () => {
                   }}
                 >
                   {item?.message}
-                </td>
-                <td>
-                  <StatusToggle
-                    id={item?._id}
-                    status={item?.status}
-                    toggling={toggling}
-                    onToggle={() => toggleStatus(updateStatusUrl, item?._id, item?.status)}
-                  />
-                </td>
-                <td>
-                  <div className="d-flex flex-wrap gap-2">
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item?._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
                 </td>
               </tr>
             ))

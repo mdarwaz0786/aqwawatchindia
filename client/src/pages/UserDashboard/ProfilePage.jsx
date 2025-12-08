@@ -77,19 +77,23 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 wow fadeInRight">
-              <div className="dashboard_content mt_100">
-                {/* <h3 className="dashboard_title">Profile Information <Link className="common_btn" to="#">Edit</Link></h3> */}
-                <h3 className="dashboard_title">Profile Information</h3>
-                <div className="dashboard_profile_info_list">
-                  <ul>
-                    <li><span>Name: </span>{user?.name}</li>
-                    <li><span>Email: </span>{user?.email}</li>
-                    <li><span>Mobile: </span>{user?.mobile}</li>
-                  </ul>
+            {
+              user && (
+                <div className="col-xl-9 wow fadeInRight">
+                  <div className="dashboard_content mt_100">
+                    {/* <h3 className="dashboard_title">Profile Information <Link className="common_btn" to="#">Edit</Link></h3> */}
+                    <h3 className="dashboard_title">Profile Information</h3>
+                    <div className="dashboard_profile_info_list">
+                      <ul>
+                        <li><span>Name: </span>{user?.name}</li>
+                        <li><span>Email: </span>{user?.email}</li>
+                        <li><span>Mobile: </span>{user?.mobile}</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )
+            }
           </div>
         </div>
       </section>

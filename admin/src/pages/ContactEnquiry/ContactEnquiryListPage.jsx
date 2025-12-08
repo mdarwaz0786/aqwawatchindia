@@ -80,6 +80,8 @@ const ContactEnquiryListPage = () => {
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -90,6 +92,8 @@ const ContactEnquiryListPage = () => {
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>{item?.name}</td>
+                <td>{item?.email}</td>
+                <td>{item?.mobil}</td>
                 <td>
                   <StatusToggle
                     id={item?._id}
