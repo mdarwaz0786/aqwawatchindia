@@ -24,7 +24,6 @@ import AddProductPage from './pages/Product/AddProductPage';
 import SizeListPage from './pages/Size/SizeListPage';
 import AddSizePage from './pages/Size/AddSizePage';
 import UpdateSizePage from './pages/Size/UpdateSizePage';
-import Test from './Test';
 import ProductListPage from './pages/Product/ProductListPage';
 import UpdateProductPage from './pages/Product/UpdateProductPage';
 import CarouselListPage from './pages/WebsiteHome/Carousel/CarouselListPage';
@@ -61,7 +60,7 @@ import ShippingChargeFormPage from './pages/ShippingCharge/ShippingChargeFormPag
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   const handleToggleSidebar = () => {
     setMobileOpen((prev) => !prev);
@@ -76,90 +75,95 @@ const App = () => {
         </>
       ) : (
         <>
-          <Route path="/" element={<Layout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} handleToggleSidebar={handleToggleSidebar} />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/customer/list" element={<CustomerListPage />} />
+          {
+            (user?.role !== "admin") ? (
+              <Route path="/404" element={<NotFound />} />
+            ) : (
+              <Route path="/" element={<Layout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} handleToggleSidebar={handleToggleSidebar} />}>
+                <Route index element={<Dashboard />} />
+                <Route path="/customer/list" element={<CustomerListPage />} />
 
-            <Route path="/category/list" element={<CategoryListPage />} />
-            <Route path="/category/add" element={<AddCategoryPage />} />
-            <Route path="/category/update/:id" element={<UpdateCategoryPage />} />
+                <Route path="/category/list" element={<CategoryListPage />} />
+                <Route path="/category/add" element={<AddCategoryPage />} />
+                <Route path="/category/update/:id" element={<UpdateCategoryPage />} />
 
-            <Route path="/sub-category/list" element={<SubCategoryListPage />} />
-            <Route path="/sub-category/add" element={<AddSubCategoryPage />} />
-            <Route path="/sub-category/update/:id" element={<UpdateSubCategoryPage />} />
+                <Route path="/sub-category/list" element={<SubCategoryListPage />} />
+                <Route path="/sub-category/add" element={<AddSubCategoryPage />} />
+                <Route path="/sub-category/update/:id" element={<UpdateSubCategoryPage />} />
 
-            <Route path="/sub-sub-category/list" element={<SubSubCategoryListPage />} />
-            <Route path="/sub-sub-category/add" element={<AddSubSubCategoryPage />} />
-            <Route path="/sub-sub-category/update/:id" element={<UpdateSubSubCategoryPage />} />
+                <Route path="/sub-sub-category/list" element={<SubSubCategoryListPage />} />
+                <Route path="/sub-sub-category/add" element={<AddSubSubCategoryPage />} />
+                <Route path="/sub-sub-category/update/:id" element={<UpdateSubSubCategoryPage />} />
 
-            <Route path="/color/list" element={<ColorListPage />} />
-            <Route path="/color/add" element={<AddColorPage />} />
-            <Route path="/color/update/:id" element={<UpdateColorPage />} />
+                <Route path="/color/list" element={<ColorListPage />} />
+                <Route path="/color/add" element={<AddColorPage />} />
+                <Route path="/color/update/:id" element={<UpdateColorPage />} />
 
-            <Route path="/size/list" element={<SizeListPage />} />
-            <Route path="/size/add" element={<AddSizePage />} />
-            <Route path="/size/update/:id" element={<UpdateSizePage />} />
+                <Route path="/size/list" element={<SizeListPage />} />
+                <Route path="/size/add" element={<AddSizePage />} />
+                <Route path="/size/update/:id" element={<UpdateSizePage />} />
 
-            <Route path="/brand/list" element={<BrandListPage />} />
-            <Route path="/brand/add" element={<AddBrandPage />} />
-            <Route path="/brand/update/:id" element={<UpdateBrandPage />} />
+                <Route path="/brand/list" element={<BrandListPage />} />
+                <Route path="/brand/add" element={<AddBrandPage />} />
+                <Route path="/brand/update/:id" element={<UpdateBrandPage />} />
 
-            <Route path="/product/list" element={<ProductListPage />} />
-            <Route path="/product/add" element={<AddProductPage />} />
-            <Route path="/product/update/:id" element={<UpdateProductPage />} />
+                <Route path="/product/list" element={<ProductListPage />} />
+                <Route path="/product/add" element={<AddProductPage />} />
+                <Route path="/product/update/:id" element={<UpdateProductPage />} />
 
-            <Route path="/carousel/list" element={<CarouselListPage />} />
-            <Route path="/carousel/add" element={<CarouselFormPage />} />
-            <Route path="/carousel/update/:id" element={<CarouselFormPage />} />
+                <Route path="/carousel/list" element={<CarouselListPage />} />
+                <Route path="/carousel/add" element={<CarouselFormPage />} />
+                <Route path="/carousel/update/:id" element={<CarouselFormPage />} />
 
-            <Route path="/youtube-video/list" element={<YouTubeVideoListPage />} />
-            <Route path="/youtube-video/add" element={<YouTubeVideoFormPage />} />
-            <Route path="/youtube-video/update/:id" element={<YouTubeVideoFormPage />} />
+                <Route path="/youtube-video/list" element={<YouTubeVideoListPage />} />
+                <Route path="/youtube-video/add" element={<YouTubeVideoFormPage />} />
+                <Route path="/youtube-video/update/:id" element={<YouTubeVideoFormPage />} />
 
-            <Route path="/testimonial/list" element={<TestimonialListPage />} />
-            <Route path="/testimonial/add" element={<TestimonialFormPage />} />
-            <Route path="/testimonial/update/:id" element={<TestimonialFormPage />} />
+                <Route path="/testimonial/list" element={<TestimonialListPage />} />
+                <Route path="/testimonial/add" element={<TestimonialFormPage />} />
+                <Route path="/testimonial/update/:id" element={<TestimonialFormPage />} />
 
-            <Route path="/client/list" element={<ClientListPage />} />
-            <Route path="/client/add" element={<ClientFormPage />} />
-            <Route path="/client/update/:id" element={<ClientFormPage />} />
+                <Route path="/client/list" element={<ClientListPage />} />
+                <Route path="/client/add" element={<ClientFormPage />} />
+                <Route path="/client/update/:id" element={<ClientFormPage />} />
 
-            <Route path="/promotion/list" element={<PromotionListPage />} />
-            <Route path="/promotion/add" element={<PromotionFormPage />} />
-            <Route path="/promotion/update/:id" element={<PromotionFormPage />} />
+                <Route path="/promotion/list" element={<PromotionListPage />} />
+                <Route path="/promotion/add" element={<PromotionFormPage />} />
+                <Route path="/promotion/update/:id" element={<PromotionFormPage />} />
 
-            <Route path="/blog-category/list" element={<BlogCategoryListPage />} />
-            <Route path="/blog-category/add" element={<BlogCategoryFormPage />} />
-            <Route path="/blog-category/update/:id" element={<BlogCategoryFormPage />} />
+                <Route path="/blog-category/list" element={<BlogCategoryListPage />} />
+                <Route path="/blog-category/add" element={<BlogCategoryFormPage />} />
+                <Route path="/blog-category/update/:id" element={<BlogCategoryFormPage />} />
 
-            <Route path="/blog/list" element={<BlogListPage />} />
-            <Route path="/blog/add" element={<BlogFormPage />} />
-            <Route path="/blog/update/:id" element={<BlogFormPage />} />
+                <Route path="/blog/list" element={<BlogListPage />} />
+                <Route path="/blog/add" element={<BlogFormPage />} />
+                <Route path="/blog/update/:id" element={<BlogFormPage />} />
 
-            <Route path="/shipping-charge/list" element={<ShippingChargeListPage />} />
-            <Route path="/shipping-charge/add" element={<ShippingChargeFormPage />} />
-            <Route path="/shipping-charge/update/:id" element={<ShippingChargeFormPage />} />
+                <Route path="/shipping-charge/list" element={<ShippingChargeListPage />} />
+                <Route path="/shipping-charge/add" element={<ShippingChargeFormPage />} />
+                <Route path="/shipping-charge/update/:id" element={<ShippingChargeFormPage />} />
 
-            <Route path="/order/list" element={<OrderListPage />} />
-            <Route path="/order/detail/:id" element={<OrderDetailPage />} />
+                <Route path="/order/list" element={<OrderListPage />} />
+                <Route path="/order/detail/:id" element={<OrderDetailPage />} />
 
-            <Route path="/privacy-policy/add" element={<PrivacyPolicyFormPage />} />
-            <Route path="/billing-shipping-policy/add" element={<BillingShippingFormPage />} />
-            <Route path="/cookie-policy/add" element={<CookiePolicyFormPage />} />
-            <Route path="/disclaimer/add" element={<DisclaimerFormPage />} />
-            <Route path="/return-refund-policy/add" element={<ReturnRefundPolicyFormPage />} />
-            <Route path="/term-condition/add" element={<TermConditionFormPage />} />
+                <Route path="/privacy-policy/add" element={<PrivacyPolicyFormPage />} />
+                <Route path="/billing-shipping-policy/add" element={<BillingShippingFormPage />} />
+                <Route path="/cookie-policy/add" element={<CookiePolicyFormPage />} />
+                <Route path="/disclaimer/add" element={<DisclaimerFormPage />} />
+                <Route path="/return-refund-policy/add" element={<ReturnRefundPolicyFormPage />} />
+                <Route path="/term-condition/add" element={<TermConditionFormPage />} />
 
-            <Route path="/aboutus/add" element={<AboutUsFormPage />} />
-            <Route path="/contactus/add" element={<ContactusFormPage />} />
+                <Route path="/aboutus/add" element={<AboutUsFormPage />} />
+                <Route path="/contactus/add" element={<ContactusFormPage />} />
 
-            <Route path="/contact-enquiry/list" element={<ContactEnquiryListPage />} />
-            <Route path="/contact-enquiry/list/dealer" element={<ContactEnquiryDealerListPage />} />
-            <Route path="/contact-enquiry/list/service" element={<ContactEnquiryServiceListPage />} />
-            <Route path="/contact-enquiry/list/contact" element={<ContactEnquiryContactListPage />} />
-          </Route>
+                <Route path="/contact-enquiry/list" element={<ContactEnquiryListPage />} />
+                <Route path="/contact-enquiry/list/dealer" element={<ContactEnquiryDealerListPage />} />
+                <Route path="/contact-enquiry/list/service" element={<ContactEnquiryServiceListPage />} />
+                <Route path="/contact-enquiry/list/contact" element={<ContactEnquiryContactListPage />} />
+              </Route>
+            )
+          }
           <Route path="*" element={<NotFound />} />
-          <Route path="/test" element={<Test />} />
         </>
       )}
     </Routes>

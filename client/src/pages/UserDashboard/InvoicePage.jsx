@@ -141,6 +141,10 @@ const InvoicePage = () => {
                               ))
                             }
                           </tbody>
+                          <tr>
+                            <td colSpan="3" className="text-end"><strong>Grand Total:</strong></td>
+                            <td><strong>Rs.{order?.totalAmount}</strong></td>
+                          </tr>
                         </table>
                       </div>
                     </div>
