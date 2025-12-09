@@ -11,6 +11,13 @@ const CategorySection = ({ categories = [] }) => {
         <Swiper
           spaceBetween={0}
           items={categories}
+          breakpoints={{
+            320: { slidesPerView: 3 },
+            576: { slidesPerView: 3 },
+            768: { slidesPerView: 3 },
+            992: { slidesPerView: 5 },
+            1200: { slidesPerView: 7 },
+          }}
           renderSlide={(d) => (
             <div className="catsli wow fadeInUp">
               <div style={{ cursor: "pointer" }} className="category_item" onClick={() => navigate(`/products?category=${d?.slug}`)}>

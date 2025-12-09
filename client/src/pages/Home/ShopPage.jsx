@@ -23,12 +23,7 @@ const ShopPage = () => {
     clients,
     blogs,
     refetchHomePageData,
-    homePageLoading,
-    homePageError,
   } = useApp();
-
-  if (homePageLoading) return <p>Loading...</p>;
-  if (homePageError) return <p>Error loading data</p>;
 
   return (
     <>

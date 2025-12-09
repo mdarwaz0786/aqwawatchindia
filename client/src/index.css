@@ -31,13 +31,23 @@
   font-size: 1rem;
 }
 
+.details_slider_thumb_item {
+  background: none;
+}
+
+.details_slider_thumb_item img {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+}
+
 .menu_item li a {
   font-size: 15px !important;
   cursor: pointer !important;
 }
 
 .product_item_2 {
-  height: 445px !important;
+  height: 435px !important;
 }
 
 .product_img {

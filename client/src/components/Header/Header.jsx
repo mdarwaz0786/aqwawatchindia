@@ -7,15 +7,19 @@ import useFetchData from "../../hooks/useFetchData";
 import { useAuth } from "../../context/auth.context";
 import useDelete from "../../hooks/useDelete";
 import { toast } from "react-toastify";
+import { useCart } from "../../context/cart.context";
+import { useApp } from "../../context/app.context";
 
-const Header = ({ categories, cartQuantity }) => {
+const Header = () => {
   const navigate = useNavigate();
   const { userId, validToken, logOutUser } = useAuth();
+  const { categories } = useApp();
+  const { cartQuantity, refetchCart } = useCart();
   const [showMore, setShowMore] = useState(() => { return JSON.parse(localStorage.getItem("showMore")) || false });
   const [preview, setPreview] = useState({ img: "", title: "" });
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
-  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
+  const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
 
   const handleSubmit = (e) => {

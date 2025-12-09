@@ -7,13 +7,17 @@ import apis, { API_BASE_URL } from "../../api/apis";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
 import useDelete from "../../hooks/useDelete";
+import { useCart } from "../../context/cart.context";
+import { useApp } from "../../context/app.context";
 
-const Navbar = ({ categories, cartQuantity }) => {
+const Navbar = () => {
   const navigate = useNavigate();
   const { userId, validToken, logOutUser } = useAuth();
+  const { categories } = useApp();
+  const { cartQuantity, refetchCart } = useCart();
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
-  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
+  const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
 
   const handleSubmit = (e) => {

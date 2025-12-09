@@ -3,18 +3,16 @@ import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import apis, { API_BASE_URL } from "../../api/apis";
-import useFetchData from "../../hooks/useFetchData";
 import { useAuth } from "../../context/auth.context";
 import useDelete from "../../hooks/useDelete";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import useCreate from "../../hooks/useCreate";
-import { useApp } from "../../context/app.context";
+import { useCart } from "../../context/cart.context";
 
 const CartPage = () => {
   const { userId } = useAuth();
-  const { categories } = useApp();
-  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
+  const { refetchCart, cartItems } = useCart();
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
@@ -61,11 +59,12 @@ const CartPage = () => {
     };
   }, []);
 
-  const cart = cartData?.data;
+  const cart = cartItems?.data;
+  console.log(cart?.length);
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
@@ -176,9 +175,8 @@ const CartPage = () => {
                       ))
                     }
                   </ul>
-                  <h6>subtotal <span>Rs.{cartData?.totalAmount}</span></h6>
-                  <h6>Delivery Charge <span>(+) Rs.40</span></h6>
-                  <h4>Total <span>Rs.{cartData?.totalAmount + 40}</span></h4>
+                  <h6>subtotal <span>Rs.{cartItems?.totalAmount}</span></h6>
+                  <h4>Total <span>Rs.{cartItems?.totalAmount}</span></h4>
                   {/* <form action="#">
                     <input type="text" placeholder="Coupon code" />
                     <button type="submit" className="common_btn">Apply</button>

@@ -8,13 +8,13 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     setLoading(true);
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [location]);
+  }, [location.pathname]);
 
   if (loading) return <Preloader />;
 

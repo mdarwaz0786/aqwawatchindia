@@ -1,13 +1,14 @@
 .orderSuccessSection {
   padding: 60px 0;
   background: #f8f9fa;
+  padding-top: 85px
 }
 
 .successCard {
-  width: 450px;
+  width: 500px;
   background: #fff;
   border-radius: 20px;
-  animation: fadeIn 0.4s ease-in-out;
+  animation: fadeIn 0.9s ease-in-out;
 }
 
 .successIcon {
@@ -27,7 +28,7 @@
   border-radius: 50%;
   border: 5px solid #28a745;
   border-left-color: transparent;
-  animation: rotateCheck 1s ease forwards;
+  animation: rotateCheck 2s ease forwards;
   position: relative;
 }
 

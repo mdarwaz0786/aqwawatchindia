@@ -25,7 +25,7 @@ const InvoicePage = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page_banner_text wow fadeInUp">
-                  <h1>My Account</h1>
+                  <h1>Order Invoice</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
                     <li><Link to="#">Order Invoice</Link></li>

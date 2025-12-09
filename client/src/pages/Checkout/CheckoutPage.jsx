@@ -292,7 +292,7 @@ const CheckoutPage = () => {
                   {useNewAddress && (
                     <div className="accordion-body p-0">
                       <div className="row">
-                        <div className="col-md-6 mb-4 mt-4">
+                        <div className="col-md-6 mt-4">
                           <input
                             type="text"
                             name="name"

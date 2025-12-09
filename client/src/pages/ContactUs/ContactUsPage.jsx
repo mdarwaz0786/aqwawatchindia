@@ -75,7 +75,7 @@ const ContactUsPage = () => {
           <div className="row">
             <div className="col-xl-4 col-md-6">
               <div className="contact_info wow fadeInUp">
-                <span><img src={`${API_BASE_URL}/${data?.data?.image}`} alt="call" className="img-fluid" /></span>
+                <span><img src="/assets/images/call_icon_black.png" alt="call" className="img-fluid" /></span>
                 <h3>Call Us</h3>
                 <a href={`callto:${data?.data?.primaryMobile}`}>{data?.data?.primaryMobile}</a>
                 <a href={`callto:${data?.data?.secondaryMobile}`}>{data?.data?.secondaryMobile}</a>
@@ -83,7 +83,7 @@ const ContactUsPage = () => {
             </div>
             <div className="col-xl-4 col-md-6">
               <div className="contact_info wow fadeInUp">
-                <span><img src="assets/images/mail_icon_black.png" alt="Mail" className="img-fluid" /></span>
+                <span><img src="/assets/images/mail_icon_black.png" alt="Mail" className="img-fluid" /></span>
                 <h3>Email Us</h3>
                 <a href={`mailto:${data?.data?.primaryEmail}`}>{data?.data?.primaryEmail}</a>
                 <a href={`mailto:${data?.data?.secondaryEmail}`}>{data?.data?.secondaryEmail}</a>
@@ -91,7 +91,7 @@ const ContactUsPage = () => {
             </div>
             <div className="col-xl-4 col-md-6">
               <div className="contact_info wow fadeInUp">
-                <span><img src="assets/images/location_icon_black.png" alt="Map" className="img-fluid" /></span>
+                <span><img src="/assets/images/location_icon_black.png" alt="Map" className="img-fluid" /></span>
                 <h3>Our Location</h3>
                 <p>{data?.data?.location}</p>
               </div>
@@ -100,7 +100,7 @@ const ContactUsPage = () => {
           <div className="row mt_75">
             <div className="col-lg-5">
               <div className="contact_img wow fadeInLeft">
-                <img src="/assets/images/contact_message.jpg" alt="contact" className="img-fluid w-100" />
+                <img src={`${API_BASE_URL}/${data?.data?.image}`} alt="contact" className="img-fluid w-100" />
                 <div className="contact_hotline">
                   <h3>Hotline</h3>
                   <a href={`callto:${data?.data?.primaryMobile}`}>{data?.data?.primaryMobile}</a>

@@ -5,9 +5,11 @@ import useCreate from "../../hooks/useCreate";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/auth.context";
+import { useCart } from "../../context/cart.context";
 
 const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
   const { userId } = useAuth();
+  const { refetchCart } = useCart();
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
   const handleAddToCart = async (e, productId, quantity = 1, userId) => {
@@ -18,9 +20,10 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
   useEffect(() => {
     if (cartResponse?.success) {
       refetch();
+      refetchCart();
       toast.success(cartResponse?.message || "Added to cart");
     };
-  }, [cartResponse, cartError, refetch]);
+  }, [cartResponse, cartError, refetch, refetchCart]);
 
   return (
     <>
@@ -50,7 +53,7 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
                 slidesPerView={4}
                 autoplayDelay={2500}
                 breakpoints={{
-                  320: { slidesPerView: 1 },
+                  320: { slidesPerView: 2 },
                   576: { slidesPerView: 2 },
                   768: { slidesPerView: 3 },
                   1200: { slidesPerView: 4 },

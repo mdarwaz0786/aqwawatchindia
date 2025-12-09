@@ -27,7 +27,7 @@ const PromoBannerSection = ({ promotions = [] }) => {
                         autoplayDelay={50000000}
                         spaceBetween={15}
                         breakpoints={{
-                          320: { slidesPerView: 2 },
+                          320: { slidesPerView: 3 },
                           576: { slidesPerView: 3 },
                           768: { slidesPerView: 4 },
                           992: { slidesPerView: 5 },
@@ -71,7 +71,7 @@ const PromoBannerSection = ({ promotions = [] }) => {
                         autoplayDelay={5000}
                         spaceBetween={20}
                         breakpoints={{
-                          320: { slidesPerView: 2 },
+                          320: { slidesPerView: 3 },
                           576: { slidesPerView: 3 },
                           768: { slidesPerView: 4 },
                           992: { slidesPerView: 5 },

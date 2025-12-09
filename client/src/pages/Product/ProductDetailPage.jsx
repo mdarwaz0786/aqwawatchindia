@@ -12,13 +12,14 @@ import { useAuth } from '../../context/auth.context';
 import useFetchData from '../../hooks/useFetchData';
 import useCreate from '../../hooks/useCreate';
 import { toast } from 'react-toastify';
-import { useApp } from '../../context/app.context';
+import { useCart } from '../../context/cart.context';
 
 const ProductDetailPage = () => {
-  const { userId } = useAuth();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { categories } = useApp();
+  const { userId } = useAuth();
+  const { refetchCart } = useCart();
+  const [selectedImage, setSelectedImage] = useState("");
 
   const { data: productDetails, refetch, setParams: setProductParams } = useFetchData(`${apis.product.getSingle}/${slug}`);
   const { data: relatedProduct, refetch: refetchRelatedProduct, setParams: setRelatedParams } = useFetchData(`${apis.product.related}/${slug}`);
@@ -27,24 +28,11 @@ const ProductDetailPage = () => {
   const productDetail = productDetails?.data;
   const relatedProducts = relatedProduct?.data || [];
 
-  const [selectedImage, setSelectedImage] = useState("");
-
   useEffect(() => {
     if (productDetail?.images?.length > 0) {
       setSelectedImage(productDetail?.images[0]);
     };
   }, [productDetail]);
-
-  const specHTML = productDetail?.specification
-    ?.replace(/<table[^>]*>/g, '<table class="table table-bordered table-striped">')
-    .replace(/<th([^>]*)>/g, '<th$1 class="fw-bold bg-light">')
-    .replace(/data-[a-zA-Z0-9-]+="[^"]*"/g, "");
-
-  const handleClick = (slug) => {
-    if (slug) {
-      navigate(`/product-detail/${slug}`);
-    }
-  };
 
   useEffect(() => {
     if (userId) {
@@ -63,14 +51,20 @@ const ProductDetailPage = () => {
       toast.success(cartResponse?.message || "Added to cart");
       refetch();
       refetchRelatedProduct();
+      refetchCart();
     } else if (cartError) {
       toast.error("Something went wrong");
     };
   }, [cartResponse, cartError]);
 
+  const specHTML = productDetail?.specification
+    ?.replace(/<table[^>]*>/g, '<table class="table table-bordered table-striped">')
+    .replace(/<th([^>]*)>/g, '<th$1 class="fw-bold bg-light">')
+    .replace(/data-[a-zA-Z0-9-]+="[^"]*"/g, "");
+
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       <div>
         {/*PAGE BANNER START*/}
         <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
@@ -157,7 +151,7 @@ const ProductDetailPage = () => {
                         {/* Main Image */}
                         <div className="col-xl-10 col-lg-9 col-md-9 order-md-1">
                           <div className="row details_slider_thumb">
-                            <div className="col-12">
+                            <div className="col-md-4">
                               <div className="details_slider_thumb_item">
                                 <img
                                   src={`${API_BASE_URL}${selectedImage.startsWith("/") ? "" : "/"}${selectedImage}`}
@@ -203,10 +197,18 @@ const ProductDetailPage = () => {
                             <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
                           </div>
                         }
-                        <div className="details_btn_area">
-                          <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>
-                          <Link className="common_btn" to="#" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}>Add to cart <i className="fas fa-long-arrow-right" /></Link>
-                        </div>
+                        {
+                          productDetail?.quantity > 0 && (
+                            <div className="details_btn_area mt-3">
+                              <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>
+                              {productDetail?.quantity > 0 ? (
+                                <Link className="common_btn" to="/cart" >Go to cart <i className="fas fa-long-arrow-right" /></Link>
+                              ) : (
+                                <Link className="common_btn" to="#" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}>Add to cart <i className="fas fa-long-arrow-right" /></Link>
+                              )}
+                            </div>
+                          )
+                        }
                       </div>
                       <ul className="details_tags_sku mt-3">
                         <li><span>SKU:</span> {productDetail?.skuCode}</li>
@@ -266,7 +268,7 @@ const ProductDetailPage = () => {
                 autoplayDelay={10000}
                 spaceBetween={20}
                 breakpoints={{
-                  320: { slidesPerView: 1 },
+                  320: { slidesPerView: 2 },
                   576: { slidesPerView: 2 },
                   768: { slidesPerView: 3 },
                   1200: { slidesPerView: 4 },
@@ -301,7 +303,7 @@ const ProductDetailPage = () => {
                     </div>
 
                     <div className="product_text">
-                      <Link className="title" to="#" onClick={() => { handleClick(d?.slug); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                      <Link className="title" to="#" onClick={() => { navigate(`/product-detail/${d?.slug}`); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                         {d?.name}
                       </Link>
                       <p className="price">

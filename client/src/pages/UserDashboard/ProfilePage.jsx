@@ -21,7 +21,7 @@ const ProfilePage = () => {
                   <h1>My Account</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
-                    <li><Link to="/profile">Profile Information</Link></li>
+                    <li><Link to="#">My Account</Link></li>
                   </ul>
                 </div>
               </div>

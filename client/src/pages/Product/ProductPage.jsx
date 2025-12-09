@@ -11,12 +11,13 @@ import useDebounce from "../../hooks/useDebounce";
 import { useAuth } from "../../context/auth.context";
 import useCreate from "../../hooks/useCreate";
 import { toast } from "react-toastify";
-import { useApp } from "../../context/app.context";
+import { useCart } from "../../context/cart.context";
 
 const ProductPage = () => {
-  const { userId } = useAuth();
-  const { categories } = useApp();
   const navigate = useNavigate();
+  const [showFilter, setShowFilter] = useState(false);
+  const { userId } = useAuth();
+  const { refetchCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams = {
@@ -39,7 +40,6 @@ const ProductPage = () => {
   const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", { ...initialParams, userId });
   const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: userId });
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
-  const { data: cartData, refetch: refetchCart } = useFetchData(`${apis.cart.get}/${userId}`);
 
   useEffect(() => {
     const urlParams = {};
@@ -110,14 +110,13 @@ const ProductPage = () => {
 
   const products = data?.data || [];
   const relatedProducts = relatedProduct?.data || [];
-  const cartQuantity = cartData?.data?.length;
 
   const minPercent = ((localMin - min) / (max - min)) * 100;
   const maxPercent = ((localMax - min) / (max - min)) * 100;
 
   return (
     <>
-      <Header categories={categories} cartQuantity={cartQuantity} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
@@ -144,8 +143,8 @@ const ProductPage = () => {
           <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
               <div id="sticky_sidebar">
-                <div className="shop_filter_btn d-lg-none"> Filter</div>
-                <div className="shop_filter_area">
+                <div className="shop_filter_btn d-lg-none" onClick={() => setShowFilter(!showFilter)}> Filter</div>
+                <div className={`shop_filter_area ${showFilter ? "show" : ""}`}>
                   <div className="sidebar_range">
                     <h3>Price Range</h3>
                     <div className="range-slider">
@@ -177,7 +176,7 @@ const ProductPage = () => {
                     <h3>Product Status</h3>
                     <div className="form-check">
                       <input
-                        className="form-check-input"
+                        className="form-check-input w-100"
                         type="checkbox"
                         id="flexCheckDefault"
                         checked={params.onSale === "true" || params.onSale === true}
@@ -189,7 +188,7 @@ const ProductPage = () => {
                     </div>
                     <div className="form-check">
                       <input
-                        className="form-check-input"
+                        className="form-check-input w-100"
                         type="checkbox"
                         id="flexCheckChecked"
                         checked={params.inStock === "true" || params.inStock === true}
@@ -225,7 +224,7 @@ const ProductPage = () => {
             <div className="col-xxl-10 col-lg-8 col-xl-9">
               <div className="product_page_top">
                 <div className="row">
-                  <div className="col-4 col-xl-6 col-md-6">
+                  <div className="col-xl-6 col-md-6">
                     <div className="product_page_top_button">
                       <nav>
                         <div className="nav nav-tabs" id="nav-tab" role="tablist">
@@ -244,7 +243,7 @@ const ProductPage = () => {
                     <ul className="product_page_sorting">
                       <li>
                         <select
-                          className="form-select"
+                          className="form-select w-100"
                           value={params.sort}
                           onChange={(e) => handleFilterChange("sort", e.target.value)}
                         >
@@ -255,7 +254,7 @@ const ProductPage = () => {
                       </li>
                       <li>
                         <select
-                          className="form-select"
+                          className="form-select w-100"
                           value={params.limit}
                           onChange={(e) => handleFilterChange("limit", e.target.value)}
                         >
@@ -495,7 +494,7 @@ const ProductPage = () => {
               autoplayDelay={10000}
               spaceBetween={20}
               breakpoints={{
-                320: { slidesPerView: 1 },
+                320: { slidesPerView: 2 },
                 576: { slidesPerView: 2 },
                 768: { slidesPerView: 3 },
                 1200: { slidesPerView: 4 },

@@ -23,10 +23,10 @@ const DashboardPage = () => {
             <div className="row">
               <div className="col-12">
                 <div className="page_banner_text wow fadeInUp">
-                  <h1>My Account</h1>
+                  <h1>My Dashboard</h1>
                   <ul>
                     <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
-                    <li><Link to="#">Overview</Link></li>
+                    <li><Link to="#">My Dashboard</Link></li>
                   </ul>
                 </div>
               </div>
