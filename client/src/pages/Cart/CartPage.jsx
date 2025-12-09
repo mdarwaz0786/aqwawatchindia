@@ -52,7 +52,7 @@ const CartPage = () => {
     if (!hasReloaded) {
       sessionStorage.setItem("cart_reloaded", "true");
       window.location.reload();
-    }
+    };
 
     return () => {
       sessionStorage.removeItem("cart_reloaded");
@@ -60,7 +60,6 @@ const CartPage = () => {
   }, []);
 
   const cart = cartItems?.data;
-  console.log(cart?.length);
 
   return (
     <>

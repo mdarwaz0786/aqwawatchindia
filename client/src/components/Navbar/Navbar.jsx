@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from '../Header/Header.module.css';
-import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../api/apis";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
@@ -14,10 +13,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { userId, validToken, logOutUser } = useAuth();
   const { categories } = useApp();
-  const { cartQuantity, refetchCart } = useCart();
+  const { cartQuantity, refetchCart, cartItems } = useCart();
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
-  const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
 
   const handleSubmit = (e) => {
@@ -49,7 +47,7 @@ const Navbar = () => {
     };
   };
 
-  const cart = cartData?.data;
+  const cart = cartItems?.data;
 
   return (
     <>
@@ -202,7 +200,7 @@ const Navbar = () => {
                       <b>
                         <img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" />
                       </b>
-                      <span>{cart?.length || cartQuantity}</span>
+                      <span>{cartQuantity}</span>
                     </a>
                   </li>
                   <li>
@@ -277,7 +275,7 @@ const Navbar = () => {
                 ))
               }
             </ul>
-            <h5>sub total <span>Rs.{cartData?.totalAmount}</span></h5>
+            <h5>sub total <span>Rs.{cartItems?.totalAmount}</span></h5>
             <div className="minicart_btn_area">
               <Link className="common_btn" to="/cart">view cart</Link>
             </div>
@@ -326,7 +324,7 @@ const Navbar = () => {
               <li>
                 <Link to="/cart">
                   <b><img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" /></b>
-                  <span>{cart?.length || cartQuantity}</span>
+                  <span>{cartQuantity}</span>
                 </Link>
               </li>
               <li>

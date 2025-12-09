@@ -73,11 +73,11 @@ const ProductDetailPage = () => {
               <div className="row">
                 <div className="col-12">
                   <div className="page_banner_text wow fadeInUp">
-                    <h1>Shop Details</h1>
+                    <h1>Product Details</h1>
                     <ul>
                       <li><Link to="/"><i className="fal fa-home-lg" /> Home</Link></li>
                       <li><Link to="/products">Shop</Link></li>
-                      <li><a href="#">Shop Details</a></li>
+                      <li><a href="#">Product Details</a></li>
                     </ul>
                   </div>
                 </div>
@@ -189,26 +189,26 @@ const ProductDetailPage = () => {
                       <h3 className="price">Rs.{productDetail?.mrpPrice} <del>Rs.{productDetail?.salePrice}</del></h3>
                       {productDetail?.smallInfo && <p className="short_description" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
                       <div className="d-flex flex-wrap align-items-center">
-                        {
-                          productDetail?.quantity > 0 &&
-                          <div className="details_qty_input">
-                            <button className="minus" onClick={(e) => handleAddToCart(e, productDetail?._id, -1, userId)}><i className="fal fa-minus" /></button>
-                            <input type="text" placeholder={productDetail?.quantity} disabled />
-                            <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
-                          </div>
-                        }
-                        {
-                          productDetail?.quantity > 0 && (
-                            <div className="details_btn_area mt-3">
-                              <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>
-                              {productDetail?.quantity > 0 ? (
-                                <Link className="common_btn" to="/cart" >Go to cart <i className="fas fa-long-arrow-right" /></Link>
-                              ) : (
-                                <Link className="common_btn" to="#" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}>Add to cart <i className="fas fa-long-arrow-right" /></Link>
-                              )}
-                            </div>
-                          )
-                        }
+                        <div className="details_qty_input mt-3">
+                          <button
+                            className="minus"
+                            disabled={productDetail?.quantity <= 0}
+                            onClick={(e) => {
+                              if (productDetail?.quantity <= 0) return;
+                              handleAddToCart(e, productDetail?._id, -1, userId);
+                            }}
+                          ><i className="fal fa-minus" /></button>
+                          <input type="text" placeholder={productDetail?.quantity} disabled />
+                          <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
+                        </div>
+                        <div className="details_btn_area mt-3">
+                          {productDetail?.quantity > 0 && <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>}
+                          {productDetail?.quantity > 0 ? (
+                            <Link className="common_btn" to="/cart" >Go to cart <i className="fas fa-long-arrow-right" /></Link>
+                          ) : (
+                            <Link className="common_btn" to="#" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}>Add to cart <i className="fas fa-long-arrow-right" /></Link>
+                          )}
+                        </div>
                       </div>
                       <ul className="details_tags_sku mt-3">
                         <li><span>SKU:</span> {productDetail?.skuCode}</li>

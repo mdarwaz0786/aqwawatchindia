@@ -6,31 +6,35 @@ import Header from "../../components/Header/Header";
 import apis, { API_BASE_URL } from "../../api/apis";
 import { useAuth } from "../../context/auth.context";
 import useFetchData from "../../hooks/useFetchData";
-import { useApp } from "../../context/app.context";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { selectStyles } from "../../components/Constants/style";
+import { useCart } from "../../context/cart.context";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { userId, isLoggedIn, user, validToken } = useAuth();
-  const { categories } = useApp();
+  const { isLoggedIn, user, validToken } = useAuth();
+  const { cartItems } = useCart();
+
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+
   const [loadingCountries, setLoadingCountries] = useState(false);
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
 
-  const { data: cartData } = useFetchData(`${apis.cart.get}/${userId}`);
-  const { data: addressData } = useFetchData(validToken ? apis.address.getAll : null, validToken);
+  const [userState, setUserState] = useState(null);
 
-  const shippingCharge = 40;
-  const cart = cartData?.data || [];
+  const { data: addressData } = useFetchData(validToken ? apis.address.getAll : null, validToken);
+  const { data: shippigChargeData, refetch: refetchShippingData } = useFetchData(userState ? `${apis.shippingCharge.getSingle}/${userState}` : null);
+
+  const cart = cartItems?.data || [];
   const userAddresses = addressData?.data || [];
 
   const [selectedAddressId, setSelectedAddressId] = useState(null);
@@ -163,7 +167,6 @@ const CheckoutPage = () => {
 
     const payload = {
       paymentMethod,
-      shippingCharge,
     };
 
     if (useNewAddress) {
@@ -196,9 +199,20 @@ const CheckoutPage = () => {
     };
   };
 
+  const selectedAddressData = userAddresses?.find(
+    (a) => a?._id === selectedAddressId
+  ) || null;
+
+  useEffect(() => {
+    if (selectedAddressData?.state || selectedState) {
+      setUserState(selectedAddressData?.state || selectedState?.value);
+      refetchShippingData();
+    };
+  }, [selectedAddressData, selectedState]);
+
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
@@ -243,7 +257,7 @@ const CheckoutPage = () => {
                 <div className="row">
                   {userAddresses?.length > 0 &&
                     userAddresses?.map((a) => (
-                      <div className="col-md-6" key={a._id}>
+                      <div className="col-md-6" key={a?._id}>
                         <div className="checkout_single_address">
                           <div className="form-check form-check-inline">
                             <input
@@ -419,9 +433,9 @@ const CheckoutPage = () => {
                     ))
                   }
                 </ul>
-                <h6>Subtotal <span>Rs.{cartData?.totalAmount}</span></h6>
-                <h6>Shipping Charge <span>(+) Rs.{shippingCharge}</span></h6>
-                <h4>Total <span>Rs.{(cartData?.totalAmount || 0) + shippingCharge}</span></h4>
+                <h6>Subtotal <span>Rs.{cartItems?.totalAmount}</span></h6>
+                <h6>Shipping Charge <span>(+) Rs.{shippigChargeData?.data?.charge || 40}</span></h6>
+                <h4>Total <span>Rs.{(cartItems?.totalAmount || 0) + (shippigChargeData?.data?.charge || 0)}</span></h4>
               </div>
 
               {/* Payment Method */}

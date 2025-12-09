@@ -42,7 +42,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 
   const shippingData = await ShippingChargeModel.findOne({ state, status: true });
-  const shippingCharge = shippingData ? shippingData.charge : 40;
+  const shippingCharge = shippingData ? shippingData?.charge : 40;
 
   const cartItems = await CartModel.find({ user: userId }).populate("product");
   if (!cartItems || cartItems?.length === 0) throw new ApiError(400, "Your cart is empty");
