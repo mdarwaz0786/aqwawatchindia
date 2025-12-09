@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const useUpdateStatus = ({ token, refetch, remarks }) => {
+const useUpdateStatus = ({ token, refetch, statusKey = "status" }) => {
   const [status, setStatus] = useState({});
   const [approving, setApproving] = useState({});
 
@@ -18,27 +18,21 @@ const useUpdateStatus = ({ token, refetch, remarks }) => {
 
       setApproving((prev) => ({ ...prev, [id]: true }));
 
-      const remark = remarks[id];
-
-      if (status[id] === "Rejected" && !remark) {
-        return toast.error("Enter Remarks");
-      };
-
       const response = await axios.patch(
         `${url}/${id}`,
-        { status: status[id], remarks: remark },
+        { [statusKey]: status[id] },
         { headers: { Authorization: token } }
       );
 
       if (response?.data?.success) {
         toast.success("Status Updated Successfully");
-      };
+      }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Error while updating");
     } finally {
       setApproving((prev) => ({ ...prev, [id]: false }));
       refetch();
-    };
+    }
   };
 
   return {

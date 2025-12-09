@@ -427,7 +427,7 @@ const CheckoutPage = () => {
               {/* Payment Method */}
               <div className="checkout_payment">
                 <h3>Payment method</h3>
-                <div className="form-check">
+                {/* <div className="form-check">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -435,7 +435,7 @@ const CheckoutPage = () => {
                     onChange={() => setPaymentMethod("Online")}
                   />
                   <label className="form-check-label">Online Payment</label>
-                </div>
+                </div> */}
                 <div className="form-check">
                   <input
                     className="form-check-input"

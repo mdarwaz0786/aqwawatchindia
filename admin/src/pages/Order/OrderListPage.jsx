@@ -13,6 +13,9 @@ import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
 import useToggleStatus from '../../hooks/useToggleStatus';
 import StatusToggle from '../../components/Table/StatusToggle';
+import useUpdateStatus from '../../hooks/useUpdateStatus';
+import FilterSelect from '../../components/Form/FilterSelect';
+import StatusUpdateForm from '../../components/Form/StatusUpdateForm';
 
 const OrderListPage = () => {
   const { validToken } = useAuth();
@@ -35,6 +38,12 @@ const OrderListPage = () => {
   const { deleteData, deleteResponse, deleteError } = useDelete();
   const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, orderStatus, paymentMethod, paymentStatus });
   const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
+  const {
+    status,
+    approving,
+    handleStatusChange,
+    updateStatus,
+  } = useUpdateStatus({ token: validToken, refetch, statusKey: "orderStatus" });
 
   useEffect(() => {
     setParams({
@@ -78,6 +87,20 @@ const OrderListPage = () => {
   const orders = data?.data || [];
   const total = data?.pagination?.total || 0;
 
+  const orderStatusOptions = [
+    "Pending",
+    "Processing",
+    "Shipped",
+    "Out for Delivery",
+    "Delivered",
+    "Completed",
+    "Returned",
+    "Cancelled"
+  ];
+
+  const paymentMethodOptions = ["COD", "ONLINE"];
+  const paymentStatusOptions = ["Pending", "Paid"];
+
   return (
     <div className="container mt-1">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -87,45 +110,33 @@ const OrderListPage = () => {
 
       <div className="row mb-3">
         <div className="col-md-4">
-          <select
-            className="form-select"
-            value={searchParams.get("orderStatus") || ""}
-            onChange={(e) => updateQueryParams({ orderStatus: e.target.value, page: 1 })}
-          >
-            <option value="">All Order Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Processing">Processing</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Out for Delivery">Out for Delivery</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Completed">Completed</option>
-            <option value="Returned">Returned</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
+          <FilterSelect
+            paramKey="orderStatus"
+            label="All Order Status"
+            options={orderStatusOptions}
+            searchParams={searchParams}
+            updateQueryParams={updateQueryParams}
+          />
         </div>
 
         <div className="col-md-4">
-          <select
-            className="form-select"
-            value={searchParams.get("paymentMethod") || ""}
-            onChange={(e) => updateQueryParams({ paymentMethod: e.target.value, page: 1 })}
-          >
-            <option value="">All Payment Methods</option>
-            <option value="COD">COD</option>
-            <option value="ONLINE">ONLINE</option>
-          </select>
+          <FilterSelect
+            paramKey="paymentMethod"
+            label="All Payment Methods"
+            options={paymentMethodOptions}
+            searchParams={searchParams}
+            updateQueryParams={updateQueryParams}
+          />
         </div>
 
         <div className="col-md-4">
-          <select
-            className="form-select"
-            value={searchParams.get("paymentStatus") || ""}
-            onChange={(e) => updateQueryParams({ paymentStatus: e.target.value, page: 1 })}
-          >
-            <option value="">All Payment Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Paid">Paid</option>
-          </select>
+          <FilterSelect
+            paramKey="paymentStatus"
+            label="All Payment Status"
+            options={paymentStatusOptions}
+            searchParams={searchParams}
+            updateQueryParams={updateQueryParams}
+          />
         </div>
       </div>
 
@@ -154,8 +165,18 @@ const OrderListPage = () => {
                 </td>
                 <td>{item?.totalAmount}</td>
                 <td>{item?.paymentMethod}</td>
-                <td>{item?.orderStatus}</td>
                 <td>{item?.paymentStatus}</td>
+                <td style={{ width: "100%" }}>
+                  <StatusUpdateForm
+                    id={item?._id}
+                    currentStatus={item?.orderStatus}
+                    status={status}
+                    approving={approving}
+                    onChange={handleStatusChange}
+                    onSubmit={(id) => updateStatus(updateStatusUrl, id)}
+                    options={orderStatusOptions}
+                  />
+                </td>
                 <td>
                   <StatusToggle
                     id={item?._id}
