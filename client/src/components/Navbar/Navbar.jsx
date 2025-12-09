@@ -287,7 +287,7 @@ const Navbar = ({ categories, cartQuantity }) => {
         <div className="offcanvas offcanvas-start" data-bs-scroll="true" tabIndex={-1} id="offcanvasWithBothOptions">
           <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i className="fal fa-times" /></button>
           <div className="offcanvas-body">
-            <ul className="mobile_currency">
+            {/* <ul className="mobile_currency">
               <li>
                 <select className="select_js language">
                   <option>English</option>
@@ -305,9 +305,9 @@ const Navbar = ({ categories, cartQuantity }) => {
                   <option>₹INR</option>
                 </select>
               </li>
-            </ul>
+            </ul> */}
             <ul className="mobile_menu_header d-flex flex-wrap">
-              <li>
+              {/* <li>
                 <a href="compare.php">
                   <b> <img src="assets/images/compare_black.svg" alt="Wishlist" className="img-fluid" /> </b>
                   <span>2</span>
@@ -318,21 +318,21 @@ const Navbar = ({ categories, cartQuantity }) => {
                   <b> <img src="assets/images/love_black.svg" alt="Wishlist" className="img-fluid" /></b>
                   <span>4</span>
                 </a>
+              </li> */}
+              <li>
+                <Link to="/cart">
+                  <b><img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" /></b>
+                  <span>{cart?.length || cartQuantity}</span>
+                </Link>
               </li>
               <li>
-                <a href="cart.php">
-                  <b><img src="assets/images/cart_black.svg" alt="cart" className="img-fluid" /></b>
-                  <span>5</span>
-                </a>
-              </li>
-              <li>
-                <a href="dashboard.php">
-                  <b><img src="assets/images/user_icon_black.svg" alt="cart" className="img-fluid" /></b>
-                </a>
+                <Link to="/dashboard">
+                  <b><img src="/assets/images/user_icon_black.svg" alt="cart" className="img-fluid" /></b>
+                </Link>
               </li>
             </ul>
-            <form className="mobile_menu_search">
-              <input type="text" placeholder="Search" />
+            <form className="mobile_menu_search" onSubmit={handleSubmit}>
+              <input type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
               <button type="submit"><i className="far fa-search" /></button>
             </form>
             <div className="mobile_menu_item_area">
@@ -347,151 +347,34 @@ const Navbar = ({ categories, cartQuantity }) => {
               <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex={0}>
                   <ul className="main_mobile_menu">
-                    <li className="mobile_dropdown">
-                      <a href="#">Men's Fashion</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">jeans pant</a></li>
-                        <li><a href="shop.php">formal shirt</a></li>
-                        <li><a href="shop.php">2 quater</a></li>
-                        <li><a href="shop.php">denim jacket</a></li>
-                        <li><a href="shop.php">t-shirt</a></li>
-                        <li><a href="shop.php">polo-shirt</a></li>
-                        <li><a href="shop.php">formal pant</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">women's Fashion</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">sharee</a></li>
-                        <li><a href="shop.php">kurti</a></li>
-                        <li><a href="shop.php">plazoo</a></li>
-                        <li><a href="shop.php">lagins</a></li>
-                        <li><a href="shop.php">tops</a></li>
-                        <li><a href="shop.php">scart</a></li>
-                        <li><a href="shop.php">denim jeans</a></li>
-                        <li><a href="shop.php">Gown</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">kids fashion</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">t-shirt</a></li>
-                        <li><a href="shop.php">partu dress</a></li>
-                        <li><a href="shop.php">sharee</a></li>
-                        <li><a href="shop.php">kurti</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">western wear</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">western party dress</a></li>
-                        <li><a href="shop.php">kurti</a></li>
-                        <li><a href="shop.php">denim pant</a></li>
-                        <li><a href="shop.php">casual jacket</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">Denim collection</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">shirt</a></li>
-                        <li><a href="shop.php">pant</a></li>
-                        <li><a href="shop.php">jacket</a></li>
-                        <li><a href="shop.php">blazer</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">sport wear</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">shoes</a></li>
-                        <li><a href="shop.php">trouser</a></li>
-                        <li><a href="shop.php">meat</a></li>
-                        <li><a href="shop.php">Outdoors</a></li>
-                        <li><a href="shop.php">Sports Pant</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">beauty products</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">Concealer Palette</a></li>
-                        <li><a href="shop.php">Highlighter Palette</a></li>
-                        <li><a href="shop.php">SkinPure Avocado Gel</a></li>
-                        <li><a href="shop.php">Blush Palette</a></li>
-                        <li><a href="shop.php">Face Wash</a></li>
-                        <li><a href="shop.php">Lip Balm</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">fashion jewellery</a>
-                      <ul className="inner_menu">
-                        <li><a href="shop.php">Necklace</a></li>
-                        <li><a href="shop.php">ear ring</a></li>
-                        <li><a href="shop.php">fingure ring</a></li>
-                        <li><a href="shop.php">bratchlet</a></li>
-                      </ul>
-                    </li>
+                    {
+                      categories?.map((cat) => (
+                        <li className="mobile_dropdown" key={cat?._id}>
+                          <Link to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
+                          <ul className="inner_menu">
+                            {
+                              cat?.subcategories?.map((subcat) => (
+                                <li
+                                  key={subcat?._id}
+                                  onClick={() =>
+                                    navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
+                                  }
+                                ><Link to="#">{subcat?.name}</Link></li>
+                              ))
+                            }
+                          </ul>
+                        </li>
+                      ))
+                    }
                   </ul>
                 </div>
                 <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
                   <ul className="main_mobile_menu">
-                    <li className="mobile_dropdown">
-                      <a href="#">home</a>
-                      <ul className="inner_menu">
-                        <li><a href="index.php">clothing fashion 01</a></li>
-                        <li><a href="home_fashion_2.php">clothing fashion 02</a></li>
-                        <li><a href="home_grocery.php">Grocery Store</a></li>
-                        <li><a href="home_beauty.php">Beauty &amp; Cosmetics</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">shop</a>
-                      <ul className="inner_menu">
-                        <li><a href="#">store</a></li>
-                        <li><a href="#">store details</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">store</a>
-                      <ul className="inner_menu">
-                        <li><a href="vendor.php">store</a></li>
-                        <li><a href="vendor_details.php">store details</a></li>
-                        <li><a href="vendor_registration.php">become a Trade Partner</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="flash_deals.php">flash deals</a></li>
-                    <li className="mobile_dropdown">
-                      <a href="#">pages</a>
-                      <ul className="inner_menu">
-                        <li><a href="about_us.php">about us</a></li>
-                        <li><a href="category.php">Category</a></li>
-                        <li><a href="brand.php">Brand</a></li>
-                        <li><a href="cart.php">cart view</a></li>
-                        <li><a href="wishlist.php">wishlist</a></li>
-                        <li><a href="compare.php">compare</a></li>
-                        <li><a href="checkout.php">checkout</a></li>
-                        <li><a href="payment_success.php">payment success</a></li>
-                        <li><a href="payment_cancel.php">payment Cancel</a></li>
-                        <li><a href="track_order.php">track order</a></li>
-                        <li><a href="error.php">error/404</a></li>
-                        <li><a href="faq.php">FAQ's</a></li>
-                        <li><a href="privacy_policy.php">privacy Policy</a></li>
-                        <li><a href="terms_condition.php">terms and condition</a></li>
-                        <li><a href="return_policy.php">return policy</a></li>
-                        <li><a href="sign_in.php">sign in</a></li>
-                        <li><a href="sign_up.php">sign up</a></li>
-                        <li><a href="forgot_password.php">forgot password</a></li>
-                        <li><a href="dashboard.php">Dashboard</a></li>
-                      </ul>
-                    </li>
-                    <li className="mobile_dropdown">
-                      <a href="#">blog</a>
-                      <ul className="inner_menu">
-                        <li><a href="blog_classic.php">blog classic</a></li>
-                        <li><a href="blog_left_sidebar.php">blog right sidebar</a></li>
-                        <li><a href="blog_left_sidebar.php">blog left sidebar</a></li>
-                        <li><a href="blog_details.php">blog details</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="contact_us.php">contact</a></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/blogs">Blogs</Link></li>
+                    <li><Link to="/about-us">About Us</Link></li>
+                    <li><Link to="/contact-us">Contact Us</Link></li>
+                    <li><Link to="/become-dealer">Become a Dealer</Link></li>
                   </ul>
                 </div>
               </div>

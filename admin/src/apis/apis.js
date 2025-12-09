@@ -108,6 +108,13 @@ const apis = {
     getSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
     deleteSingle: `${API_BASE_URL}/api/v1/admin/youtube-video`,
   },
+  shippingCharge: {
+    create: `${API_BASE_URL}/api/v1/admin/shipping-charge`,
+    update: `${API_BASE_URL}/api/v1/admin/shipping-charge`,
+    getAll: `${API_BASE_URL}/api/v1/admin/shipping-charge`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/shipping-charge`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/shipping-charge`,
+  },
   order: {
     update: `${API_BASE_URL}/api/v1/admin/order`,
     getAll: `${API_BASE_URL}/api/v1/admin/order`,

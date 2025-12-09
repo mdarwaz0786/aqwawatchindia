@@ -6,6 +6,7 @@ import authRoute from "./auth.route.js";
 import addressRoute from "./address.route.js";
 import orderRoute from "./order.route.js";
 import blogRoute from "./blog.route.js";
+import shippingChargeRoute from "./shippingCharge.route.js";
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use("/auth", authRoute);
 router.use("/address", addressRoute);
 router.use("/order", orderRoute);
 router.use("/blog", blogRoute);
+router.use("/shipping-charge", shippingChargeRoute);
 
 export default router;

@@ -25,6 +25,7 @@ import termConditionRoute from "./termCondition.route.js";
 import aboutusRoute from "./aboutus.route.js";
 import contactRoute from "./contactus.route.js";
 import contactEnquiryRoute from "./contactEnquiry.route.js";
+import shippingChargeRoute from "./shippingCharge.route.js";
 
 const router = express.Router();
 
@@ -54,5 +55,6 @@ router.use("/term-condition", termConditionRoute);
 router.use("/aboutus", aboutusRoute);
 router.use("/contactus", contactRoute);
 router.use("/contact-enquiry", contactEnquiryRoute);
+router.use("/shipping-charge", shippingChargeRoute);
 
 export default router;

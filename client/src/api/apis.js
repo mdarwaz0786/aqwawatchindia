@@ -9,6 +9,9 @@ const apis = {
   home: {
     getAll: `${API_BASE_URL}/api/v1/user/home-page`,
   },
+  shippingCharge: {
+    getSingle: `${API_BASE_URL}/api/v1/user/shipping-charge`,
+  },
   product: {
     getAll: `${API_BASE_URL}/api/v1/user/product`,
     getSingle: `${API_BASE_URL}/api/v1/user/product`,

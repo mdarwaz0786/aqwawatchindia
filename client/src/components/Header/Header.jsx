@@ -334,110 +334,94 @@ const Header = ({ categories, cartQuantity }) => {
         <div className="offcanvas offcanvas-start" data-bs-scroll="true" tabIndex={-1} id="offcanvasWithBothOptions">
           <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i className="fal fa-times" /></button>
           <div className="offcanvas-body">
-            <ul className="mobile_menu_header d-flex flex-wrap">
+            {/* <ul className="mobile_currency">
               <li>
-                <a href="dashboard.php">
-                  <b><img src="assets/images/user_icon_black.svg" alt="cart" className="img-fluid" /></b>
+                <select className="select_js language">
+                  <option>English</option>
+                  <option>Arabic</option>
+                  <option>Hindi</option>
+                  <option>Chinese</option>
+                </select>
+              </li>
+              <li>
+                <select className="select_js">
+                  <option>Rs.USD</option>
+                  <option>€EUR</option>
+                  <option>¥JPY</option>
+                  <option>£GBP</option>
+                  <option>₹INR</option>
+                </select>
+              </li>
+            </ul> */}
+            <ul className="mobile_menu_header d-flex flex-wrap">
+              {/* <li>
+                <a href="compare.php">
+                  <b> <img src="assets/images/compare_black.svg" alt="Wishlist" className="img-fluid" /> </b>
+                  <span>2</span>
                 </a>
               </li>
+              <li>
+                <a href="wishlist.php">
+                  <b> <img src="assets/images/love_black.svg" alt="Wishlist" className="img-fluid" /></b>
+                  <span>4</span>
+                </a>
+              </li> */}
+              <li>
+                <Link to="/cart">
+                  <b><img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" /></b>
+                  <span>{cart?.length || cartQuantity}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/dashboard">
+                  <b><img src="/assets/images/user_icon_black.svg" alt="cart" className="img-fluid" /></b>
+                </Link>
+              </li>
             </ul>
-            <form className="mobile_menu_search">
-              <input type="text" placeholder="Search" />
+            <form className="mobile_menu_search" onSubmit={handleSubmit}>
+              <input type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
               <button type="submit"><i className="far fa-search" /></button>
             </form>
             <div className="mobile_menu_item_area">
               <ul className="nav nav-pills" id="pills-tab" role="tablist">
                 <li className="nav-item" role="presentation">
+                  <button className="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Categories</button>
+                </li>
+                <li className="nav-item" role="presentation">
                   <button className="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">menu</button>
                 </li>
               </ul>
               <div className="tab-content" id="pills-tabContent">
-                <div className="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
+                <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex={0}>
                   <ul className="main_mobile_menu">
-                    <li><a href="index.php"> Home</a></li>
-                    <li><a href="about_us.php"> About Us </a></li>
-                    <li className="mobile_dropdown">
-                      <a href="#">home</a>
-                      <ul className="inner_menu">
-                        <li><a href="index.php">clothing fashion 01</a></li>
-                        <li><a href="home_fashion_2.php">clothing fashion 02</a></li>
-                        <li><a href="home_grocery.php">Grocery Store</a></li>
-                        <li><a href="home_beauty.php">Beauty &amp; Cosmetics</a></li>
-                      </ul>
-                    </li>
-                    <div className="megamenus">
-                      <div className="container">
-                        <div className="row">
-                          <div className="col-lg-4">
-                            <div className="preview-box">
-                              <img id="megaPreview" src="assets/graphics/pro1.webp" alt="Preview" />
-                              <div id="megaPreviewTitle" className="preview-title">Water Softeners</div>
-                            </div>
-                          </div>
-                          <div className="col-lg-8">
-                            <div className="megamenu">
-                              <div className="innerboxes">
-                                <ul className="sub-menu-list waterpurifier">
-                                  <li className="productlistDiv" id="one" data-img="assets/graphics/pro1.webp" data-title="RO Water Purifiers">
-                                    <h5><a href="#">RO Water Purifiers</a></h5>
-                                    <p><a href="#">Explore (30 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="blackanddecker" data-img="assets/graphics/pro2.webp" data-title="Black+Decker RO Purifiers">
-                                    <h5><a href="#" target="_blank">Black+Decker RO Puriifers</a></h5>
-                                    <p><a href="#" target="_blank">Explore (2 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="two" data-img="assets/graphics/pro3.webp" data-title="KENT Nectar Hydrogen Water Maker">
-                                    <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">
-                                      KENT Nectar Hydrogen Water Maker</a></h5>
-                                    <p><a href="https://www.kent.co.in/water-purifiers/nhm/kent-nectar-hydrogen-maker">Explore (1 Products)</a></p>
-                                  </li>
-                                  <li className="productlistDiv" id="three" data-img="assets/graphics/pro4.webp" data-title="UV Water Purifiers">
-                                    <h5 className="uv-link"><a href="https://www.kent.co.in/water-purifiers/uv/">UV Water Purifiers</a></h5>
-                                    <p><a href="https://www.kent.co.in/water-purifiers/uv/">Explore (6 Products)</a></p>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <li><Link to="/products"> Products</Link></li>
-                    <li><Link to="/blogs"> Blogs</Link></li>
-                    <li><Link to="/contact"> Contact Us</Link></li>
-                    <li><Link to="/become-vendor">Become a Trade Partner</Link></li>
+                    {
+                      categories?.map((cat) => (
+                        <li className="mobile_dropdown" key={cat?._id}>
+                          <Link to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
+                          <ul className="inner_menu">
+                            {
+                              cat?.subcategories?.map((subcat) => (
+                                <li
+                                  key={subcat?._id}
+                                  onClick={() =>
+                                    navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
+                                  }
+                                ><Link to="#">{subcat?.name}</Link></li>
+                              ))
+                            }
+                          </ul>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+                <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
+                  <ul className="main_mobile_menu">
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/blogs">Blogs</Link></li>
+                    <li><Link to="/about-us">About Us</Link></li>
+                    <li><Link to="/contact-us">Contact Us</Link></li>
+                    <li><Link to="/become-dealer">Become a Dealer</Link></li>
                   </ul>
                 </div>
               </div>
@@ -445,7 +429,7 @@ const Header = ({ categories, cartQuantity }) => {
           </div>
         </div>
       </div>
-      {/* MOBILE MENU END */}
+      {/*MOBILE MENU END*/}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import OrderModel from "../../models/order.model.js";
 import OrderItemModel from "../../models/orderItem.model.js";
 import OrderAddressModel from "../../models/orderAddress.model.js";
+import ShippingChargeModel from "../../models/shippingCharge.model.js";
 import CartModel from "../../models/cart.model.js";
 import Address from "../../models/address.model.js";
 import ApiError from "../../helpers/apiError.js";
@@ -11,15 +12,17 @@ import { buildPagination } from "../../utils/pagination.js";
 export const createOrder = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
 
-  const { addressId, address, paymentMethod, shippingCharge = 40 } = req.body;
+  const { addressId, address, paymentMethod } = req.body;
 
   if (!userId) throw new ApiError(404, "User is required");
 
   let finalAddress;
+  let state;
 
   if (addressId) {
     finalAddress = await Address.findOne({ _id: addressId, user: userId }).populate("user");
     if (!finalAddress) throw new ApiError(404, "Address not found");
+    state = finalAddress.state;
   } else {
     const requiredAddress = ["name", "email", "mobile", "country", "state", "city", "zip", "address"];
     for (const field of requiredAddress) {
@@ -35,7 +38,11 @@ export const createOrder = asyncHandler(async (req, res) => {
       address: address?.address,
       instruction: address?.instruction || "",
     });
+    state = address.state;
   }
+
+  const shippingData = await ShippingChargeModel.findOne({ state, status: true });
+  const shippingCharge = shippingData ? shippingData.charge : 40;
 
   const cartItems = await CartModel.find({ user: userId }).populate("product");
   if (!cartItems || cartItems?.length === 0) throw new ApiError(400, "Your cart is empty");

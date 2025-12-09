@@ -26,6 +26,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
 
   const dropdownData = [
     {
+      title: "Shipping Charge",
+      icon: <MdStorefront />,
+      items: [
+        { label: "Shipping Charge List", link: "/shipping-charge/list" },
+        { label: "Add Shipping Charge", link: "/shipping-charge/add" },
+      ],
+    },
+    {
       title: "Product",
       icon: <MdStorefront />,
       items: [
