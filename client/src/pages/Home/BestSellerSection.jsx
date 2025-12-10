@@ -23,7 +23,7 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
       refetch();
       refetchCart();
       toast.success(cartResponse?.message || "Added to cart");
-    } else {
+    } else if (cartError) {
       toast.error(cartError || "Something went wrong");
     };
   }, [cartResponse, cartError, refetch, refetchCart]);
