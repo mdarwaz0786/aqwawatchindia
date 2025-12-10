@@ -1,4 +1,8 @@
 @media (max-width: 575.98px) {
+  .carousel-mobile {
+    margin-top: 4.4rem !important;
+  }
+
   .fa-shopping-cart {
     display: none !important;
   }
@@ -20,7 +24,7 @@
     width: 100px !important;
     height: 100px !important;
     object-fit: contain !important;
-    margin-left: 35px !important;
+    margin-left: 25px !important;
     margin-top: 15px !important;
   }
 

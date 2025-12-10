@@ -142,7 +142,7 @@ const ProductPage = () => {
         <div className="container">
           <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
-              <div id="sticky_sidebar">
+              <div>
                 <div className="shop_filter_btn d-lg-none" onClick={() => setShowFilter(!showFilter)}> Filter</div>
                 <div className={`shop_filter_area ${showFilter ? "show" : ""}`}>
                   <div className="sidebar_range">
@@ -244,10 +244,11 @@ const ProductPage = () => {
                       <li>
                         <select
                           className="form-select w-100"
+                          style={{ width: "200px" }}
                           value={params.sort}
                           onChange={(e) => handleFilterChange("sort", e.target.value)}
                         >
-                          <option value="desc">Default Sorting</option>
+                          <option value="desc">Relevance</option>
                           <option value="price_asc">Low to High</option>
                           <option value="price_desc">High to Low</option>
                         </select>
@@ -257,8 +258,9 @@ const ProductPage = () => {
                           className="form-select w-100"
                           value={params.limit}
                           onChange={(e) => handleFilterChange("limit", e.target.value)}
+                          style={{ width: "200px" }}
                         >
-                          <option value="12">Show: 12</option>
+                          <option value="12">show: 12</option>
                           <option value="18">Show: 18</option>
                           <option value="24">Show: 24</option>
                           <option value="30">Show: 30</option>
@@ -300,7 +302,7 @@ const ProductPage = () => {
                             </div>
                             <div className="product_text">
                               <Link className="title" to={`/product-detail/${d?.slug}`}> {d?.name}</Link>
-                              <p className="price">Rs.{d?.salePrice}</p>
+                              <p className="price">Rs.{d?.salePrice} <del>Rs.{d?.mrpPrice}</del></p>
                               <p className="rating">
                                 {[...Array(5)].map((_, i) => (
                                   <i
@@ -492,7 +494,7 @@ const ProductPage = () => {
             <Swiper
               items={relatedProducts}
               slidesPerView={4}
-              autoplayDelay={10000}
+              autoplayDelay={3000}
               spaceBetween={20}
               breakpoints={{
                 320: { slidesPerView: 2 },

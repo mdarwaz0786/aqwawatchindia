@@ -49,17 +49,28 @@ export const getProducts = asyncHandler(async (req, res) => {
   }
 
   if (rating) {
-    let ratings = [];
+    console.log(rating)
+    let selectedRatings = [];
 
     if (Array.isArray(rating)) {
-      ratings = rating.map(Number);
+      selectedRatings = rating.map(Number);
     } else if (typeof rating === "string" && rating.includes(",")) {
-      ratings = rating.split(",").map(Number);
+      selectedRatings = rating.split(",").map(Number);
     } else {
-      ratings = [Number(rating)];
+      selectedRatings = [Number(rating)];
     }
 
-    filters.rating = { $in: ratings };
+    filters.$or = selectedRatings.map((r) => {
+      if (r === 5) {
+        return { rating: 5 };
+      }
+      return {
+        rating: {
+          $gte: r,
+          $lt: r + 1,
+        }
+      };
+    });
   }
 
   if (category) {

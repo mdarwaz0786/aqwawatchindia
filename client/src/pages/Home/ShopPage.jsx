@@ -28,7 +28,9 @@ const ShopPage = () => {
   return (
     <>
       <Header categories={categories} />
-      <CarouselSection carousels={carousels} />
+      <div className="carousel-mobile">
+        <CarouselSection carousels={carousels} />
+      </div>
       <BestSellerSection bestSellingProducts={bestSellingProducts} refetch={refetchHomePageData} />
       <PromoBannerSection promotions={promotions} />
       <NewArrivalSection newArrivalProducts={newArrivalProducts} refetch={refetchHomePageData} />

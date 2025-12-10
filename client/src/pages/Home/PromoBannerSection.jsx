@@ -24,7 +24,7 @@ const PromoBannerSection = ({ promotions = [] }) => {
                       <MySwiper
                         items={d?.products}
                         slidesPerView={4}
-                        autoplayDelay={50000000}
+                        autoplayDelay={3000}
                         spaceBetween={15}
                         breakpoints={{
                           320: { slidesPerView: 3 },
@@ -67,7 +67,7 @@ const PromoBannerSection = ({ promotions = [] }) => {
                       <MySwiper
                         items={d?.products}
                         slidesPerView={4}
-                        autoplayDelay={5000}
+                        autoplayDelay={3000}
                         spaceBetween={20}
                         breakpoints={{
                           320: { slidesPerView: 3 },

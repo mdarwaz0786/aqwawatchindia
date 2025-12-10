@@ -371,7 +371,7 @@ const Header = () => {
               <li>
                 <Link to="/cart">
                   <b><img src="/assets/images/cart_black.svg" alt="cart" className="img-fluid" /></b>
-                  <span>{cartQuantity}</span>
+                  <span style={{ color: "#df4738" }}>{cartQuantity}</span>
                 </Link>
               </li>
               <li>

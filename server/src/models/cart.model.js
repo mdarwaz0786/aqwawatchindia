@@ -31,12 +31,12 @@ const cartSchema = new mongoose.Schema({
     default: true,
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     default: null,
   },
   updatedBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "User",
     default: null,
   },
