@@ -12,8 +12,8 @@ const CategorySection = ({ categories = [] }) => {
           spaceBetween={0}
           items={categories}
           breakpoints={{
-            320: { slidesPerView: 3 },
-            576: { slidesPerView: 3 },
+            320: { slidesPerView: 2 },
+            576: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
             992: { slidesPerView: 5 },
             1200: { slidesPerView: 7 },

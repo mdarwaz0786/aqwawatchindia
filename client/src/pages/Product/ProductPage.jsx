@@ -373,7 +373,7 @@ const ProductPage = () => {
                                     style={{ background: "#df4738", color: "#fff" }}
                                     onClick={(e) => handleAddToCart(e, d._id, 1, userId)}
                                   >
-                                    <i className="fas fa-shopping-cart me-2" />
+                                    <i className=" fas fa-shopping-cart me-2" />
                                     Add to Cart
                                   </button>
                                 )}
