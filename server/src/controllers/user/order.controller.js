@@ -91,9 +91,9 @@ export const createOrder = asyncHandler(async (req, res) => {
   await OrderAddressModel.create({
     order: order?._id,
     label: finalAddress?.label,
-    name: address?.name,
-    email: address?.email,
-    mobile: address?.mobile,
+    name: address?.name || finalAddress?.user?.name,
+    email: address?.email || finalAddress?.user?.email,
+    mobile: address?.mobile || finalAddress?.user?.mobile,
     country: finalAddress?.country,
     state: finalAddress?.state,
     city: finalAddress?.city,
