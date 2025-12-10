@@ -5296,6 +5296,7 @@ footer {
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
+    height: 450px;
 }
 
 .testimonial_item .rating {
@@ -5309,7 +5310,14 @@ footer {
 }
 
 .testimonial_item .review_text {
-    margin: 25px 0px 33px 0px;
+    margin: 10px 0px 10px 0px;
+    line-clamp: 15;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    height: calc(1.2em * 15);
 }
 
 .testimonial_footer {
@@ -11680,7 +11688,6 @@ footer {
     color: var(--colorBlack);
     text-transform: capitalize;
     display: inline-block;
-    width: 80px;
 }
 
 .invoice_table {

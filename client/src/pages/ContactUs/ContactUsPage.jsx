@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { useApp } from "../../context/app.context";
 import apis, { API_BASE_URL } from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import { useEffect, useState } from "react";
@@ -9,7 +8,6 @@ import { toast } from "react-toastify";
 import useCreate from "../../hooks/useCreate";
 
 const ContactUsPage = () => {
-  const { categories } = useApp();
   const { data } = useFetchData(apis.contactus.get);
 
   const [form, setForm] = useState({
@@ -48,7 +46,7 @@ const ContactUsPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

@@ -6,12 +6,10 @@ import Header from "../../components/Header/Header";
 import apis from "../../api/apis";
 import useCreate from "../../hooks/useCreate";
 import { useAuth } from "../../context/auth.context";
-import { useApp } from "../../context/app.context";
 
 const SignupPage = () => {
   const { storeToken, userId } = useAuth();
   const navigate = useNavigate();
-  const { categories } = useApp();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -47,7 +45,7 @@ const SignupPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
 
       {/* SIGN UP PAGE START */}
       <section className="sign_up">

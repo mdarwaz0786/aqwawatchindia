@@ -1,4 +1,9 @@
 const YoutubeVideoSection = ({ youTubeVideos = [] }) => {
+  const truncate = (text, limit = 150) => {
+    if (!text) return "";
+    return text.length > limit ? text.substring(0, limit) + "..." : text;
+  };
+
   return (
     <>
       {
@@ -14,7 +19,9 @@ const YoutubeVideoSection = ({ youTubeVideos = [] }) => {
                           <h3 className="mb-2">{d?.title}</h3>
                           <h5>{d?.subTitle}</h5>
                         </div>
-                        <p>{d?.description}</p>
+                        <p className="review_text">
+                          {truncate(d?.description, 1200)}
+                        </p>
                       </div>
                     </div>
                     <div className="col-lg-7">

@@ -1,14 +1,12 @@
 import { Link, useSearchParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { useApp } from "../../context/app.context";
 import apis, { API_BASE_URL } from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import formatDate from "../../helpers/formatDate";
 import { useEffect } from "react";
 
 const BlogPage = () => {
-  const { categories } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialParams = {
@@ -40,7 +38,7 @@ const BlogPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

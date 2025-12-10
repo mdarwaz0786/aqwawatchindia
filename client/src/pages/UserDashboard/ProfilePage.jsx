@@ -1,16 +1,14 @@
 import Footer from '../../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
-import { useApp } from '../../context/app.context';
 import { useAuth } from '../../context/auth.context';
 
 const ProfilePage = () => {
-  const { categories } = useApp();
   const { user, logOutUser, isLoggedIn } = useAuth();
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

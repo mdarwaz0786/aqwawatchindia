@@ -1,13 +1,11 @@
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { useApp } from "../../context/app.context";
 
 const ForgotPasswordPage = () => {
-  const { categories } = useApp();
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*FORGOT PASSWORD START*/}
       <section className="forgot_password ">
         <div className="container">

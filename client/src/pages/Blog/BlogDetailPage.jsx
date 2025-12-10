@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { useApp } from "../../context/app.context";
 import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../api/apis";
 import formatDate from "../../helpers/formatDate";
@@ -9,7 +8,6 @@ import { useEffect } from "react";
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
-  const { categories } = useApp();
   const { data } = useFetchData(`${apis.blog.get}/${slug}`);
   const shareUrl = encodeURIComponent(window.location.href);
   const title = encodeURIComponent(data?.data?.title);
@@ -20,7 +18,7 @@ const BlogDetailPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

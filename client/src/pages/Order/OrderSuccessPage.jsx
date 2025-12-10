@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { useApp } from "../../context/app.context";
 import styles from "./OrderSuccessPage.module.css";
 
 const OrderSuccessPage = () => {
-  const { categories } = useApp();
-
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       <section className={styles.orderSuccessSection}>
         <div className="container d-flex justify-content-center">
           <div className={`${styles.successCard} shadow-sm p-4 rounded-4`}>

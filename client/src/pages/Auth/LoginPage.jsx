@@ -7,12 +7,10 @@ import apis from "../../api/apis";
 import useCreate from "../../hooks/useCreate";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
-import { useApp } from "../../context/app.context";
 
 const LoginPage = () => {
   const { storeToken, userId } = useAuth();
   const navigate = useNavigate();
-  const { categories } = useApp();
 
   const [form, setForm] = useState({
     emailOrMobile: "",
@@ -52,7 +50,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/* SIGN IN PAGE START */}
       <section className="sign_in">
         <div className="container">

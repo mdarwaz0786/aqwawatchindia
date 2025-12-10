@@ -1,17 +1,15 @@
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { useApp } from "../../context/app.context";
 import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../api/apis";
 
 const AboutUsPage = () => {
-  const { categories } = useApp();
   const { data } = useFetchData(apis.aboutus.get);
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
           <div className="container">

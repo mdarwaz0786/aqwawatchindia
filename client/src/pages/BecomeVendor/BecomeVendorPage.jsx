@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import { useApp } from "../../context/app.context";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { selectStyles } from "../../components/Constants/style";
@@ -10,8 +9,6 @@ import apis from "../../api/apis";
 import { toast } from "react-toastify";
 
 const BecomeVendorPage = () => {
-  const { categories } = useApp();
-
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -139,7 +136,7 @@ const BecomeVendorPage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
           <div className="container">

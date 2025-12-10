@@ -1,7 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import { useApp } from '../../context/app.context';
 import { useAuth } from '../../context/auth.context';
 import useFetchData from '../../hooks/useFetchData';
 import apis from '../../api/apis';
@@ -9,7 +8,6 @@ import formatDate from '../../helpers/formatDate';
 
 const InvoicePage = () => {
   const { id } = useParams();
-  const { categories } = useApp();
   const { user, logOutUser, isLoggedIn, validToken } = useAuth();
   const { data } = useFetchData(validToken ? `${apis.order.get}/${id}` : null, validToken);
 
@@ -17,7 +15,7 @@ const InvoicePage = () => {
 
   return (
     <>
-      <Header categories={categories} />
+      <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">
@@ -88,7 +86,7 @@ const InvoicePage = () => {
             </div>
             <div className="col-lg-9 wow fadeInRight">
               <div className="dashboard_content mt_100">
-                <h3 className="dashboard_title">Order invoice <Link className="back_btn common_btn" to="/dashboard">Go Back</Link></h3>
+                <h3 className="dashboard_title">Order Invoice <Link className="back_btn common_btn" to="/dashboard">Go Back</Link></h3>
                 <div className="dashboard_order_invoice_area">
                   <div className="dashboard_order_invoice">
                     <div className="dashboard_invoice_logo_area">
@@ -111,10 +109,13 @@ const InvoicePage = () => {
                       <div className="text">
                         <h2>Ship To</h2>
                         <ul>
-                          <li><span>Name: </span>{order?.address?.name}</li>
-                          <li><span>Email: </span>{order?.address?.email}</li>
-                          <li><span>Mobile:</span>{order?.address?.mobile}</li>
-                          <li><span>Address:</span>{order?.address?.address}</li>
+                          <li><span>Name:</span> {order?.address?.name}</li>
+                          <li><span>Email:</span> {order?.address?.email}</li>
+                          <li><span>Mobile:</span> {order?.address?.mobile}</li>
+                          <li><span>State:</span> {order?.address?.state}</li>
+                          <li><span>City:</span> {order?.address?.city}</li>
+                          <li><span>Zip Code:</span> {order?.address?.zip}</li>
+                          <li><span>Address:</span> {order?.address?.address}</li>
                         </ul>
                       </div>
                     </div>
