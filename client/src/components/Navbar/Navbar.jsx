@@ -36,7 +36,7 @@ const Navbar = () => {
   }, [deleteCartResponse]);
 
   useEffect(() => {
-    if (deleteCartError) toast.error("Something went wrong");
+    if (deleteCartError) toast.error(deleteCartError || "Something went wrong");
   }, [deleteCartError]);
 
   const handleLogin = () => {
@@ -374,6 +374,7 @@ const Navbar = () => {
                   <ul className="main_mobile_menu">
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/blogs">Blogs</Link></li>
+                    <li><Link to="/shop">All Products</Link></li>
                     <li><Link to="/about-us">About Us</Link></li>
                     <li><Link to="/contact-us">Contact Us</Link></li>
                     <li><Link to="/become-dealer">Become a Dealer</Link></li>

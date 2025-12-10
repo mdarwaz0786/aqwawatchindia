@@ -46,7 +46,7 @@ const Header = () => {
   }, [deleteCartResponse]);
 
   useEffect(() => {
-    if (deleteCartError) toast.error("Something went wrong");
+    if (deleteCartError) toast.error(deleteCartError || "Something went wrong");
   }, [deleteCartError]);
 
   const handleLogin = () => {
@@ -420,6 +420,7 @@ const Header = () => {
                 <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
                   <ul className="main_mobile_menu">
                     <li><Link to="/">Home</Link></li>
+                    <li><Link to="/shop">All Products</Link></li>
                     <li><Link to="/blogs">Blogs</Link></li>
                     <li><Link to="/about-us">About Us</Link></li>
                     <li><Link to="/contact-us">Contact Us</Link></li>

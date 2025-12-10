@@ -29,7 +29,7 @@ const CartPage = () => {
   }, [deleteCartResponse]);
 
   useEffect(() => {
-    if (deleteCartError) toast.error("Something went wrong");
+    if (deleteCartError) toast.error(deleteCartError || "Something went wrong");
   }, [deleteCartError]);
 
   const handleAddToCart = async (e, productId, quantity = 1, userId) => {
@@ -42,7 +42,7 @@ const CartPage = () => {
       toast.success(cartResponse?.message || "Added to cart");
       refetchCart();
     } else if (cartError) {
-      toast.error("Something went wrong");
+      toast.error(cartError || "Something went wrong");
     };
   }, [cartResponse, cartError]);
 

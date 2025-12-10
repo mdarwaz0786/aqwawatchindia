@@ -53,7 +53,7 @@ const ProductDetailPage = () => {
       refetchRelatedProduct();
       refetchCart();
     } else if (cartError) {
-      toast.error("Something went wrong");
+      toast.error(cartError || "Something went wrong");
     };
   }, [cartResponse, cartError]);
 
