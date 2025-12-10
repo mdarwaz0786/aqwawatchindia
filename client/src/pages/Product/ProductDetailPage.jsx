@@ -265,7 +265,7 @@ const ProductDetailPage = () => {
               <Swiper
                 items={relatedProducts}
                 slidesPerView={4}
-                autoplayDelay={10000}
+                autoplayDelay={3000}
                 spaceBetween={20}
                 breakpoints={{
                   320: { slidesPerView: 2 },
@@ -280,6 +280,8 @@ const ProductDetailPage = () => {
                         src={`${API_BASE_URL}/${d?.images?.[0]}`}
                         alt={d?.name}
                         className="img-fluid w-100"
+                        onClick={() => navigate(`/product-detail/${d?.slug}`)}
+                        style={{ cursor: "pointer" }}
                       />
                       <ul className="discount_list">
                         {Number(d?.percentOff) > 0 && (
@@ -295,7 +297,7 @@ const ProductDetailPage = () => {
                             <img
                               src="/assets/images/cart_icon_white.svg"
                               alt="Cart"
-                              className="img-fluid"
+                              style={{ cursor: "pointer" }}
                             />
                           </Link>
                         </li>
@@ -303,7 +305,7 @@ const ProductDetailPage = () => {
                     </div>
 
                     <div className="product_text">
-                      <Link className="title" to="#" onClick={() => { navigate(`/product-detail/${d?.slug}`); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                      <Link className="title" to={`/product-detail/${d?.slug}`} >
                         {d?.name}
                       </Link>
                       <p className="price">

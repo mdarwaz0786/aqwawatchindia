@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apis, { API_BASE_URL } from "../../api/apis";
 import Swiper from "../../components/Swiper/Swiper";
 import { useAuth } from "../../context/auth.context";
@@ -8,6 +8,7 @@ import useCreate from "../../hooks/useCreate";
 import { useCart } from "../../context/cart.context";
 
 const NewArrivalSection = ({ newArrivalProducts = [], refetch }) => {
+  const navigaton = useNavigate();
   const { userId } = useAuth();
   const { refetchCart } = useCart();
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
@@ -61,6 +62,8 @@ const NewArrivalSection = ({ newArrivalProducts = [], refetch }) => {
                         src={`${API_BASE_URL}/${d?.images?.[0]}`}
                         alt={d?.name}
                         className="img-fluid w-100"
+                        onClick={() => navigaton(`/product-detail/${d?.slug}`)}
+                        style={{ cursor: "pointer" }}
                       />
                       <ul className="discount_list">
                         {d?.percentOff && (
@@ -72,9 +75,9 @@ const NewArrivalSection = ({ newArrivalProducts = [], refetch }) => {
                       </ul>
                       <ul className="btn_list">
                         <li>
-                          <a href="#">
+                          <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>
                             <img src="/assets/images/cart_icon_white.svg" alt="Love" className="img-fluid" />
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>

@@ -259,10 +259,9 @@ const ProductPage = () => {
                           onChange={(e) => handleFilterChange("limit", e.target.value)}
                         >
                           <option value="12">Show: 12</option>
-                          <option value="15">Show: 15</option>
                           <option value="18">Show: 18</option>
-                          <option value="21">Show: 21</option>
                           <option value="24">Show: 24</option>
+                          <option value="30">Show: 30</option>
                         </select>
                       </li>
                     </ul>
@@ -282,6 +281,8 @@ const ProductPage = () => {
                                 src={`${API_BASE_URL}/${d?.images?.[0]}`}
                                 alt={d?.name}
                                 className="img-fluid w-100"
+                                onClick={() => navigate(`/product-detail/${d?.slug}`)}
+                                style={{ cursor: "pointer" }}
                               />
                               {
                                 (d?.newArrivalProduct) &&
@@ -506,6 +507,8 @@ const ProductPage = () => {
                       src={`${API_BASE_URL}/${d?.images?.[0]}`}
                       alt={d?.name}
                       className="img-fluid w-100"
+                      onClick={() => navigate(`/product-detail/${d?.slug}`)}
+                      style={{ cursor: "pointer" }}
                     />
                     <ul className="discount_list">
                       {Number(d?.percentOff) > 0 && (

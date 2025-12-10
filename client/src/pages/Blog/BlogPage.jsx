@@ -67,31 +67,35 @@ const BlogPage = () => {
           <div className="row">
             {
               data?.data?.map((d) => (
-                <div className="col-lg-4 col-xxl-3 col-md-6 wow fadeInUp">
-                  <div className="blog_item">
+                <div className="col-lg-4 col-xxl-3 col-md-6 wow fadeInUp mb-3">
+                  <div className="blog_item h-100 d-flex flex-column">
                     <Link to={`/blog-detail/${d?.slug}`} className="blog_img">
-                      <img src={`${API_BASE_URL}/${d?.frontImage}`} alt="blog" className="img-fluid w-100" />
+                      <img
+                        src={`${API_BASE_URL}/${d?.frontImage}`}
+                        alt="blog"
+                        className="img-fluid w-100"
+                        style={{ height: "300px", objectFit: "fill" }}
+                      />
                     </Link>
-                    <div className="blog_text">
-                      <ul className="top">
-                        <li>
-                          <span>
-                            <img src="/assets/images/user_icon_black.svg" alt="user" className="img-fluid w-100" />
-                          </span>
-                          {d?.createdBy?.name}
-                        </li>
-                        <li>
-                          <span>
-                            <img src="/assets/images/calender.png" alt="Message" className="img-fluid w-100" />
+                    <div className="blog_text d-flex flex-column flex-grow-1 p-3">
+                      <ul className="top list-unstyled d-flex align-items-center mb-2">
+                        <li className="d-flex align-items-center">
+                          <span className="me-2">
+                            <img src="/assets/images/calender.png" alt="Message" style={{ width: "18px" }} />
                           </span>
                           {formatDate(d?.createdAt)}
                         </li>
                       </ul>
-                      <Link className="title" to="/blog-detail">{d?.title}</Link>
-                      <p>{d?.shortDescription}</p>
-                      <ul className="bottom">
-                        <li><Link to={`/blog-detail/${d?.slug}`}>read more <i className="fas fa-long-arrow-right" /></Link>
-                        </li><li><span><i className="far fa-comment-dots" /> {d?.numberOfComment} Comments</span></li>
+                      <Link className="title fw-semibold mb-2" to={`/blog-detail/${d?.slug}`}>
+                        {d?.title}
+                      </Link>
+                      <p className="text-muted flex-grow-1 mb-3 line-3">{d?.shortDescription}</p>
+                      <ul className="bottom list-unstyled mt-auto">
+                        <li>
+                          <Link to={`/blog-detail/${d?.slug}`} className="text-danger fw-semibold">
+                            read more <i className="fas fa-long-arrow-right"></i>
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>

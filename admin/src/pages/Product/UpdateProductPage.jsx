@@ -112,6 +112,9 @@ const UpdateProductPage = () => {
       category: { required: true, label: "Category" },
       images: { required: true, label: "Images" },
       skuCode: { required: true, label: "SKU Code" },
+      salePrice: { required: true, label: "Sale Price" },
+      mrpPrice: { required: true, label: "MRP Price" },
+      stock: { required: true, label: "Stock" },
     });
 
     if (!isValid) return;
@@ -214,6 +217,7 @@ const UpdateProductPage = () => {
           error={errors.stock}
           width="col-md-4"
           placeholder="Enter Stock Quantity"
+          required
         />
 
         <Input
@@ -238,6 +242,7 @@ const UpdateProductPage = () => {
           error={errors.mrpPrice}
           width="col-md-6"
           placeholder="Enter MRP Price"
+          required
         />
         <Input
           label="Sale Price"
@@ -248,6 +253,7 @@ const UpdateProductPage = () => {
           error={errors.salePrice}
           width="col-md-6"
           placeholder="Enter Sale Price"
+          required
         />
       </div>
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apis, { API_BASE_URL } from "../../api/apis";
 import Swiper from "../../components/Swiper/Swiper";
 import useCreate from "../../hooks/useCreate";
@@ -8,6 +8,7 @@ import { useAuth } from "../../context/auth.context";
 import { useCart } from "../../context/cart.context";
 
 const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
+  const navigaton = useNavigate();
   const { userId } = useAuth();
   const { refetchCart } = useCart();
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
@@ -65,6 +66,8 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
                         src={`${API_BASE_URL}/${d?.images?.[0]}`}
                         alt={d?.name}
                         className="img-fluid w-100"
+                        onClick={() => navigaton(`/product-detail/${d?.slug}`)}
+                        style={{ cursor: "pointer" }}
                       />
                       <ul className="discount_list">
                         {d?.percentOff && (
@@ -76,13 +79,13 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
                       </ul>
                       <ul className="btn_list">
                         <li>
-                          <a href="#">
+                          <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>
                             <img
-                              src="assets/images/cart_icon_white.svg"
+                              src="/assets/images/cart_icon_white.svg"
                               alt="Cart"
                               className="img-fluid"
                             />
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -164,7 +167,7 @@ const BestSellerSection = ({ bestSellingProducts = [], refetch }) => {
                           <button
                             className="btn w-100 d-flex align-items-center justify-content-center"
                             style={{ background: "#df4738", color: "#fff" }}
-                            onClick={(e) => handleAddToCart(e, d._id, 1, userId)}
+                            onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}
                           >
                             <i className="fas fa-shopping-cart me-2" />
                             Add to Cart

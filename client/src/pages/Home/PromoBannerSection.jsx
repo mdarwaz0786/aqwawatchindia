@@ -34,18 +34,17 @@ const PromoBannerSection = ({ promotions = [] }) => {
                           1200: { slidesPerView: 6 },
                         }}
                         renderSlide={(p) => (
-                          <div className="promo1 mt-3">
-                            <div className="prom" onClick={() => navigate(`/product-detail/${p?.slug}`)}>
-                              <a href="#" className="category_item1">
-                                <div className="promotitle">
-                                  <p>UPTO {p?.percentOff}% OFF</p>
+                          <div className="promo-item mt-3">
+                            <div className="promos" onClick={() => navigate(`/product-detail/${p?.slug}`)}>
+                              <a href="#">
+                                <div className="promo-title">
+                                  <p>{p?.percentOff}% OFF</p>
                                 </div>
-                                <div className="img d-flex align-items-center justify-content-center bg-white"
-                                  style={{ height: "85px", width: "100%", borderRadius: "10px" }}>
+                                <div className="promo-image d-flex align-items-center justify-content-center bg-white">
                                   <img
                                     src={`${API_BASE_URL}/${p?.images?.[0]}`}
                                     alt="product"
-                                    className="w-100 h-100 object-fit-fill"
+                                    className="promo-img"
                                   />
                                 </div>
                               </a>
@@ -78,18 +77,17 @@ const PromoBannerSection = ({ promotions = [] }) => {
                           1200: { slidesPerView: 6 },
                         }}
                         renderSlide={(p) => (
-                          <div className="promo1 mt-3">
-                            <div className="prom" onClick={() => navigate(`/product-detail/${p?.slug}`)}>
-                              <a href="#" className="category_item1">
-                                <div className="promotitle">
-                                  <p>UPTO {p?.percentOff}% OFF</p>
+                          <div className="promo-item mt-3">
+                            <div className="promos" onClick={() => navigate(`/product-detail/${p?.slug}`)}>
+                              <a href="#">
+                                <div className="promo-title">
+                                  <p>{p?.percentOff}% OFF</p>
                                 </div>
-                                <div className="img d-flex align-items-center justify-content-center bg-white"
-                                  style={{ height: "85px", width: "100%", borderRadius: "10px" }}>
+                                <div className="promo-image d-flex align-items-center justify-content-center bg-white">
                                   <img
                                     src={`${API_BASE_URL}/${p?.images?.[0]}`}
                                     alt="product"
-                                    className="w-100 h-100 object-fit-fill"
+                                    className="promo-img"
                                   />
                                 </div>
                               </a>

@@ -2738,7 +2738,6 @@ header .header_support h3 a:hover {
     width: 100%;
     height: 360px;
     overflow: hidden;
-    background: #EFECE7;
 }
 
 .blog_img img {
@@ -4179,7 +4178,6 @@ footer {
     -moz-border-radius: 16px;
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
-    margin-bottom: 20px;
 }
 
 .blog_2 .blog_img {
