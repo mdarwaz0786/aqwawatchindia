@@ -187,3 +187,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.detail-image-list {
+  height: 100px !important;
+  width: 100px !important;
+  object-fit: contain !important;
+  background: #fff !important;
+}

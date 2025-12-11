@@ -73,4 +73,11 @@
   .footer_link h3 {
     margin-top: 10px !important;
   }
+
+  .detail-image-list {
+    height: 100px !important;
+    width: 100px !important;
+    object-fit: contain !important;
+    background: #fff !important;
+  }
 }

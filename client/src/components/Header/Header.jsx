@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import apis, { API_BASE_URL } from "../../api/apis";
 import styles from './Header.module.css';
 import { useAuth } from "../../context/auth.context";
@@ -14,10 +14,13 @@ const Header = () => {
   const { userId, validToken, logOutUser } = useAuth();
   const { categories } = useApp();
   const { cartQuantity, refetchCart, cartItems } = useCart();
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const initialCategory = searchParams.get("category") || "";
   const [showMore, setShowMore] = useState(() => { return JSON.parse(localStorage.getItem("showMore")) || false });
   const [preview, setPreview] = useState({ img: "", title: "" });
-  const [category, setCategory] = useState("");
-  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState(initialCategory);
+  const [search, setSearch] = useState(initialSearch);
   const { deleteData: deleteCartData, deleteResponse: deleteCartResponse, deleteError: deleteCartError } = useDelete();
 
   const handleSubmit = (e) => {
@@ -381,7 +384,7 @@ const Header = () => {
               </li>
             </ul>
             <form className="mobile_menu_search" onSubmit={handleSubmit}>
-              <input type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
+              <input value={search} type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
               <button type="submit"><i className="far fa-search" /></button>
             </form>
             <div className="mobile_menu_item_area">
@@ -425,6 +428,9 @@ const Header = () => {
                     <li><Link to="/about-us">About Us</Link></li>
                     <li><Link to="/contact-us">Contact Us</Link></li>
                     <li><Link to="/become-dealer">Become a Dealer</Link></li>
+                    <li><Link to="/cart">Cart</Link></li>
+                    <li><Link to="/dashboard">Dashboard</Link></li>
+                    <li><Link to="/profile">Profile</Link></li>
                   </ul>
                 </div>
               </div>

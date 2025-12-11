@@ -140,7 +140,7 @@ const ProductDetailPage = () => {
                                   <img
                                     src={`${API_BASE_URL}${img.startsWith("/") ? "" : "/"}${img}`}
                                     alt="Product"
-                                    className="img-fluid w-80"
+                                    className="img-fluid w-80 detail-image-list"
                                   />
                                 </div>
                               </div>

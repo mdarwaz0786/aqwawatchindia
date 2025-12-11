@@ -36,7 +36,6 @@ export const getProducts = asyncHandler(async (req, res) => {
   if (search) {
     filters.$or = [
       { name: { $regex: search, $options: "i" } },
-      { skuCode: { $regex: search, $options: "i" } },
     ];
   }
 
