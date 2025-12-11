@@ -20,7 +20,6 @@ const OrderDetailPage = () => {
     orderStatus,
     subtotal,
     shippingCharge,
-    discount,
     totalAmount,
     createdAt,
     items,
@@ -156,10 +155,6 @@ const OrderDetailPage = () => {
                 <div className="d-flex justify-content-between mb-2">
                   <span>Shipping:</span>
                   <strong>₹{shippingCharge}</strong>
-                </div>
-                <div className="d-flex justify-content-between mb-2">
-                  <span>Discount:</span>
-                  <strong className="text-success">-₹{discount.toLocaleString()}</strong>
                 </div>
                 <hr />
                 <div className="d-flex justify-content-between fs-5">

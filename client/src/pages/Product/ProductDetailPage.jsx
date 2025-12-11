@@ -48,8 +48,8 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     if (cartResponse?.success) {
-      toast.success(cartResponse?.message || "Added to cart");
       refetch();
+      toast.success(cartResponse?.message || "Added to cart");
       refetchRelatedProduct();
       refetchCart();
     } else if (cartError) {
@@ -189,18 +189,22 @@ const ProductDetailPage = () => {
                       <h3 className="price">Rs.{productDetail?.mrpPrice} <del>Rs.{productDetail?.salePrice}</del></h3>
                       {productDetail?.smallInfo && <p className="short_description" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
                       <div className="d-flex flex-wrap align-items-center">
-                        <div className="details_qty_input mt-3">
-                          <button
-                            className="minus"
-                            disabled={productDetail?.quantity <= 0}
-                            onClick={(e) => {
-                              if (productDetail?.quantity <= 0) return;
-                              handleAddToCart(e, productDetail?._id, -1, userId);
-                            }}
-                          ><i className="fal fa-minus" /></button>
-                          <input type="text" placeholder={productDetail?.quantity} disabled />
-                          <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
-                        </div>
+                        {
+                          productDetail?.quantity > 0 && (
+                            <div className="details_qty_input mt-3">
+                              <button
+                                className="minus"
+                                disabled={productDetail?.quantity <= 0}
+                                onClick={(e) => {
+                                  if (productDetail?.quantity <= 0) return;
+                                  handleAddToCart(e, productDetail?._id, -1, userId);
+                                }}
+                              ><i className="fal fa-minus" /></button>
+                              <input type="text" placeholder={productDetail?.quantity} disabled />
+                              <button className="plus" onClick={(e) => handleAddToCart(e, productDetail?._id, 1, userId)}><i className="fal fa-plus" /></button>
+                            </div>
+                          )
+                        }
                         <div className="details_btn_area mt-3">
                           {productDetail?.quantity > 0 && <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>}
                           {productDetail?.quantity > 0 ? (

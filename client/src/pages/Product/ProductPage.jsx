@@ -30,11 +30,14 @@ const ProductPage = () => {
     sort: searchParams.get("sort") || "desc",
     bestSellingProduct: searchParams.get("bestSellingProduct") || "",
     newArrivalProduct: searchParams.get("newArrivalProduct") || "",
-    onSale: searchParams.get("onSale") === "true" || false,
-    inStock: searchParams.get("inStock") === "true" || false,
+    inStock: searchParams.get("inStock") || "",
     minPrice: searchParams.get("minPrice") ? parseFloat(searchParams.get("minPrice")) : 0,
     maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 100000,
-    rating: searchParams.get("rating") ? searchParams.get("rating").split(",").map(Number) : [],
+    rating1: searchParams.get("rating1") || "",
+    rating2: searchParams.get("rating2") || "",
+    rating3: searchParams.get("rating3") || "",
+    rating4: searchParams.get("rating4") || "",
+    rating5: searchParams.get("rating5") || "",
   };
 
   const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", { ...initialParams, userId });
@@ -42,16 +45,14 @@ const ProductPage = () => {
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
   useEffect(() => {
-    const urlParams = {};
+    const urlParams = new URLSearchParams();
     Object.keys(params).forEach((key) => {
-      if (Array.isArray(params[key])) {
-        if (params[key].length > 0) urlParams[key] = params[key].join(",");
-      } else if (params[key] !== "" && params[key] !== null && params[key] !== undefined) {
-        urlParams[key] = params[key];
-      }
+      if (params[key] !== "" && params[key] !== null && params[key] !== undefined) {
+        urlParams.set(key, params[key]);
+      };
     });
     setSearchParams(urlParams);
-  }, [params, setSearchParams]);
+  }, [params]);
 
   const [localMin, setLocalMin] = useState(params.minPrice);
   const [localMax, setLocalMax] = useState(params.maxPrice);
@@ -75,18 +76,6 @@ const ProductPage = () => {
     } else {
       setParams({ [filterName]: value, page: 1 });
     }
-  };
-
-  const handleRatingChange = (value) => {
-    let updatedRatings = [...params.rating];
-
-    if (updatedRatings.includes(value)) {
-      updatedRatings = updatedRatings.filter((r) => r !== value);
-    } else {
-      updatedRatings.push(value);
-    };
-
-    handleFilterChange("rating", updatedRatings);
   };
 
   const handleAddToCart = async (e, productId, quantity = 1, userId) => {
@@ -178,44 +167,158 @@ const ProductPage = () => {
                       <input
                         className="form-check-input w-100"
                         type="checkbox"
-                        id="flexCheckDefault"
-                        checked={params.onSale === "true" || params.onSale === true}
-                        onChange={(e) => handleFilterChange("onSale", e.target.checked)}
+                        id="flexCheckChecked2"
+                        checked={params.inStock === "true"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "inStock",
+                            checked ? "true" : ""
+                          );
+                        }}
                       />
-                      <label className="form-check-label" htmlFor="flexCheckDefault">
-                        On Sale
+                      <label className="form-check-label" htmlFor="flexCheckChecked2">
+                        In Stock
                       </label>
                     </div>
                     <div className="form-check">
                       <input
                         className="form-check-input w-100"
                         type="checkbox"
-                        id="flexCheckChecked"
-                        checked={params.inStock === "true" || params.inStock === true}
-                        onChange={(e) => handleFilterChange("inStock", e.target.checked)}
+                        id="flexCheckChecked3"
+                        checked={params.bestSellingProduct === "true"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "bestSellingProduct",
+                            checked ? "true" : ""
+                          );
+                        }}
                       />
-                      <label className="form-check-label" htmlFor="flexCheckChecked">
-                        In Stock
+                      <label className="form-check-label" htmlFor="flexCheckChecked3">
+                        Best Selling Product
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input w-100"
+                        type="checkbox"
+                        id="flexCheckChecked4"
+                        checked={params.newArrivalProduct === "true"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "newArrivalProduct",
+                            checked ? "true" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="flexCheckChecked4">
+                        New Arrival Product
                       </label>
                     </div>
                   </div>
 
                   <div className="sidebar_rating">
                     <h3>Rating</h3>
-                    {[5, 4, 3, 2, 1].map((star) => (
-                      <div className="form-check" key={star}>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id={`rating-${star}`}
-                          checked={params.rating.includes(star)}
-                          onChange={() => handleRatingChange(star)}
-                        />
-                        <label className="form-check-label" htmlFor={`rating-${star}`}>
-                          <i className="fas fa-star" /> {star} star{star !== 5 ? " or above" : ""}
-                        </label>
-                      </div>
-                    ))}
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="rating5"
+                        checked={params.rating5 === "5"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "rating5",
+                            checked ? "5" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="rating5">
+                        {[...Array(5)].map((_, i) => (
+                          <i key={i} className="fas fa-star text-warning"></i>
+                        ))}
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="rating4"
+                        checked={params.rating4 === "4"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "rating4",
+                            checked ? "4" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="rating4">
+                        {[...Array(4)].map((_, i) => (
+                          <i key={i} className="fas fa-star text-warning"></i>
+                        ))}
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="rating3"
+                        checked={params.rating3 === "3"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "rating3",
+                            checked ? "3" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="rating3">
+                        {[...Array(3)].map((_, i) => (
+                          <i key={i} className="fas fa-star text-warning"></i>
+                        ))}
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="rating2"
+                        checked={params.rating2 === "2"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "rating2",
+                            checked ? "2" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="rating2">
+                        {[...Array(2)].map((_, i) => (
+                          <i key={i} className="fas fa-star text-warning"></i>
+                        ))}
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="rating1"
+                        checked={params.rating1 === "1"}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          handleFilterChange(
+                            "rating1",
+                            checked ? "1" : ""
+                          );
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor="rating1">
+                        <i className="fas fa-star text-warning"></i>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>

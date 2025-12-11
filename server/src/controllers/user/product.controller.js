@@ -19,7 +19,6 @@ export const getProducts = asyncHandler(async (req, res) => {
     newArrivalProduct,
     rating,
     inStock,
-    onSale,
     sort = "desc",
     minPrice,
     maxPrice,
@@ -42,35 +41,36 @@ export const getProducts = asyncHandler(async (req, res) => {
   }
 
   if (slug) filters.slug = slug;
-  if (onSale === "true") { };
 
   if (inStock === "true") {
     filters.stock = { $gt: 0 };
   }
 
-  if (rating) {
-    console.log(rating)
-    let selectedRatings = [];
+  const ratingFilters = [];
 
-    if (Array.isArray(rating)) {
-      selectedRatings = rating.map(Number);
-    } else if (typeof rating === "string" && rating.includes(",")) {
-      selectedRatings = rating.split(",").map(Number);
-    } else {
-      selectedRatings = [Number(rating)];
-    }
+  if (req.query.rating1 === "1") {
+    ratingFilters.push({ rating: { $gte: 1, $lt: 2 } });
+  }
 
-    filters.$or = selectedRatings.map((r) => {
-      if (r === 5) {
-        return { rating: 5 };
-      }
-      return {
-        rating: {
-          $gte: r,
-          $lt: r + 1,
-        }
-      };
-    });
+  if (req.query.rating2 === "2") {
+    ratingFilters.push({ rating: { $gte: 2, $lt: 3 } });
+  }
+
+  if (req.query.rating3 === "3") {
+    ratingFilters.push({ rating: { $gte: 3, $lt: 4 } });
+  }
+
+  if (req.query.rating4 === "4") {
+    ratingFilters.push({ rating: { $gte: 4, $lt: 5 } });
+  }
+
+  if (req.query.rating5 === "5") {
+    ratingFilters.push({ rating: 5 });
+  }
+
+  if (ratingFilters.length > 0) {
+    filters.$and = filters.$and || [];
+    filters.$and.push({ $or: ratingFilters });
   }
 
   if (category) {
@@ -92,8 +92,15 @@ export const getProducts = asyncHandler(async (req, res) => {
   }
 
   if (brand) filters.brand = brand;
-  if (bestSellingProduct) filters.bestSellingProduct = bestSellingProduct === "true" || bestSellingProduct === true;
-  if (newArrivalProduct) filters.newArrivalProduct = newArrivalProduct === "true" || newArrivalProduct === true;
+
+  if (bestSellingProduct === "true") {
+    filters.bestSellingProduct = true;
+  }
+
+  if (newArrivalProduct === "true") {
+    filters.newArrivalProduct = true;
+  }
+
   filters.status = true;
 
   if (minPrice || maxPrice) {
