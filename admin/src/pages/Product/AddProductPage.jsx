@@ -34,6 +34,7 @@ const AddProductPage = () => {
     brand: null,
     mrpPrice: "",
     salePrice: "",
+    gstPercent: "",
     stock: "",
     skuCode: "",
     rating: "",
@@ -200,7 +201,7 @@ const AddProductPage = () => {
           value={form.mrpPrice}
           onChange={handleChange}
           error={errors.mrpPrice}
-          width="col-md-6"
+          width="col-md-4"
           placeholder="Enter MRP Price"
           required
         />
@@ -211,9 +212,19 @@ const AddProductPage = () => {
           value={form.salePrice}
           onChange={handleChange}
           error={errors.salePrice}
-          width="col-md-6"
+          width="col-md-4"
           placeholder="Enter Sale Price"
           required
+        />
+        <Input
+          label="GST Percent"
+          name="gstPercent"
+          type="number"
+          value={form.gstPercent}
+          onChange={handleChange}
+          error={errors.gstPercent}
+          width="col-md-4"
+          placeholder="Enter GST Percent"
         />
       </div>
 

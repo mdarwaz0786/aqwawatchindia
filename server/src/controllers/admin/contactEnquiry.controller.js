@@ -6,6 +6,10 @@ import { buildPagination } from "../../utils/pagination.js";
 export const createContactEnquiry = asyncHandler(async (req, res) => {
   const { name, mobile, email, subject, message, service, from, country, state, city, zip, address } = req.body;
 
+  if (!mobile) {
+    throw new ApiError(400, "Mobile number is required");
+  };
+
   const data = await ContactEnquiryModel.create({
     name,
     mobile,

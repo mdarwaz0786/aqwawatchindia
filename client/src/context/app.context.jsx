@@ -25,6 +25,8 @@ export const AppProvider = ({ children }) => {
   const testimonials = data?.data?.testimonial || [];
   const clients = data?.data?.client || [];
   const blogs = data?.data?.blog || [];
+  const contactus = data?.data?.contactus || {};
+  const aboutus = data?.data?.aboutus || {};
 
   const value = {
     categories,
@@ -36,6 +38,8 @@ export const AppProvider = ({ children }) => {
     testimonials,
     clients,
     blogs,
+    contactus,
+    aboutus,
     refetchHomePageData: refetch,
     homePageLoading: loading,
     homePageError: error,

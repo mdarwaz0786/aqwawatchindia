@@ -13,6 +13,7 @@ const contactEnquirySchema = new mongoose.Schema(
     mobile: {
       type: String,
       trim: true,
+      required: [true, "Mobile number is required"],
     },
     subject: {
       type: String,

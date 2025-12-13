@@ -12,12 +12,11 @@ import { useApp } from "../../context/app.context";
 const Header = () => {
   const navigate = useNavigate();
   const { userId, validToken, logOutUser } = useAuth();
-  const { categories } = useApp();
+  const { categories, contactus } = useApp();
   const { cartQuantity, refetchCart, cartItems } = useCart();
   const [searchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
   const initialCategory = searchParams.get("category") || "";
-  const [showMore, setShowMore] = useState(() => { return JSON.parse(localStorage.getItem("showMore")) || false });
   const [preview, setPreview] = useState({ img: "", title: "" });
   const [category, setCategory] = useState(initialCategory);
   const [search, setSearch] = useState(initialSearch);
@@ -28,13 +27,23 @@ const Header = () => {
     navigate(`/products?category=${category}&search=${search}`);
   };
 
-  useEffect(() => {
-    localStorage.setItem("showMore", JSON.stringify(showMore));
-  }, [showMore]);
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem("categoryPage");
+    return savedPage ? Number(savedPage) : 0;
+  });
 
-  const visibleCategories = showMore
-    ? categories?.slice(6) || []
-    : categories?.slice(0, 6) || [];
+  const PAGE_SIZE = 6;
+  const visibleCategories = categories?.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE) || [];
+
+  const handleMoreClick = (e) => {
+    e.preventDefault();
+    const totalPages = Math.ceil((categories?.length || 0) / PAGE_SIZE);
+    setPage((prev) => (prev + 1 >= totalPages ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("categoryPage", page);
+  }, [page]);
 
   const handleRemoveCartItem = async (e, id) => {
     e.preventDefault();
@@ -88,28 +97,39 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={contactus?.facebookLink || "https://www.facebook.com/"}
+                      target="_blank"
+                    >
                       <i className="fab fa-facebook-f" />
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={contactus?.linkdinLink || "https://www.linkedin.com/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <i className="fab fa-linkedin-in" />
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      to="https://instagram.com"
+                    <a
+                      href={contactus?.instagramLink || "https://www.instagram.com/"}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <i className="fab fa-instagram" />
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={contactus?.twitterLink || "https://twitter.com/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <i className="fab fa-twitter" />
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -285,12 +305,9 @@ const Header = () => {
               <li>
                 <a style={{ fontWeight: "600" }}
                   href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowMore(!showMore);
-                  }}
+                  onClick={handleMoreClick}
                 >
-                  {showMore ? "More" : "More"}
+                  More
                   <i className="fas fa-chevron-down" />
                 </a>
               </li>

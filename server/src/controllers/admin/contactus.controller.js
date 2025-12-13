@@ -14,6 +14,10 @@ export const createOrUpdateContactUs = asyncHandler(async (req, res) => {
     secondaryEmail,
     location,
     mapLink,
+    twitterLink,
+    linkdinLink,
+    instagramLink,
+    facebookLink,
   } = req.body;
 
   if (!primaryMobile) throw new ApiError(400, "Primary mobile is required");
@@ -42,6 +46,10 @@ export const createOrUpdateContactUs = asyncHandler(async (req, res) => {
       existing.secondaryEmail = secondaryEmail;
       existing.location = location;
       existing.mapLink = mapLink;
+      existing.twitterLink = twitterLink;
+      existing.linkdinLink = linkdinLink;
+      existing.instagramLink = instagramLink;
+      existing.facebookLink = facebookLink;
       existing.image = imagePath;
       existing.updatedBy = req.user?._id;
       await existing.save();
@@ -60,6 +68,10 @@ export const createOrUpdateContactUs = asyncHandler(async (req, res) => {
       secondaryEmail,
       location,
       mapLink,
+      twitterLink,
+      linkdinLink,
+      instagramLink,
+      facebookLink,
       image: imagePath,
       createdBy: req.user?._id,
     });

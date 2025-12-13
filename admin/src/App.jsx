@@ -77,7 +77,7 @@ const App = () => {
         <>
           {
             (user?.role !== "admin") ? (
-              <Route path="/404" element={<NotFound />} />
+              <Route path="/not-found" element={<NotFound />} />
             ) : (
               <Route path="/" element={<Layout mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} handleToggleSidebar={handleToggleSidebar} />}>
                 <Route index element={<Dashboard />} />

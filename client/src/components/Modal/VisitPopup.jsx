@@ -174,7 +174,6 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
             type="text"
             name="name"
             placeholder="Enter Name"
-            required
             value={form.name}
             onChange={handleChange}
           />
@@ -219,7 +218,6 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
           <select
             className="form-select"
             name="service"
-            required
             value={form.service}
             onChange={handleChange}
           >
@@ -236,7 +234,6 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
             name="message"
             placeholder="Your Message"
             rows="3"
-            required
             value={form.message}
             onChange={handleChange}
           />

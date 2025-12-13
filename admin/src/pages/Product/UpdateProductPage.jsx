@@ -37,6 +37,7 @@ const UpdateProductPage = () => {
     brand: "",
     mrpPrice: "",
     salePrice: "",
+    gstPercent: "",
     stock: "",
     skuCode: "",
     rating: "",
@@ -65,6 +66,7 @@ const UpdateProductPage = () => {
         brand: product.brand?._id || "",
         mrpPrice: product.mrpPrice || "",
         salePrice: product.salePrice || "",
+        gstPercent: product.gstPercent || "",
         stock: product.stock || "",
         skuCode: product.skuCode || "",
         rating: product.rating || "",
@@ -80,8 +82,8 @@ const UpdateProductPage = () => {
         images: product.images?.map((img) => `${API_BASE_URL}/${img}`) || [],
       });
 
-      if (product.category?._id) {
-        fetchSubCategories({ category: product.category._id });
+      if (product?.category?._id) {
+        fetchSubCategories({ category: product?.category._id });
       }
     }
   }, [productData, fetchSubCategories]);
@@ -240,7 +242,7 @@ const UpdateProductPage = () => {
           value={form.mrpPrice}
           onChange={handleChange}
           error={errors.mrpPrice}
-          width="col-md-6"
+          width="col-md-4"
           placeholder="Enter MRP Price"
           required
         />
@@ -251,9 +253,19 @@ const UpdateProductPage = () => {
           value={form.salePrice}
           onChange={handleChange}
           error={errors.salePrice}
-          width="col-md-6"
+          width="col-md-4"
           placeholder="Enter Sale Price"
           required
+        />
+        <Input
+          label="GST Percent"
+          name="gstPercent"
+          type="number"
+          value={form.gstPercent}
+          onChange={handleChange}
+          error={errors.gstPercent}
+          width="col-md-4"
+          placeholder="Enter GST Percent"
         />
       </div>
 

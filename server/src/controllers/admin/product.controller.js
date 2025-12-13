@@ -29,6 +29,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     bestSellingProduct,
     newArrivalProduct,
     stock,
+    gstPercent,
   } = req.body;
 
   let imagePaths = [];
@@ -49,6 +50,7 @@ export const createProduct = asyncHandler(async (req, res) => {
       skuCode,
       mrpPrice,
       salePrice,
+      gstPercent,
       rating,
       numberOfReviews,
       smallInfo,
@@ -162,6 +164,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
     skuCode,
     mrpPrice,
     salePrice,
+    gstPercent,
     rating,
     numberOfReviews,
     smallInfo,
@@ -227,6 +230,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
   product.skuCode = setValue(skuCode, product.skuCode);
   product.mrpPrice = setValue(mrpPrice, product.mrpPrice);
   product.salePrice = setValue(salePrice, product.salePrice);
+  product.gstPercent = setValue(gstPercent, product.gstPercent);
   product.rating = setValue(rating, product.rating);
   product.numberOfReviews = setValue(numberOfReviews, product.numberOfReviews);
   product.smallInfo = setValue(smallInfo, product.smallInfo);

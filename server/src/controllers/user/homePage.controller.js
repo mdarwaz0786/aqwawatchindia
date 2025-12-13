@@ -9,6 +9,8 @@ import PromotionModel from "../../models/promotion.model.js";
 import CarouselModel from "../../models/carousel.model.js";
 import YouTubeModelModel from "../../models/youTubeVideo.model.js";
 import CartModel from "../../models/cart.model.js";
+import ContactusModel from "../../models/contactus.model.js";
+import AboutusModel from "../../models/aboutus.model.js";
 
 // Get home page data
 export const getHomePageData = asyncHandler(async (req, res) => {
@@ -25,8 +27,8 @@ export const getHomePageData = asyncHandler(async (req, res) => {
     .sort({ createdAt: 1 })
     .lean();
 
-  categories = categories.map((cat) => {
-    const subCategoryCount = cat.subcategories?.length || 0;
+  categories = categories?.map((cat) => {
+    const subCategoryCount = cat?.subcategories?.length || 0;
 
     return {
       ...cat,
@@ -98,6 +100,14 @@ export const getHomePageData = asyncHandler(async (req, res) => {
     { status: true }
   ).sort({ createdAt: 1 }).lean();
 
+  const contactus = await ContactusModel.findOne(
+    { status: "true" }
+  ).sort({ createdAt: 1 }).lean();
+
+  const aboutus = await AboutusModel.findOne(
+    { status: "true" }
+  ).select("description").sort({ createdAt: 1 }).lean();
+
   return res.status(200).json({
     success: true,
     message: "Data fetched successfully",
@@ -112,6 +122,8 @@ export const getHomePageData = asyncHandler(async (req, res) => {
       promotion: promotions,
       carousel: carousels,
       youTubeVideo: youTubeVideos,
+      contactus: contactus,
+      aboutus: aboutus,
     },
   });
 });

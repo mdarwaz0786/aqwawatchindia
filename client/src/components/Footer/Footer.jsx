@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useApp } from "../../context/app.context";
 
 const Footer = () => {
+  const { contactus, aboutus } = useApp();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -64,9 +67,17 @@ const Footer = () => {
             <div className="col-xl-5 col-md-6 col-lg-3 wow fadeInUp" data-wow-delay=".7s">
               <div className="footer_link">
                 <h3>About Us</h3>
-                <p>At Aquawatch India, we are committed to redefining purity, innovation, and sustainability. With years of expertise in water and air purification systems, we provide advanced solutions that ensure healthier living and cleaner environments — from households to industries.</p>
-                <p>Our product range includes Water Purifiers, Softeners, Ionizers, Storage Tanks, Air Purifiers, Industrial WTP/STP/ETP systems, Chimneys, Organic Waste Composting Machines, and Cleaning Essentials — all designed to deliver efficiency, reliability, and long-term performance.</p>
-                <p>We believe that clean water and pure air are not luxuries, but essentials. That’s why every Aquawatch product is built with cutting-edge technology, verified quality, and eco-conscious design to make everyday living smarter, safer, and more sustainable.</p>
+                {
+                  aboutus?.description ? (
+                    <p>{aboutus?.description}</p>
+                  ) : (
+                    <>
+                      <p>At Aquawatch India, we are committed to redefining purity, innovation, and sustainability. With years of expertise in water and air purification systems, we provide advanced solutions that ensure healthier living and cleaner environments — from households to industries.</p>
+                      <p>Our product range includes Water Purifiers, Softeners, Ionizers, Storage Tanks, Air Purifiers, Industrial WTP/STP/ETP systems, Chimneys, Organic Waste Composting Machines, and Cleaning Essentials — all designed to deliver efficiency, reliability, and long-term performance.</p>
+                      <p>We believe that clean water and pure air are not luxuries, but essentials. That’s why every Aquawatch product is built with cutting-edge technology, verified quality, and eco-conscious design to make everyday living smarter, safer, and more sustainable.</p>
+                    </>
+                  )
+                }
               </div>
             </div>
             <div className="col-xl-2 col-sm-6 col-md-4 col-lg-2 wow fadeInUp" data-wow-delay="1.3s">
@@ -101,14 +112,35 @@ const Footer = () => {
                 <p>Have questions or need support? Our team is always ready to help you find the perfect solution for your home or business.</p>
                 <span>
                   <b><img src="/assets/images/location_icon_white.png" alt="Map" className="img-fluid" /></b>
-                  Plot No: 2000, Street No: 03, Industrial Area Laxman Vihar Phase : II , Gurugram , Haryana (122001)</span>
+                  {contactus?.location}</span>
                 <span>
                   <b><img src="/assets/images/phone_icon_white.png" alt="Call" className="img-fluid" /></b>
-                  <a href="callto:7011781706" style={{ display: "block" }}>7011781706, 9212627964</a>
+                  {contactus?.primaryMobile && (
+                    <a className="me-1" href={`tel:${contactus?.primaryMobile}`}>
+                      {contactus?.primaryMobile},
+                    </a>
+                  )}
+                  {contactus?.secondaryMobile && (
+                    <a href={`tel:${contactus?.secondaryMobile}`}>
+                      {contactus?.secondaryMobile}
+                    </a>
+                  )}
                 </span>
                 <span>
                   <b><img src="/assets/images/mail_icon_white.png" alt="Mail" className="img-fluid" /></b>
-                  <a href="mailto:support@mail.com">info@aquawatchindia.com</a>
+                  {contactus?.primaryEmail && (
+                    <a
+                      className="me-1"
+                      href={`mailto:${contactus?.primaryEmail}`}
+                    >
+                      {contactus?.primaryEmail}
+                    </a>
+                  )}
+                  {contactus?.secondaryEmail && (
+                    <a href={`mailto:${contactus?.secondaryEmail}`}>
+                      {contactus?.secondaryEmail}
+                    </a>
+                  )}
                 </span>
               </div>
             </div>

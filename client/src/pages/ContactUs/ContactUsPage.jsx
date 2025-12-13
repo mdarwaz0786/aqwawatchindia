@@ -126,7 +126,6 @@ const ContactUsPage = () => {
                           value={form.name}
                           onChange={handleChange}
                           placeholder="Enter name"
-                          required
                         />
                       </div>
                     </div>
@@ -140,7 +139,6 @@ const ContactUsPage = () => {
                           value={form.email}
                           onChange={handleChange}
                           placeholder="Enter email"
-                          required
                         />
                       </div>
                     </div>
@@ -181,7 +179,6 @@ const ContactUsPage = () => {
                           value={form.message}
                           onChange={handleChange}
                           placeholder="Message..."
-                          required
                         ></textarea>
                       </div>
 

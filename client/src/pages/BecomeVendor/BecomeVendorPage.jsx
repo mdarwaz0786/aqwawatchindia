@@ -181,6 +181,7 @@ const BecomeVendorPage = () => {
                           value={form.mobile}
                           onChange={handleChange}
                           placeholder="Enter Mobile"
+                          required
                         />
                       </div>
 
@@ -256,7 +257,6 @@ const BecomeVendorPage = () => {
                           </button>
                         </div>
                       </div>
-
                     </div>
                   </form>
                 </div>

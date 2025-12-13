@@ -30,6 +30,22 @@ const contactusSchema = new mongoose.Schema(
       type: String,
       required: [true, "Map link is required"],
     },
+    facebookLink: {
+      type: String,
+      default: null,
+    },
+    instagramLink: {
+      type: String,
+      default: null,
+    },
+    linkdinLink: {
+      type: String,
+      default: null,
+    },
+    twitterLink: {
+      type: String,
+      default: null,
+    },
     status: {
       type: String,
       default: "true",

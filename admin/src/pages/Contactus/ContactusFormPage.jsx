@@ -29,6 +29,10 @@ const ContactusFormPage = () => {
     location: "",
     mapLink: "",
     image: null,
+    facebookLink: "",
+    instagramLink: "",
+    linkdinLink: "",
+    twitterLink: "",
     status: "true",
   });
 
@@ -42,6 +46,10 @@ const ContactusFormPage = () => {
         secondaryEmail: doc?.secondaryEmail || "",
         location: doc?.location || "",
         mapLink: doc?.mapLink || "",
+        twitterLink: doc?.twitterLink || "",
+        linkdinLink: doc?.linkdinLink || "",
+        instagramLink: doc?.instagramLink || "",
+        facebookLink: doc?.facebookLink || "",
         image: doc?.image ? `${API_BASE_URL}/${doc?.image}` : null,
         status: doc?.status ? "true" : "false",
       });
@@ -78,6 +86,10 @@ const ContactusFormPage = () => {
     formData.append("secondaryEmail", form.secondaryEmail);
     formData.append("location", form.location);
     formData.append("mapLink", form.mapLink);
+    formData.append("twitterLink", form.twitterLink);
+    formData.append("linkdinLink", form.linkdinLink);
+    formData.append("instagramLink", form.instagramLink);
+    formData.append("facebookLink", form.facebookLink);
     formData.append("status", form.status);
 
     if (form.image instanceof File) {
@@ -180,8 +192,46 @@ const ContactusFormPage = () => {
         onChange={handleChange}
         required
         width="col-md-12"
-        rows={5}
+        rows={2}
         error={errors.location}
+      />
+
+      <h5 className="text-center mb-4 mt-5">Social Media Profile Link</h5>
+
+      <Input
+        label="Facebook Profile Link"
+        name="facebookLink"
+        value={form.facebookLink}
+        onChange={handleChange}
+        width="col-md-6"
+        placeholder="Enter Facebook profile/page link"
+      />
+
+      <Input
+        label="Instagram Profile Link"
+        name="instagramLink"
+        value={form.instagramLink}
+        onChange={handleChange}
+        width="col-md-6"
+        placeholder="Enter Instagram profile link"
+      />
+
+      <Input
+        label="LinkedIn Profile Link"
+        name="linkdinLink"
+        value={form.linkdinLink}
+        onChange={handleChange}
+        width="col-md-6"
+        placeholder="Enter LinkedIn profile link"
+      />
+
+      <Input
+        label="Twitter (X) Profile Link"
+        name="twitterLink"
+        value={form.twitterLink}
+        onChange={handleChange}
+        width="col-md-6"
+        placeholder="Enter Twitter / X profile link"
       />
     </FormWrapper>
   );

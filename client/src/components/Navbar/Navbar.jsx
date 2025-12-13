@@ -12,7 +12,7 @@ import { useApp } from "../../context/app.context";
 const Navbar = () => {
   const navigate = useNavigate();
   const { userId, validToken, logOutUser } = useAuth();
-  const { categories } = useApp();
+  const { categories, contactus } = useApp();
   const { cartQuantity, refetchCart, cartItems } = useCart();
   const [searchParams] = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
@@ -61,8 +61,13 @@ const Navbar = () => {
             <div className="col-lg-7 d-none d-lg-block">
               <ul className="topbar_info d-flex flex-wrap">
                 <li>
-                  <a href="mailto:info@aquawatchindia.com"><i className="fal fa-envelope-open" />
-                    info@aquawatchindia.com</a>
+                  {
+                    contactus?.primaryEmail && (
+                      <a href={`mailto:${contactus?.primaryEmail}`}><i className="fal fa-envelope-open" />
+                        {contactus?.primaryEmail}
+                      </a>
+                    )
+                  }
                 </li>
                 <li>
                   <p><i className="fal fa-map-marker-alt" /> Gurugram, Haryana, India</p>
@@ -73,33 +78,39 @@ const Navbar = () => {
               <div className="topbar_right d-flex flex-wrap align-items-center justify-content-end">
                 <ul className="topbar_icon d-flex flex-wrap">
                   <li>
-                    <Link to="/" title="Home">
-                      <i className="fas fa-home" />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={contactus?.facebookLink || "https://www.facebook.com/"}
+                      target="_blank"
+                    >
                       <i className="fab fa-facebook-f" />
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      to="https://instagram.com"
+                    <a
+                      href={contactus?.linkdinLink || "https://www.linkedin.com/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fab fa-linkedin-in" />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={contactus?.instagramLink || "https://www.instagram.com/"}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <i className="fab fa-instagram" />
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link to="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-linkedin-in" />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={contactus?.twitterLink || "https://twitter.com/"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <i className="fab fa-twitter" />
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -163,9 +174,11 @@ const Navbar = () => {
                   </span>
                   <h3>
                     Hotline:
-                    <a href="callto:7011781706">
-                      <span>7011781706</span>
-                    </a>
+                    {contactus?.primaryMobile && (
+                      <a href={`tel:${contactus?.primaryMobile}`}>
+                        <span>{contactus?.primaryMobile}</span>
+                      </a>
+                    )}
                   </h3>
                 </div>
               </div>
