@@ -13,18 +13,25 @@ const cartSchema = new mongoose.Schema({
     required: [true, "Product is required"],
     index: true,
   },
-  quantity: {
-    type: Number,
-    required: [true, "Quantity is required"],
-    default: 1,
-  },
   price: {
     type: Number,
-    required: true,
+    default: 0,
+  },
+  quantity: {
+    type: Number,
+    default: 1,
+  },
+  gstPercent: {
+    type: Number,
+    default: 0,
+  },
+  gstAmount: {
+    type: Number,
+    default: 0,
   },
   totalPrice: {
     type: Number,
-    required: true,
+    default: 0,
   },
   status: {
     type: Boolean,

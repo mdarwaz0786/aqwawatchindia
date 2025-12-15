@@ -29,6 +29,18 @@ const orderItemSchema = new mongoose.Schema({
     required: [true, "Product quantity is required"],
     min: 1,
   },
+  gstPercent: {
+    type: Number,
+    default: 0,
+  },
+  gstAmount: {
+    type: Number,
+    default: 0,
+  },
+  total: {
+    type: Number,
+    default: 0,
+  },
 }, { timestamps: true });
 
 const OrderItemModel = mongoose.model("OrderItem", orderItemSchema);

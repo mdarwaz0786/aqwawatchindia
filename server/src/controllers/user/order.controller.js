@@ -47,15 +47,28 @@ export const createOrder = asyncHandler(async (req, res) => {
   const cartItems = await CartModel.find({ user: userId }).populate("product");
   if (!cartItems || cartItems?.length === 0) throw new ApiError(400, "Your cart is empty");
 
-  const items = cartItems?.map((item) => ({
-    product: item?.product?._id,
-    name: item?.product?.name,
-    image: item?.product?.images?.[0],
-    price: item?.product?.salePrice,
-    quantity: item?.quantity,
-  }));
+  const items = cartItems?.map((item) => {
+    const price = item?.product?.salePrice;
+    const quantity = item?.quantity;
+    const gstPercent = item?.product?.gstPercent || 0;
+
+    const itemTotal = price * quantity;
+    const gstAmount = (itemTotal * gstPercent) / 100;
+
+    return {
+      product: item?.product?._id,
+      name: item?.product?.name,
+      image: item?.product?.images?.[0],
+      price,
+      quantity,
+      gstPercent,
+      gstAmount,
+      totalWithGst: itemTotal + gstAmount,
+    };
+  });
 
   const subtotal = items?.reduce((sum, item) => sum + item?.price * item?.quantity, 0);
+  const totalGst = items.reduce((sum, item) => sum + item.gstAmount, 0);
 
   const totalDiscount = cartItems?.reduce((sum, c) => {
     const mrp = c?.product?.mrpPrice || 0;
@@ -63,7 +76,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     return sum + (mrp - sale) * c?.quantity;
   }, 0);
 
-  const totalAmount = subtotal + shippingCharge;
+  const totalAmount = subtotal + totalGst + shippingCharge;
 
   const order = await OrderModel.create({
     user: userId,
@@ -72,8 +85,9 @@ export const createOrder = asyncHandler(async (req, res) => {
     orderStatus: "Pending",
     subtotal,
     shippingCharge,
-    discount: totalDiscount,
+    totalGst,
     totalAmount,
+    discount: totalDiscount,
     createdBy: userId,
   });
 
@@ -84,6 +98,9 @@ export const createOrder = asyncHandler(async (req, res) => {
     image: item?.image,
     price: item?.price,
     quantity: item?.quantity,
+    gstPercent: item?.gstPercent,
+    gstAmount: item?.gstAmount,
+    total: item?.totalWithGst,
   }));
 
   await OrderItemModel.insertMany(itemData);
