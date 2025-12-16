@@ -16,16 +16,17 @@ export const addToCart = asyncHandler(async (req, res) => {
   if (!product) throw new ApiError(404, "Product not found");
 
   const gstPercent = product?.gstPercent || 0;
+  const price = product?.salePrice || 0;
   let cartItem = await CartModel.findOne({ user: userId, product: productId });
 
   if (!cartItem) {
-    const totalPrice = calculateTotalWithGST(product?.salePrice, quantity, gstPercent);
+    const totalPrice = calculateTotalWithGST(price, quantity, gstPercent);
     const gstAmount = calculateGSTAmount(price, quantity, gstPercent);
     cartItem = await CartModel.create({
       user: userId,
-      product: product?._id,
+      product: productId,
       quantity,
-      price: product?.salePrice,
+      price,
       gstPercent,
       gstAmount,
       totalPrice,
@@ -38,8 +39,8 @@ export const addToCart = asyncHandler(async (req, res) => {
       return res.status(200).json({ success: true, message: "Product removed from cart" });
     } else {
       cartItem.quantity += quantity;
-      cartItem.gstAmount = calculateGSTAmount(product?.salePrice, cartItem?.quantity, gstPercent);
-      cartItem.totalPrice = calculateTotalWithGST(product?.salePrice, cartItem?.quantity, gstPercent);
+      cartItem.gstAmount = calculateGSTAmount(price, cartItem?.quantity, gstPercent);
+      cartItem.totalPrice = calculateTotalWithGST(price, cartItem?.quantity, gstPercent);
       cartItem.updatedBy = userId;
       cartItem.updatedAt = new Date();
       await cartItem.save();
@@ -61,7 +62,7 @@ export const getCart = asyncHandler(async (req, res) => {
   if (!cartItems.length) return res.status(200).json({ success: true, message: "Cart is empty", data: [] });
   const totalAmount = cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
 
-  return res.status(200).json({ success: true, data: cartItems, totalAmount });
+  return res.status(200).json({ success: true, message: "Data fetched successfully", data: cartItems, totalAmount });
 });
 
 // Update Cart Item Quantity
@@ -78,10 +79,11 @@ export const updateCartProduct = asyncHandler(async (req, res) => {
 
   const product = await ProductModel.findById(productId);
   const gstPercent = product?.gstPercent || 0;
+  const price = product?.salePrice || 0;
 
   cartItem.quantity = quantity;
-  cartItem.totalPrice = calculateTotalWithGST(product?.salePrice, quantity, gstPercent);
-  cartItem.gstAmount = calculateGSTAmount(product?.salePrice, quantity, gstPercent);
+  cartItem.totalPrice = calculateTotalWithGST(price, quantity, gstPercent);
+  cartItem.gstAmount = calculateGSTAmount(price, quantity, gstPercent);
   cartItem.updatedBy = userId;
   cartItem.updatedAt = new Date();
   await cartItem.save();
@@ -142,7 +144,7 @@ export const getCarts = asyncHandler(async (req, res) => {
         };
       }
 
-      const price = product?.salePrice;
+      const price = product?.salePrice || 0;
       const gstPercent = product?.gstPercent || 0;
       const gstAmount = calculateGSTAmount(price, item?.quantity, gstPercent);
       const totalPrice = calculateTotalWithGST(price, item?.quantity, gstPercent);

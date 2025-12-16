@@ -1414,9 +1414,6 @@ header .header_support h3 a:hover {
 }
 
 .mini_cart .cart_img {
-    width: 85px;
-    height: 90px;
-    border: 1px solid #eee;
     position: relative;
     overflow: hidden;
     transition: all linear .3s;
@@ -1424,6 +1421,13 @@ header .header_support h3 a:hover {
     -moz-transition: all linear .3s;
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
+}
+
+.cart_img .img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain !important;
+    background: none !important;
 }
 
 .mini_cart .cart_img:hover {
@@ -3240,8 +3244,6 @@ footer {
 }
 
 .default_home .mini_cart .cart_img {
-    border: 1px solid #eee;
-    background: var(--lightBg2);
     border-radius: 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -9497,12 +9499,13 @@ footer {
 }
 
 .cart_page_img {
-    width: 150px;
+    width: 0px !important;
 }
 
 .cart_page_img .img {
-    max-width: 120px;
-    background: var(--lightBg2);
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain;
     overflow: hidden;
     border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -9592,9 +9595,9 @@ footer {
 }
 
 .cart_page_summary ul li .img {
-    width: 60px;
-    height: 60px;
-    background: var(--lightBg2);
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain !important;
     border-radius: 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;

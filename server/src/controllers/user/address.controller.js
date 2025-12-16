@@ -27,7 +27,6 @@ export const createAddress = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Address is required");
   }
 
-
   const newAddress = await Address.create({
     user: req.user?._id,
     label: label || "Home",
@@ -59,7 +58,6 @@ export const getAddresses = asyncHandler(async (req, res) => {
       { state: { $regex: search, $options: "i" } },
       { city: { $regex: search, $options: "i" } },
       { address: { $regex: search, $options: "i" } },
-      { instruction: { $regex: search, $options: "i" } },
     ];
   }
 

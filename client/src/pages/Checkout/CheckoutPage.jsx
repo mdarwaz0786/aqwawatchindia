@@ -422,20 +422,21 @@ const CheckoutPage = () => {
                   {
                     cart?.map((d) => (
                       <li>
-                        <Link className="img" to={`/product-detail/${d?.product?.slug}`}>
-                          <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img-fluid w-100 h-100" />
+                        <Link to={`/product-detail/${d?.product?.slug}`}>
+                          <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img" />
                         </Link>
                         <div className="text">
                           <Link className="title" to={`/product-detail/${d?.product?.slug}`}>{d?.product?.name}</Link>
                           <p>Rs.{d?.price} × {d?.quantity}</p>
+                          <p>GST: {d?.gstPercent}%</p>
                         </div>
                       </li>
                     ))
                   }
                 </ul>
                 <h6>Subtotal <span>Rs.{cartItems?.totalAmount}</span></h6>
-                <h6>Shipping Charge <span>(+) Rs.{shippigChargeData?.data?.charge || 40}</span></h6>
-                <h4>Total <span>Rs.{(cartItems?.totalAmount || 0) + (shippigChargeData?.data?.charge || 0)}</span></h4>
+                <h6>Shipping <span>(+) Rs.{shippigChargeData?.data?.charge || 40}</span></h6>
+                <h4>Total <span>Rs.{(cartItems?.totalAmount || 0) + (shippigChargeData?.data?.charge || 40)}</span></h4>
               </div>
 
               {/* Payment Method */}

@@ -1,10 +1,10 @@
 import express from "express";
 import {
   addToCart,
-  getCart,
   updateCartProduct,
   removeFromCart,
   clearCart,
+  getCarts,
 } from "../../controllers/user/cart.controller.js";
 
 const router = express.Router();
@@ -12,8 +12,8 @@ const router = express.Router();
 // Add product to cart
 router.post("/add", addToCart);
 
-// Get cart for logged-in user
-router.get("/:userId", getCart);
+// Get cart for user
+router.get("/:userId", getCarts);
 
 // Update quantity of a product in cart
 router.put("/update", updateCartProduct);

@@ -11,22 +11,24 @@ const RightWidget = () => {
   const mobile = contactus?.primaryMobile;
 
   return (
-    <div className="right-widget">
-      <div className="demo-btn" onClick={() => window.openVisitPopup()}>
-        <span>BOOK FREE DEMO</span>
+    <>
+      <div className="right-widget" style={{ zIndex: 99 }}>
+        <div className="demo-btn" onClick={() => window.openVisitPopup()}>
+          <span>BOOK FREE DEMO</span>
+        </div>
+        <a
+          href={`https://wa.me/${mobile}?text=${encodedMsg}`}
+          className="circle-btn whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaWhatsapp size={20} color="#fff" />
+        </a>
+        <a href={`tel:${mobile}`} className="circle-btn chat">
+          <BiPhoneCall size={20} color="#fff" />
+        </a>
       </div>
-      <a
-        href={`https://wa.me/${mobile}?text=${encodedMsg}`}
-        className="circle-btn whatsapp"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FaWhatsapp size={20} color="#fff" />
-      </a>
-      <a href={`tel:${mobile}`} className="circle-btn chat">
-        <BiPhoneCall size={20} color="#fff" />
-      </a>
-    </div>
+    </>
   );
 };
 

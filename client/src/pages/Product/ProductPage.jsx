@@ -131,194 +131,192 @@ const ProductPage = () => {
         <div className="container">
           <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
-              <div>
-                <div className="shop_filter_btn d-lg-none" onClick={() => setShowFilter(!showFilter)}> Filter</div>
-                <div className={`shop_filter_area ${showFilter ? "show" : ""}`}>
-                  <div className="sidebar_range">
-                    <h3>Price Range</h3>
-                    <div className="range-slider">
-                      <div className="full-track"></div>
-                      <input
-                        type="range"
-                        min={min}
-                        max={max}
-                        value={localMin}
-                        onChange={(e) => setLocalMin(Math.min(Number(e.target.value), localMax - 1))}
-                      />
-                      <input
-                        type="range"
-                        min={min}
-                        max={max}
-                        value={localMax}
-                        onChange={(e) => setLocalMax(Math.max(Number(e.target.value), localMin + 1))}
-                      />
-                      <div className="thumb-value" style={{ left: `${minPercent}%` }}>
-                        ₹{localMin}
-                      </div>
-                      <div className="thumb-value" style={{ left: `${maxPercent}%` }}>
-                        ₹{localMax}
-                      </div>
+              <div className="shop_filter_btn d-lg-none" onClick={() => setShowFilter(!showFilter)}> Filter</div>
+              <div className={`shop_filter_area ${showFilter ? "show" : ""}`}>
+                <div className="sidebar_range">
+                  <h3>Price Range</h3>
+                  <div className="range-slider">
+                    <div className="full-track"></div>
+                    <input
+                      type="range"
+                      min={min}
+                      max={max}
+                      value={localMin}
+                      onChange={(e) => setLocalMin(Math.min(Number(e.target.value), localMax - 1))}
+                    />
+                    <input
+                      type="range"
+                      min={min}
+                      max={max}
+                      value={localMax}
+                      onChange={(e) => setLocalMax(Math.max(Number(e.target.value), localMin + 1))}
+                    />
+                    <div className="thumb-value" style={{ left: `${minPercent}%` }}>
+                      ₹{localMin}
+                    </div>
+                    <div className="thumb-value" style={{ left: `${maxPercent}%` }}>
+                      ₹{localMax}
                     </div>
                   </div>
+                </div>
 
-                  <div className="sidebar_status">
-                    <h3>Product Status</h3>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input w-100"
-                        type="checkbox"
-                        id="flexCheckChecked2"
-                        checked={params.inStock === "true"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "inStock",
-                            checked ? "true" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="flexCheckChecked2">
-                        In Stock
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input w-100"
-                        type="checkbox"
-                        id="flexCheckChecked3"
-                        checked={params.bestSellingProduct === "true"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "bestSellingProduct",
-                            checked ? "true" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="flexCheckChecked3">
-                        Best Selling Product
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input w-100"
-                        type="checkbox"
-                        id="flexCheckChecked4"
-                        checked={params.newArrivalProduct === "true"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "newArrivalProduct",
-                            checked ? "true" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="flexCheckChecked4">
-                        New Arrival Product
-                      </label>
-                    </div>
+                <div className="sidebar_status">
+                  <h3>Product Status</h3>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input w-100"
+                      type="checkbox"
+                      id="flexCheckChecked2"
+                      checked={params.inStock === "true"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "inStock",
+                          checked ? "true" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckChecked2">
+                      In Stock
+                    </label>
                   </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input w-100"
+                      type="checkbox"
+                      id="flexCheckChecked3"
+                      checked={params.bestSellingProduct === "true"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "bestSellingProduct",
+                          checked ? "true" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckChecked3">
+                      Best Selling Product
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input w-100"
+                      type="checkbox"
+                      id="flexCheckChecked4"
+                      checked={params.newArrivalProduct === "true"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "newArrivalProduct",
+                          checked ? "true" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckChecked4">
+                      New Arrival Product
+                    </label>
+                  </div>
+                </div>
 
-                  <div className="sidebar_rating">
-                    <h3>Rating</h3>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="rating5"
-                        checked={params.rating5 === "5"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "rating5",
-                            checked ? "5" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="rating5">
-                        {[...Array(5)].map((_, i) => (
-                          <i key={i} className="fas fa-star text-warning"></i>
-                        ))}
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="rating4"
-                        checked={params.rating4 === "4"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "rating4",
-                            checked ? "4" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="rating4">
-                        {[...Array(4)].map((_, i) => (
-                          <i key={i} className="fas fa-star text-warning"></i>
-                        ))}
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="rating3"
-                        checked={params.rating3 === "3"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "rating3",
-                            checked ? "3" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="rating3">
-                        {[...Array(3)].map((_, i) => (
-                          <i key={i} className="fas fa-star text-warning"></i>
-                        ))}
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="rating2"
-                        checked={params.rating2 === "2"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "rating2",
-                            checked ? "2" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="rating2">
-                        {[...Array(2)].map((_, i) => (
-                          <i key={i} className="fas fa-star text-warning"></i>
-                        ))}
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="rating1"
-                        checked={params.rating1 === "1"}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          handleFilterChange(
-                            "rating1",
-                            checked ? "1" : ""
-                          );
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor="rating1">
-                        <i className="fas fa-star text-warning"></i>
-                      </label>
-                    </div>
+                <div className="sidebar_rating">
+                  <h3>Rating</h3>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="rating5"
+                      checked={params.rating5 === "5"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "rating5",
+                          checked ? "5" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="rating5">
+                      {[...Array(5)].map((_, i) => (
+                        <i key={i} className="fas fa-star text-warning"></i>
+                      ))}
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="rating4"
+                      checked={params.rating4 === "4"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "rating4",
+                          checked ? "4" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="rating4">
+                      {[...Array(4)].map((_, i) => (
+                        <i key={i} className="fas fa-star text-warning"></i>
+                      ))}
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="rating3"
+                      checked={params.rating3 === "3"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "rating3",
+                          checked ? "3" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="rating3">
+                      {[...Array(3)].map((_, i) => (
+                        <i key={i} className="fas fa-star text-warning"></i>
+                      ))}
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="rating2"
+                      checked={params.rating2 === "2"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "rating2",
+                          checked ? "2" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="rating2">
+                      {[...Array(2)].map((_, i) => (
+                        <i key={i} className="fas fa-star text-warning"></i>
+                      ))}
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="rating1"
+                      checked={params.rating1 === "1"}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        handleFilterChange(
+                          "rating1",
+                          checked ? "1" : ""
+                        );
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="rating1">
+                      <i className="fas fa-star text-warning"></i>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -389,12 +387,14 @@ const ProductPage = () => {
                                 onClick={() => navigate(`/product-detail/${d?.slug}`)}
                                 style={{ cursor: "pointer" }}
                               />
-                              {
-                                (d?.newArrivalProduct) &&
-                                <ul className="discount_list">
-                                  <li className="new"> new</li>
-                                </ul>
-                              }
+                              <ul className="discount_list">
+                                {Number(d?.percentOff) > 0 && (
+                                  <li className="discount">
+                                    <b>-</b> {d?.percentOff}%
+                                  </li>
+                                )}
+                                {d?.newArrivalProduct && <li className="new">new</li>}
+                              </ul>
                               <ul className="btn_list">
                                 <li>
                                   <Link to="#" onClick={(e) => handleAddToCart(e, d?._id, 1, userId)}>

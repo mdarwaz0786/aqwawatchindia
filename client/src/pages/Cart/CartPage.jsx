@@ -99,11 +99,12 @@ const CartPage = () => {
                             <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
                           </div>
                         </th>
-                        <th className="cart_page_img">Product image </th>
-                        <th className="cart_page_details">Product Details</th>
-                        <th className="cart_page_price">Unit Price</th>
+                        <th className="cart_page_img">Image</th>
+                        <th className="cart_page_details">Details</th>
+                        <th className="cart_page_price">Price</th>
                         <th className="cart_page_quantity">Quantity</th>
-                        <th className="cart_page_total">Subtotal</th>
+                        <th className="cart_page_quantity">GST</th>
+                        <th className="cart_page_total">Sub Total</th>
                         <th className="cart_page_action">action</th>
                       </tr>
                     </thead>
@@ -123,13 +124,14 @@ const CartPage = () => {
                             </td>
                             <td className="cart_page_img">
                               <div className="img">
-                                <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img-fluid w-100" />
+                                <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img" />
                               </div>
                             </td>
                             <td className="cart_page_details">
                               <Link className="title" to={`/product-detail/${d?.product?.slug}`}>{d?.product?.name}</Link>
                               <p>Rs.{d?.price}</p>
-                              <span><b>Quantity:</b> {d?.quantity}</span>
+                              <span><b>Quantity:</b>{d?.quantity}</span>
+                              <span><b>GST:</b>{d?.gstPercent}%</span>
                             </td>
                             <td className="cart_page_price">
                               <h3>Rs.{d?.price}</h3>
@@ -140,6 +142,9 @@ const CartPage = () => {
                                 <input type="text" placeholder={d?.quantity} />
                                 <button className="plus" onClick={(e) => handleAddToCart(e, d?.product?._id, 1, userId)}><i className="fal fa-plus" aria-hidden="true" /></button>
                               </div>
+                            </td>
+                            <td className="cart_page_price">
+                              <h3>{d?.gstPercent}%</h3>
                             </td>
                             <td className="cart_page_total">
                               <h3>Rs.{d?.totalPrice}</h3>
@@ -163,12 +168,13 @@ const CartPage = () => {
                     {
                       cart?.map((d) => (
                         <li>
-                          <Link className="img" to={`/product-detail/${d?.product?.slug}`}>
-                            <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img-fluid w-100 h-100" />
+                          <Link to={`/product-detail/${d?.product?.slug}`}>
+                            <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="Products" className="img" />
                           </Link>
                           <div className="text">
                             <Link className="title" to={`/product-detail/${d?.product?.slug}`}>Full Sleeve Hoodie Jacket</Link>
                             <p>Rs.{d?.price} × {d?.quantity}</p>
+                            <p>GST: {d?.gstPercent}%</p>
                           </div>
                         </li>
                       ))

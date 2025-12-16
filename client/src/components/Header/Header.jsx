@@ -330,12 +330,13 @@ const Header = () => {
                 cart?.map((d) => (
                   <li>
                     <Link to={`/product-detail/${d?.product?.slug}`} className="cart_img">
-                      <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="product" className="img-fluid w-100" />
+                      <img src={`${API_BASE_URL}/${d?.product?.images?.[0]}`} alt="product" className="img" />
                     </Link>
                     <div className="cart_text">
                       <a className="cart_title" href="shop_details.php">{d?.product?.name}</a>
                       <p>Rs.{d?.price}</p>
                       <span><b>Quantity:</b> {d?.quantity}</span>
+                      <span><b>GST:</b> {d?.gstPercent}%</span>
                     </div>
                     <Link className="del_icon" to="#" onClick={(e) => handleRemoveCartItem(e, d?.product?._id)}><i className="fal fa-times" /></Link>
                   </li>
