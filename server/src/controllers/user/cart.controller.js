@@ -2,7 +2,7 @@ import CartModel from "../../models/cart.model.js";
 import ProductModel from "../../models/product.model.js";
 import ApiError from "../../helpers/apiError.js";
 import asyncHandler from "../../helpers/asyncHandler.js";
-import calculateTotalWithGST from "../../utils/calculateTotalWithgst.js";
+import calculateTotalWithGST from "../../utils/calculateTotalWithGST.js";
 import calculateGSTAmount from "../../utils/calculateGSTAmout.js";
 
 // Add Product to Cart
