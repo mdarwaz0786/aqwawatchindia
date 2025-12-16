@@ -127,6 +127,7 @@ const InvoicePage = () => {
                               <th>Name</th>
                               <th>Price</th>
                               <th>Quantity</th>
+                              <th>GST</th>
                               <th>Total</th>
                             </tr>
                           </thead>
@@ -137,13 +138,22 @@ const InvoicePage = () => {
                                   <td>{d?.name}</td>
                                   <td>Rs.{d?.price}</td>
                                   <td>{d?.quantity}</td>
-                                  <td>Rs.{d?.price * d?.quantity}</td>
+                                  <td>{d?.gstPercent}%</td>
+                                  <td>Rs.{d?.total}</td>
                                 </tr>
                               ))
                             }
                           </tbody>
                           <tr>
-                            <td colSpan="3" className="text-end"><strong>Grand Total:</strong></td>
+                            <td colSpan="4" className="text-end"><strong>Subtotal:</strong></td>
+                            <td><strong>Rs.{order?.subtotal}</strong></td>
+                          </tr>
+                          <tr>
+                            <td colSpan="4" className="text-end"><strong>Shipping:</strong></td>
+                            <td><strong>Rs.{order?.shippingCharge}</strong></td>
+                          </tr>
+                          <tr>
+                            <td colSpan="4" className="text-end"><strong>Grand Total:</strong></td>
                             <td><strong>Rs.{order?.totalAmount}</strong></td>
                           </tr>
                         </table>

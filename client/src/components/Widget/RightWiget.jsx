@@ -12,7 +12,7 @@ const RightWidget = () => {
 
   return (
     <>
-      <div className="right-widget" style={{ zIndex: 99 }}>
+      <div className="right-widget" style={{ zIndex: 999 }}>
         <div className="demo-btn" onClick={() => window.openVisitPopup()}>
           <span>BOOK FREE DEMO</span>
         </div>

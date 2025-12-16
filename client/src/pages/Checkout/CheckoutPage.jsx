@@ -15,7 +15,7 @@ import { useCart } from "../../context/cart.context";
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const { isLoggedIn, user, validToken } = useAuth();
-  const { cartItems } = useCart();
+  const { cartItems, refetchCart } = useCart();
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -191,6 +191,7 @@ const CheckoutPage = () => {
       );
 
       if (res?.data?.success) {
+        refetchCart();
         navigate("/order-success");
       };
     } catch (error) {

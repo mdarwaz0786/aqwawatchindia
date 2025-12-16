@@ -112,6 +112,7 @@ const OrderDetailPage = () => {
                   <th>Product</th>
                   <th width="120">Price</th>
                   <th width="100">Qty</th>
+                  <th width="100">GST</th>
                   <th width="140">Subtotal</th>
                 </tr>
               </thead>
@@ -132,7 +133,8 @@ const OrderDetailPage = () => {
                     </td>
                     <td>₹{item?.price?.toLocaleString()}</td>
                     <td>{item?.quantity}</td>
-                    <td>₹{(item?.price * item?.quantity).toLocaleString()}</td>
+                    <td>{item?.gstPercent}%</td>
+                    <td>₹{(item?.total)?.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -150,11 +152,11 @@ const OrderDetailPage = () => {
               <div className="card-body">
                 <div className="d-flex justify-content-between mb-2">
                   <span>Subtotal:</span>
-                  <strong>₹{subtotal.toLocaleString()}</strong>
+                  <strong>₹{subtotal?.toLocaleString()}</strong>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span>Shipping:</span>
-                  <strong>₹{shippingCharge}</strong>
+                  <strong>₹{shippingCharge?.toLocaleString()}</strong>
                 </div>
                 <hr />
                 <div className="d-flex justify-content-between fs-5">

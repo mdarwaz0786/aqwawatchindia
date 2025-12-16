@@ -83,7 +83,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     paymentMethod,
     paymentStatus: "Pending",
     orderStatus: "Pending",
-    subtotal,
+    subtotal: subtotal + totalGst,
     shippingCharge,
     totalGst,
     totalAmount,
