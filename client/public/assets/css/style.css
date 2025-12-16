@@ -11214,7 +11214,7 @@ footer {
 }
 
 .dashboard_sidebar_user {
-    padding: 40px 40px 30px 40px;
+    padding: 40px 0px 30px 0px;
     text-align: center;
     background: var(--colorWhite);
 }

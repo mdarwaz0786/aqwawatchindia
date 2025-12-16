@@ -57,6 +57,7 @@ import OrderDetailPage from './pages/Order/OrderDetailPage';
 import CustomerListPage from './pages/User/CustomerListPage';
 import ShippingChargeListPage from './pages/ShippingCharge/ShippingChargeListPage';
 import ShippingChargeFormPage from './pages/ShippingCharge/ShippingChargeFormPage';
+import OrderInvoicePage from './pages/Order/OrderInvoicePage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -145,6 +146,7 @@ const App = () => {
 
                 <Route path="/order/list" element={<OrderListPage />} />
                 <Route path="/order/detail/:id" element={<OrderDetailPage />} />
+                <Route path="/order/invoice/:id" element={<OrderInvoicePage />} />
 
                 <Route path="/privacy-policy/add" element={<PrivacyPolicyFormPage />} />
                 <Route path="/billing-shipping-policy/add" element={<BillingShippingFormPage />} />

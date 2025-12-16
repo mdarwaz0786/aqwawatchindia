@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import apis, { API_BASE_URL } from "../../apis/apis";
 import useFetchData from "../../hooks/useFetchData";
 import { useAuth } from "../../context/auth.context";
+import formatDate from "../../utils/FormatDate";
 
 const OrderDetailPage = () => {
   const navigate = useNavigate();
@@ -25,13 +26,6 @@ const OrderDetailPage = () => {
     items,
     address,
   } = data.data;
-
-  const formatDate = (date) =>
-    new Date(date).toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
 
   return (
     <>
@@ -118,14 +112,13 @@ const OrderDetailPage = () => {
               </thead>
               <tbody>
                 {items?.map((item) => (
-                  <tr key={item._id}>
+                  <tr key={item?._id}>
                     <td>
                       <div className="d-flex align-items-center gap-3">
                         <img
                           src={`${API_BASE_URL}/${item.image}`}
                           width="60"
                           height="60"
-                          className="rounded border"
                           alt={item?.name}
                         />
                         <span>{item?.name}</span>

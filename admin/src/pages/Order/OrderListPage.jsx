@@ -190,6 +190,9 @@ const OrderListPage = () => {
                     <Link to={`/order/detail/${item?._id}`}>
                       <button className="btn btn-primary">View</button>
                     </Link>
+                    <Link to={`/order/invoice/${item?._id}`}>
+                      <button className="btn btn-secondary">Invoice</button>
+                    </Link>
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(item?._id)}

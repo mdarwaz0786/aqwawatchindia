@@ -73,6 +73,7 @@ export const updateOrder = asyncHandler(async (req, res) => {
 
   order.orderStatus = orderStatus || order.orderStatus;
   order.status = typeof status === "boolean" ? status : order?.status;
+  if (orderStatus === "Delivered") order.paymentStatus = "Paid";
   order.updatedBy = req.user?._id;
   order.updatedAt = new Date();
 
