@@ -100,6 +100,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "images are required"],
   }],
+  video: {
+    type: String,
+    trim: true,
+  },
   status: {
     type: Boolean,
     default: true,

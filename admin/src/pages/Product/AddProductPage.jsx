@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import useFetch from "../../hooks/useFetch";
 import apis from "../../apis/apis";
 import useFetchData from "../../hooks/useFetchData";
+import Video from "../../components/Input/Video";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const AddProductPage = () => {
     bestSellingProduct: "",
     newArrivalProduct: "",
     images: [],
+    video: null,
   });
 
   const handleChange = (e) => {
@@ -73,6 +75,10 @@ const AddProductPage = () => {
     setForm((prev) => ({ ...prev, images: files }));
   };
 
+  const handleVideoChange = (file) => {
+    setForm((prev) => ({ ...prev, video: file }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -92,7 +98,7 @@ const AddProductPage = () => {
     Object.entries(form).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((file) => formData.append("images", file));
-      } else {
+      } else if (value !== null && value !== undefined) {
         formData.append(key, value);
       }
     });
@@ -322,6 +328,16 @@ const AddProductPage = () => {
         error={errors.images}
         width="col-md-12"
         required
+      />
+
+      <Video
+        label="Video"
+        name="video"
+        value={form.video}
+        onChange={handleVideoChange}
+        placeholder="Video"
+        error={errors.video}
+        width="col-md-12"
       />
 
       <TextEditor

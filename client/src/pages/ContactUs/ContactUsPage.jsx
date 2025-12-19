@@ -28,8 +28,8 @@ const ContactUsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.mobile || !form.message) {
-      toast.error("All fields are required");
+    if (!form.name || !form.mobile) {
+      toast.error("Name and mobile are required");
       return;
     }
 
@@ -126,6 +126,7 @@ const ContactUsPage = () => {
                           value={form.name}
                           onChange={handleChange}
                           placeholder="Enter name"
+                          required
                         />
                       </div>
                     </div>

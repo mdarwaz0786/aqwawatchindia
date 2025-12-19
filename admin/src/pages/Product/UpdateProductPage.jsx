@@ -12,6 +12,7 @@ import useFetch from "../../hooks/useFetch";
 import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../apis/apis";
 import usePatch from "../../hooks/usePatch";
+import Video from "../../components/Input/Video";
 
 const UpdateProductPage = () => {
   const navigate = useNavigate();
@@ -51,9 +52,11 @@ const UpdateProductPage = () => {
     bestSellingProduct: "",
     newArrivalProduct: "",
     images: [],
+    video: null,
   });
 
   const [removedIndexes, setRemovedIndexes] = useState([]);
+  const [removeVideo, setRemoveVideo] = useState(false);
 
   useEffect(() => {
     if (productData?.data) {
@@ -80,6 +83,7 @@ const UpdateProductPage = () => {
         bestSellingProduct: !!product.bestSellingProduct,
         newArrivalProduct: !!product.newArrivalProduct,
         images: product.images?.map((img) => `${API_BASE_URL}/${img}`) || [],
+        video: product?.video ? `${API_BASE_URL}/${product?.video}` : null,
       });
 
       if (product?.category?._id) {
@@ -106,6 +110,11 @@ const UpdateProductPage = () => {
     setForm((prev) => ({ ...prev, images: files }));
   };
 
+  const handleVideoChange = (file, removed = false) => {
+    setForm((prev) => ({ ...prev, video: file }));
+    setRemoveVideo(removed);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -127,12 +136,13 @@ const UpdateProductPage = () => {
         value.forEach((file) => {
           if (file instanceof File) formData.append("images", file);
         });
-      } else {
+      } else if (value !== null && value !== undefined) {
         formData.append(key, value);
       }
     });
 
     formData.append("removedIndexes", JSON.stringify(removedIndexes));
+    if (removeVideo) formData.append("removeVideo", "true");
 
     await updateData(formData, validToken, true);
   };
@@ -365,6 +375,16 @@ const UpdateProductPage = () => {
         existingImages={form.images}
         width="col-md-12"
         required
+      />
+
+      <Video
+        label="Video"
+        name="video"
+        value={form.video}
+        onChange={handleVideoChange}
+        placeholder="Video"
+        error={errors.video}
+        width="col-md-12"
       />
 
       <TextEditor

@@ -10,6 +10,10 @@ export const createContactEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Mobile number is required");
   };
 
+  if (!name) {
+    throw new ApiError(400, "Name is required");
+  };
+
   const data = await ContactEnquiryModel.create({
     name,
     mobile,
@@ -62,7 +66,9 @@ export const getContactEnquiries = asyncHandler(async (req, res) => {
   if (sort === "asc") sortOption = { createdAt: 1 };
   else sortOption = { createdAt: -1 };
 
-  const data = await ContactEnquiryModel.find(filters)
+  const data = await ContactEnquiryModel
+    .find(filters)
+    .populate("service")
     .sort(sortOption)
     .skip(skip)
     .limit(limit)
@@ -79,7 +85,7 @@ export const getContactEnquiries = asyncHandler(async (req, res) => {
 });
 
 export const getContactEnquiryById = asyncHandler(async (req, res) => {
-  const data = await ContactEnquiryModel.findById(req.params.id);
+  const data = await ContactEnquiryModel.findById(req.params.id).populate("service");
 
   if (!data) {
     throw new ApiError(404, "Contact enquiry not found");
@@ -93,25 +99,13 @@ export const getContactEnquiryById = asyncHandler(async (req, res) => {
 });
 
 export const updateContactEnquiry = asyncHandler(async (req, res) => {
-  const { name, mobile, email, subject, message, from, country, state, city, zip, address, status } = req.body;
+  const { status } = req.body;
 
   const data = await ContactEnquiryModel.findById(req.params.id);
   if (!data) {
     throw new ApiError(404, "Contact enquiry not found");
   }
 
-  data.name = name || data.name;
-  data.mobile = mobile || data.mobile;
-  data.email = email || data.email;
-  data.subject = subject || data.subject;
-  data.message = message || data.message;
-  data.service = service || data.service;
-  data.from = from || data.from;
-  data.country = country || data.country;
-  data.state = state || data.state;
-  data.city = city || data.city;
-  data.zip = zip || data.zip;
-  data.address = address || data.address;
   data.status = typeof status === "boolean" ? status : data.status;
   data.updatedBy = req.user?._id;
   data.updatedAt = new Date();

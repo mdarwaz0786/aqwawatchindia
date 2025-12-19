@@ -26,6 +26,8 @@ import aboutusRoute from "./aboutus.route.js";
 import contactRoute from "./contactus.route.js";
 import contactEnquiryRoute from "./contactEnquiry.route.js";
 import shippingChargeRoute from "./shippingCharge.route.js";
+import serviceRoute from "./service.route.js";
+import contactEnquiryFormRoute from "./contactEnquiryForm.route.js";
 
 const router = express.Router();
 
@@ -56,5 +58,7 @@ router.use("/aboutus", aboutusRoute);
 router.use("/contactus", contactRoute);
 router.use("/contact-enquiry", contactEnquiryRoute);
 router.use("/shipping-charge", shippingChargeRoute);
+router.use("/service", serviceRoute);
+router.use("/contact-enquiry-form", contactEnquiryFormRoute);
 
 export default router;

@@ -6,9 +6,11 @@ import TableWrapper from '../../components/Table/TableWrapper';
 import useFetchData from '../../hooks/useFetchData';
 import { useAuth } from '../../context/auth.context';
 import PageSizeSelector from '../../components/Table/PageSizeSelector';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
+import useToggleStatus from '../../hooks/useToggleStatus';
+import StatusToggle from '../../components/Table/StatusToggle';
 
 const ContactEnquiryContactListPage = () => {
   const { validToken } = useAuth();
@@ -23,6 +25,7 @@ const ContactEnquiryContactListPage = () => {
 
   const fetchDataUrl = apis.contactEnquiry.getAll;
   const { data, params, setParams, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
+  const { toggling, toggleStatus } = useToggleStatus({ token: validToken });
 
   useEffect(() => {
     setParams({ page, limit, search });
@@ -59,6 +62,8 @@ const ContactEnquiryContactListPage = () => {
             <th>Mobile</th>
             <th>Subject</th>
             <th>Message</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -91,11 +96,26 @@ const ContactEnquiryContactListPage = () => {
                 >
                   {item?.message}
                 </td>
+                <td>
+                  <StatusToggle
+                    id={item?._id}
+                    status={item?.status}
+                    toggling={toggling}
+                    onToggle={() => toggleStatus(apis.contactEnquiry.update, item?._id, item?.status)}
+                  />
+                </td>
+                <td>
+                  <div className="d-flex flex-wrap gap-2">
+                    <Link to={`/contact-enquiry/detail/${item?._id}`}>
+                      <button className="btn btn-primary">View</button>
+                    </Link>
+                  </div>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="text-center">
+              <td colSpan="12" className="text-center">
                 {isLoading ? "Loading..." : "No Data"}
               </td>
             </tr>

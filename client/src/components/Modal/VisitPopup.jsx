@@ -6,25 +6,39 @@ import useCreate from "../../hooks/useCreate";
 import apis from "../../api/apis";
 import "./VisitPopup.css";
 import { selectStyles } from "../Constants/style";
+import useFetchData from "../../hooks/useFetchData";
 
 const VisitPopup = ({ open, setOpen, onClose }) => {
+  const { data: services } = useFetchData(apis.service.get);
+  const { data: contactEnquiry } = useFetchData(apis.contactEnquiryForm.get);
+
   const [form, setForm] = useState({
     name: "",
+    email: "",
     mobile: "",
+    country: "",
     state: "",
     city: "",
+    zip: "",
+    subject: "",
     service: "",
+    address: "",
     message: "",
     from: "Service",
   });
 
+  const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  const [selectedCountry] = useState({ label: "India", value: "India" });
+  const [selectedCountry, setSelectedCountry] = useState({
+    label: "India",
+    value: "India",
+  });
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
 
+  const [loadingCountries, setLoadingCountries] = useState(false);
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
 
@@ -41,6 +55,34 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
   }, [setOpen]);
 
   useEffect(() => {
+    async function loadCountries() {
+      setLoadingCountries(true);
+      try {
+        const res = await fetch(
+          "https://countriesnow.space/api/v0.1/countries/positions"
+        );
+        const data = await res.json();
+
+        const list =
+          data?.data?.map((c) => ({
+            label: c.name,
+            value: c.name,
+          })) || [];
+
+        setCountries(list);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoadingCountries(false);
+      }
+    }
+
+    loadCountries();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCountry) return;
+
     async function loadStates() {
       setLoadingStates(true);
 
@@ -118,22 +160,8 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
   useEffect(() => {
     if (response?.success) {
       toast.success("Submitted Successfully ✔");
-
-      setForm({
-        name: "",
-        mobile: "",
-        state: "",
-        city: "",
-        service: "",
-        message: "",
-      });
-
-      setSelectedState(null);
-      setSelectedCity(null);
-
       onClose();
     }
-
     if (postError) toast.error(postError);
   }, [response, postError]);
 
@@ -146,18 +174,22 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.mobile || !selectedState || !selectedCity) {
-      toast.error("Please fill all required fields");
+    if (
+      !form.name ||
+      !form.mobile
+    ) {
+      toast.error("Name and Mobile are required");
       return;
-    }
+    };
 
     const payload = {
       ...form,
+      country: selectedCountry.value,
       state: selectedState.value,
       city: selectedCity.value,
     };
 
-    await postData(payload, "", false);
+    await postData(payload);
   };
 
   return (
@@ -167,76 +199,167 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
           ✕
         </button>
 
-        <h3 className="popup-title">Request a Callback</h3>
+        <h3 className="popup-title">{contactEnquiry?.data?.title}</h3>
 
         <form className="popup-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter Name"
-            value={form.name}
-            onChange={handleChange}
-          />
+          {
+            contactEnquiry?.data?.name === 1 && (
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter Name"
+                value={form.name}
+                onChange={handleChange}
+              />
+            )
+          }
 
-          <input
-            type="tel"
-            name="mobile"
-            placeholder="Enter Mobile"
-            required
-            value={form.mobile}
-            onChange={handleChange}
-          />
+          {
+            contactEnquiry?.data?.email === 1 && (
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                value={form.email}
+                onChange={handleChange}
+              />
+            )
+          }
 
-          <div className="mb-3">
-            <Select
-              options={states}
-              placeholder="Select State"
-              isLoading={loadingStates}
-              styles={selectStyles}
-              value={selectedState}
-              onChange={(opt) => {
-                setSelectedState(opt);
-                setForm({ ...form, state: opt.value });
-              }}
-            />
-          </div>
+          {
+            contactEnquiry?.data?.mobile === 1 && (
+              <input
+                type="tel"
+                name="mobile"
+                placeholder="Enter Mobile"
+                required
+                value={form.mobile}
+                onChange={handleChange}
+              />
+            )
+          }
 
-          <div className="mb-3">
-            <Select
-              options={cities}
-              placeholder="Select City"
-              styles={selectStyles}
-              isLoading={loadingCities}
-              value={selectedCity}
-              onChange={(opt) => {
-                setSelectedCity(opt);
-                setForm({ ...form, city: opt.value });
-              }}
-            />
-          </div>
+          {
+            contactEnquiry?.data?.country === 1 && (
+              <div className="mb-3">
+                <Select
+                  options={countries}
+                  placeholder="Select Country"
+                  styles={selectStyles}
+                  isLoading={loadingCountries}
+                  value={selectedCountry}
+                  onChange={(opt) => {
+                    setSelectedCountry(opt);
+                    setForm({ ...form, country: opt.value });
+                  }}
+                />
+              </div>
+            )
+          }
+          {
+            contactEnquiry?.data?.state === 1 && (
+              <div className="mb-3">
+                <Select
+                  options={states}
+                  placeholder="Select State"
+                  isLoading={loadingStates}
+                  styles={selectStyles}
+                  value={selectedState}
+                  onChange={(opt) => {
+                    setSelectedState(opt);
+                    setForm({ ...form, state: opt.value });
+                  }}
+                />
+              </div>
+            )
+          }
 
-          <select
-            className="form-select"
-            name="service"
-            value={form.service}
-            onChange={handleChange}
-          >
-            <option value="">Select Service</option>
-            <option>New Product</option>
-            <option>Service/Repair</option>
-            <option>Installation</option>
-            <option>AMC Plans</option>
-            <option>Become a Dealer</option>
-            <option>Other</option>
-          </select>
+          {
+            contactEnquiry?.data?.city === 1 && (
+              <div className="mb-3">
+                <Select
+                  options={cities}
+                  placeholder="Select City"
+                  styles={selectStyles}
+                  isLoading={loadingCities}
+                  value={selectedCity}
+                  onChange={(opt) => {
+                    setSelectedCity(opt);
+                    setForm({ ...form, city: opt.value });
+                  }}
+                />
+              </div>
+            )
+          }
 
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="3"
-            value={form.message}
-            onChange={handleChange}
-          />
+          {
+            contactEnquiry?.data?.zip === 1 && (
+              <input
+                type="text"
+                name="zip"
+                placeholder="Enter ZIP Code"
+                value={form.zip}
+                onChange={handleChange}
+              />
+            )
+          }
+
+          {
+            contactEnquiry?.data?.subject === 1 && (
+              <input
+                type="text"
+                name="subject"
+                placeholder="Enter Subject"
+                value={form.subject}
+                onChange={handleChange}
+              />
+            )
+          }
+
+          {
+            contactEnquiry?.data?.service === 1 && (
+              <select
+                className="form-select"
+                name="service"
+                value={form.service}
+                onChange={handleChange}
+              >
+                <option value="">Select Service</option>
+                {services?.data?.map((service) => (
+                  <option
+                    key={service?._id}
+                    value={service?._id}
+                  >
+                    {service?.name}
+                  </option>
+                ))}
+              </select>
+            )
+          }
+
+          {
+            contactEnquiry?.data?.address === 1 && (
+              <textarea
+                name="address"
+                placeholder="Enter Address"
+                rows="4"
+                value={form.address}
+                onChange={handleChange}
+              />
+            )
+          }
+
+          {
+            contactEnquiry?.data?.message === 1 && (
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                rows="3"
+                value={form.message}
+                onChange={handleChange}
+              />
+            )
+          }
 
           <button type="submit" className="btn-submit">
             Submit

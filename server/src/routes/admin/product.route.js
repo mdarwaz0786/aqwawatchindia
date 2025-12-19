@@ -16,7 +16,8 @@ router.post(
   "/",
   protect,
   upload.fields([
-    { name: "images", maxCount: 10 },
+    { name: "images", maxCount: 100 },
+    { name: "video", maxCount: 1 },
   ]),
   validateFileSize,
   createProduct
@@ -26,7 +27,8 @@ router.patch(
   "/:id",
   protect,
   upload.fields([
-    { name: "images", maxCount: 10 },
+    { name: "images", maxCount: 100 },
+    { name: "video", maxCount: 1 },
   ]),
   validateFileSize,
   updateProduct,

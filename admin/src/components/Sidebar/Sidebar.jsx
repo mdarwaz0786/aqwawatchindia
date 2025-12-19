@@ -110,8 +110,16 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       icon: <MdContactMail />,
       items: [
         { label: "Dealer", link: "/contact-enquiry/list/dealer" },
-        { label: "Service", link: "/contact-enquiry/list/service" },
-        { label: "Contact", link: "/contact-enquiry/list/contact" },
+        { label: "Service/Free Demo", link: "/contact-enquiry/list/service" },
+        { label: "Contact Us", link: "/contact-enquiry/list/contact" },
+      ],
+    },
+    {
+      title: "Contact Enquiry Form",
+      icon: <MdContactMail />,
+      items: [
+        { label: "Service", link: "/service/list" },
+        { label: "Form", link: "/contact-enquiry-form" },
       ],
     },
   ];

@@ -6,13 +6,15 @@ import TableWrapper from '../../components/Table/TableWrapper';
 import useFetchData from '../../hooks/useFetchData';
 import { useAuth } from '../../context/auth.context';
 import PageSizeSelector from '../../components/Table/PageSizeSelector';
-import { useSearchParams, Link } from 'react-router-dom';
+import useDelete from '../../hooks/useDelete';
+import { toast } from 'react-toastify';
+import { Link, useSearchParams } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
 import useToggleStatus from '../../hooks/useToggleStatus';
 import StatusToggle from '../../components/Table/StatusToggle';
 
-const ContactEnquiryListPage = () => {
+const ServiceListPage = () => {
   const { validToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -23,9 +25,11 @@ const ContactEnquiryListPage = () => {
   const [searchInput, setSearchInput] = useState(search);
   const debouncedSearch = useDebounce(searchInput, 500);
 
-  const fetchDataUrl = apis.contactEnquiry.getAll;
-  const updateStatusUrl = apis.contactEnquiry.update;
+  const fetchDataUrl = apis.service.getAll;
+  const singleDeleteUrl = apis.service.deleteSingle;
+  const updateStatusUrl = apis.service.update;
 
+  const { deleteData, deleteResponse, deleteError } = useDelete();
   const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search });
   const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
@@ -45,13 +49,30 @@ const ContactEnquiryListPage = () => {
   const handlePageChange = (newPage) => updateQueryParams({ page: newPage });
   const handlePageSizeChange = (newLimit) => updateQueryParams({ limit: newLimit, page: 1 });
 
-  const enquiries = data?.data || [];
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete?")) return;
+    await deleteData(`${singleDeleteUrl}/${id}`, validToken);
+  };
+
+  useEffect(() => {
+    if (deleteResponse?.success) {
+      toast.success("Deleted successfully");
+      refetch();
+    }
+  }, [deleteResponse]);
+
+  useEffect(() => {
+    if (deleteError) toast.error(deleteError);
+  }, [deleteError]);
+
+  const services = data?.data || [];
   const total = data?.pagination?.total || 0;
 
   return (
     <div className="container mt-1">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h5>Contact Enquiry<span className="badge bg-secondary ms-2">{total}</span></h5>
+        <h5>Service<span className="badge bg-secondary ms-2">{total}</span></h5>
+        <Link to="/service/add"><button className="btn btn-primary">Add New</button></Link>
         <SearchBar value={searchInput} onChange={(val) => setSearchInput(val)} />
       </div>
 
@@ -60,18 +81,16 @@ const ContactEnquiryListPage = () => {
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Mobile</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {enquiries?.length > 0 ? (
-            enquiries?.map((item, index) => (
+          {services?.length > 0 ? (
+            services?.map((item, index) => (
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>{item?.name}</td>
-                <td>{item?.mobil}</td>
                 <td>
                   <StatusToggle
                     id={item?._id}
@@ -82,16 +101,22 @@ const ContactEnquiryListPage = () => {
                 </td>
                 <td>
                   <div className="d-flex flex-wrap gap-2">
-                    <Link to={`/contact-enquiry/detail/${item?._id}`}>
-                      <button className="btn btn-primary">View</button>
+                    <Link to={`/service/update/${item?._id}`}>
+                      <button className="btn btn-primary">Edit</button>
                     </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(item?._id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="12" className="text-center">
+              <td colSpan="7" className="text-center">
                 {isLoading ? "Loading..." : "No Data"}
               </td>
             </tr>
@@ -116,4 +141,4 @@ const ContactEnquiryListPage = () => {
   );
 };
 
-export default ContactEnquiryListPage;
+export default ServiceListPage;

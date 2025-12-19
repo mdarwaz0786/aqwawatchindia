@@ -66,6 +66,12 @@ const apis = {
   contactEnquiry: {
     create: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
   },
+  service: {
+    get: `${API_BASE_URL}/api/v1/admin/service`,
+  },
+  contactEnquiryForm: {
+    get: `${API_BASE_URL}/api/v1/admin/contact-enquiry-form`,
+  },
 };
 
 export default apis;

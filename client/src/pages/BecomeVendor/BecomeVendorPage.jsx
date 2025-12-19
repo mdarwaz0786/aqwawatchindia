@@ -13,7 +13,10 @@ const BecomeVendorPage = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState({
+    label: "India",
+    value: "India",
+  });
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
 
@@ -101,10 +104,18 @@ const BecomeVendorPage = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (
+      !form.name ||
+      !form.mobile
+    ) {
+      toast.error("Name and Mobile are required");
+      return;
+    };
+
     const payload = {
       name: form.name,
-      mobile: form.mobile,
       email: form.email,
+      mobile: form.mobile,
       country: selectedCountry?.value || "",
       state: selectedState?.value || "",
       city: selectedCity?.value || "",
@@ -123,7 +134,10 @@ const BecomeVendorPage = () => {
         zip: "",
         address: "",
       });
-      setSelectedCountry(null);
+      setSelectedCountry({
+        label: "India",
+        value: "India",
+      });
       setSelectedState(null);
       setSelectedCity(null);
       setStates([]);

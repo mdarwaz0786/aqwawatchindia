@@ -19,7 +19,7 @@ const ProductDetailPage = () => {
   const { slug } = useParams();
   const { userId } = useAuth();
   const { refetchCart } = useCart();
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
   const { data: productDetails, refetch, setParams: setProductParams } = useFetchData(`${apis.product.getSingle}/${slug}`);
   const { data: relatedProduct, refetch: refetchRelatedProduct, setParams: setRelatedParams } = useFetchData(`${apis.product.related}/${slug}`);
@@ -29,9 +29,9 @@ const ProductDetailPage = () => {
   const relatedProducts = relatedProduct?.data || [];
 
   useEffect(() => {
-    if (productDetail?.images?.length > 0) {
-      setSelectedImage(productDetail?.images[0]);
-    };
+    if (mediaList.length) {
+      setSelectedMedia(mediaList[0]);
+    }
   }, [productDetail]);
 
   useEffect(() => {
@@ -61,6 +61,19 @@ const ProductDetailPage = () => {
     ?.replace(/<table[^>]*>/g, '<table class="table table-bordered table-striped">')
     .replace(/<th([^>]*)>/g, '<th$1 class="fw-bold bg-light">')
     .replace(/data-[a-zA-Z0-9-]+="[^"]*"/g, "");
+
+  const mediaList = [
+    ...(productDetail?.images || []).map((img) => ({
+      type: "image",
+      src: `${API_BASE_URL}${img.startsWith("/") ? "" : "/"}${img}`,
+    })),
+    ...(productDetail?.video
+      ? [{
+        type: "video",
+        src: `${API_BASE_URL}${productDetail?.video?.startsWith("/") ? "" : "/"}${productDetail?.video}`,
+      }]
+      : []),
+  ];
 
   return (
     <>
@@ -124,24 +137,46 @@ const ProductDetailPage = () => {
                         {/* Thumbnails */}
                         <div className="col-xl-2 col-lg-3 col-md-3 order-2 order-md-1">
                           <div className="row details_slider_nav">
-                            {productDetail?.images?.map((img, index) => (
+                            {mediaList?.map((item, index) => (
                               <div className="col-12 mb-2" key={index}>
                                 <div
                                   className="details_slider_nav_item"
                                   style={{
-                                    border:
-                                      selectedImage === img
-                                        ? "2px solid #ff2d55"
-                                        : "2px solid white",
+                                    border: selectedMedia?.src === item?.src
+                                      ? "2px solid #ff2d55"
+                                      : "2px solid white",
                                     cursor: "pointer",
+                                    width: "80px",
+                                    height: "80px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    overflow: "hidden",
+                                    background: "#fff",
                                   }}
-                                  onClick={() => setSelectedImage(img)}
+                                  onClick={() => setSelectedMedia(item)}
                                 >
-                                  <img
-                                    src={`${API_BASE_URL}${img.startsWith("/") ? "" : "/"}${img}`}
-                                    alt="Product"
-                                    className="img-fluid w-80 detail-image-list"
-                                  />
+                                  {item?.type === "image" ? (
+                                    <img
+                                      src={item.src}
+                                      alt="Product"
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                      }}
+                                    />
+                                  ) : (
+                                    <video
+                                      src={item?.src}
+                                      muted
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                      }}
+                                    />
+                                  )}
                                 </div>
                               </div>
                             ))}
@@ -153,11 +188,21 @@ const ProductDetailPage = () => {
                           <div className="row details_slider_thumb">
                             <div className="col-md-4">
                               <div className="details_slider_thumb_item">
-                                <img
-                                  src={`${API_BASE_URL}${selectedImage.startsWith("/") ? "" : "/"}${selectedImage}`}
-                                  alt="Product"
-                                  className="img-fluid w-100"
-                                />
+                                {selectedMedia?.type === "video" ? (
+                                  <video
+                                    src={selectedMedia?.src}
+                                    controls
+                                    autoPlay
+                                    className="img-fluid w-100"
+                                    style={{ maxHeight: "500px" }}
+                                  />
+                                ) : (
+                                  <img
+                                    src={selectedMedia?.src}
+                                    alt="Product"
+                                    className="img-fluid w-100"
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>

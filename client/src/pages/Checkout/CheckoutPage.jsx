@@ -21,7 +21,10 @@ const CheckoutPage = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState({
+    label: "India",
+    value: "India",
+  });
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
 
@@ -401,11 +404,11 @@ const CheckoutPage = () => {
 
                         <div className="col-xl-12 mt-3">
                           <textarea
-                            rows={2}
+                            rows={4}
                             name="instruction"
                             value={newAddress.instruction}
                             onChange={handleChange}
-                            placeholder="Write Instruction (Optional)"
+                            placeholder="Write Address Instruction (Optional)"
                           />
                         </div>
                       </div>

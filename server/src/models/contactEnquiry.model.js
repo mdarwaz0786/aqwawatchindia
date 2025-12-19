@@ -5,6 +5,7 @@ const contactEnquirySchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
@@ -29,8 +30,8 @@ const contactEnquirySchema = new mongoose.Schema(
       default: "Other"
     },
     service: {
-      type: String,
-      enum: ["New Product", "Service/Repair", "AMC Plans", "Installation", "Become a Dealer", "Other"],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
       default: null,
     },
     country: {

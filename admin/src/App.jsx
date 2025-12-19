@@ -58,6 +58,10 @@ import CustomerListPage from './pages/User/CustomerListPage';
 import ShippingChargeListPage from './pages/ShippingCharge/ShippingChargeListPage';
 import ShippingChargeFormPage from './pages/ShippingCharge/ShippingChargeFormPage';
 import OrderInvoicePage from './pages/Order/OrderInvoicePage';
+import ServiceListPage from './pages/Service/ServiceListPage';
+import ServiceFormPage from './pages/Service/ServiceFormPage';
+import ContactEnquiryFormPage from './pages/ContactEnquiryForm/ContactEnquiryForm';
+import ContactEnquiryDetailPage from './pages/ContactEnquiry/ContactEnquiryDetailPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -162,6 +166,13 @@ const App = () => {
                 <Route path="/contact-enquiry/list/dealer" element={<ContactEnquiryDealerListPage />} />
                 <Route path="/contact-enquiry/list/service" element={<ContactEnquiryServiceListPage />} />
                 <Route path="/contact-enquiry/list/contact" element={<ContactEnquiryContactListPage />} />
+                <Route path="/contact-enquiry/detail/:id" element={<ContactEnquiryDetailPage />} />
+
+                <Route path="/service/list" element={<ServiceListPage />} />
+                <Route path="/service/add" element={<ServiceFormPage />} />
+                <Route path="/service/update/:id" element={<ServiceFormPage />} />
+
+                <Route path="/contact-enquiry-form" element={<ContactEnquiryFormPage />} />
               </Route>
             )
           }

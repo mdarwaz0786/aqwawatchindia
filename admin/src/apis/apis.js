@@ -156,7 +156,18 @@ const apis = {
   contactEnquiry: {
     getAll: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
     getSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
-    deleteSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+    update: `${API_BASE_URL}/api/v1/admin/contact-enquiry`,
+  },
+  service: {
+    create: `${API_BASE_URL}/api/v1/admin/service`,
+    getAll: `${API_BASE_URL}/api/v1/admin/service`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/service`,
+    update: `${API_BASE_URL}/api/v1/admin/service`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/service`,
+  },
+  contactEnquiryForm: {
+    create: `${API_BASE_URL}/api/v1/admin/contact-enquiry-form`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry-form`,
   },
 };
 

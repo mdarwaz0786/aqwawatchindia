@@ -7,6 +7,7 @@ import { generateUniqueSlug } from "../../helpers/generateUniqueSlug.js";
 import fs from "fs";
 import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
+import compressVideo from "../../helpers/compressVideo.js";
 
 // create product
 export const createProduct = asyncHandler(async (req, res) => {
@@ -33,6 +34,7 @@ export const createProduct = asyncHandler(async (req, res) => {
   } = req.body;
 
   let imagePaths = [];
+  let videoPath = null;
 
   try {
     if (req.files?.images?.length) {
@@ -40,6 +42,10 @@ export const createProduct = asyncHandler(async (req, res) => {
       imagePaths = compressed;
     } else {
       throw new ApiError(400, "At least one image is required");
+    };
+
+    if (req.files?.video?.length) {
+      videoPath = await compressVideo(req.files.video[0].buffer, "product");
     };
 
     const product = await ProductModel.create({
@@ -64,6 +70,7 @@ export const createProduct = asyncHandler(async (req, res) => {
       stock: stock || 0,
       createdBy: req.user?._id,
       images: imagePaths,
+      video: videoPath,
     });
 
     const slug = await generateUniqueSlug(name, "Product", product?._id, "products");
@@ -81,6 +88,14 @@ export const createProduct = asyncHandler(async (req, res) => {
         fs.unlinkSync(path.resolve(img));
       };
     };
+
+    if (videoPath) {
+      const compressedVideoPath = path.join(process.cwd(), videoPath);
+      if (fs.existsSync(compressedVideoPath)) {
+        fs.unlinkSync(compressedVideoPath);
+      };
+    };
+
     throw new ApiError(500, error.message || "Something went wrong while creating product");
   };
 });
@@ -188,8 +203,6 @@ export const updateProduct = asyncHandler(async (req, res) => {
     ? JSON.parse(req.body.removedIndexes)
     : [];
 
-  console.log(removedIndexes)
-
   let updatedImages = [];
 
   for (let i = 0; i < product.images.length; i++) {
@@ -211,6 +224,21 @@ export const updateProduct = asyncHandler(async (req, res) => {
   }
 
   product.images = updatedImages;
+
+  if (req.files?.video?.[0]) {
+    if (product?.video && fs.existsSync(path.join(process.cwd(), product?.video))) {
+      fs.unlinkSync(path.join(process.cwd(), product?.video));
+    };
+    product.video = await compressVideo(req.files.video[0].buffer, "product");
+  };
+
+  if (req.body.removeVideo === "true") {
+    if (product?.video) {
+      const videoPath = path.join(process.cwd(), product?.video);
+      if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+    }
+    product.video = null;
+  };
 
   if (name && name !== product.name) {
     await SlugModel.deleteOne({
@@ -267,17 +295,21 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
-  if (product.images?.length) {
-    for (const img of product.images) {
+  if (product?.images?.length) {
+    for (const img of product?.images) {
       if (fs.existsSync(path.resolve(img))) {
         fs.unlinkSync(path.resolve(img));
-      }
-    }
-  }
+      };
+    };
+  };
+
+  if (product?.video && fs.existsSync(path.join(process.cwd(), product?.video))) {
+    fs.unlinkSync(path.join(process.cwd(), product?.video));
+  };
 
   await SlugModel.deleteOne({
     collectionName: "Product",
-    documentId: product._id,
+    documentId: product?._id,
   });
 
   await product.deleteOne();
