@@ -24,8 +24,8 @@ const ContactEnquiryContactListPage = () => {
   const debouncedSearch = useDebounce(searchInput, 500);
 
   const fetchDataUrl = apis.contactEnquiry.getAll;
-  const { data, params, setParams, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
-  const { toggling, toggleStatus } = useToggleStatus({ token: validToken });
+  const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, from: "Contact" });
+  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
 
   useEffect(() => {
     setParams({ page, limit, search });

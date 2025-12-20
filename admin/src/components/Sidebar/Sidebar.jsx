@@ -109,6 +109,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
       title: "Contact Enquiry",
       icon: <MdContactMail />,
       items: [
+        { label: "All Enquiry", link: "/contact-enquiry/list" },
         { label: "Dealer", link: "/contact-enquiry/list/dealer" },
         { label: "Service/Free Demo", link: "/contact-enquiry/list/service" },
         { label: "Contact Us", link: "/contact-enquiry/list/contact" },

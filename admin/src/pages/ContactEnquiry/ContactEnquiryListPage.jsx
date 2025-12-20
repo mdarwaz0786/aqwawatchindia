@@ -71,7 +71,7 @@ const ContactEnquiryListPage = () => {
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>{item?.name}</td>
-                <td>{item?.mobil}</td>
+                <td>{item?.mobile}</td>
                 <td>
                   <StatusToggle
                     id={item?._id}

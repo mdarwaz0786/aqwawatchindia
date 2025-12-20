@@ -9,19 +9,13 @@ const ContactEnquiryDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data } = useFetchData(
-    `${apis.contactEnquiry.getSingle}/${id}`,
-    validToken
-  );
+  const { data } = useFetchData(`${apis.contactEnquiry.getSingle}/${id}`, validToken);
 
   const enquiry = data?.data;
   if (!enquiry) return null;
 
-  const hasPersonalInfo =
-    enquiry?.name || enquiry?.email || enquiry?.mobile;
-
-  const hasServiceInfo =
-    enquiry?.service?.name || enquiry?.from;
+  const hasPersonalInfo = enquiry?.name || enquiry?.email || enquiry?.mobile;
+  const hasServiceInfo = enquiry?.service?.name || enquiry?.from;
 
   const hasLocation =
     enquiry?.country ||
@@ -32,13 +26,27 @@ const ContactEnquiryDetailPage = () => {
 
   return (
     <div className="container">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        {enquiry?.createdAt && (
+          <p className="mb-0 fw-bold">
+            Submitted on:{" "}
+            {formatDate(enquiry?.createdAt)}
+          </p>
+        )}
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
+      </div>
       <div className="row justify-content-center">
         <div className="col-12">
           {/* Header */}
           <div className="card shadow-sm mb-4">
             <div className="card-body d-flex justify-content-between align-items-center">
               <div>
-                <h4 className="mb-1">Contact Enquiry Details</h4>
+                <h5 className="mb-1">Contact Enquiry Details</h5>
                 <small className="text-muted">
                   Enquiry ID: {enquiry?._id}
                 </small>
@@ -46,7 +54,8 @@ const ContactEnquiryDetailPage = () => {
 
               {typeof enquiry?.status === "boolean" && (
                 <span
-                  className={`badge px-3 py-2 ${enquiry.status ? "bg-success" : "bg-danger"}`}
+                  className={`badge px-3 py-3 ${enquiry?.status ? "bg-success" : "bg-danger"}`}
+                  style={{ fontSize: "1rem" }}
                 >
                   {enquiry?.status ? "Active" : "Inactive"}
                 </span>
@@ -108,8 +117,16 @@ const ContactEnquiryDetailPage = () => {
 
                   {enquiry?.from && (
                     <div className="col-md-6">
-                      <label className="text-muted small">Enquiry From</label>
-                      <div className="fw-semibold">{enquiry?.from}</div>
+                      <label className="text-muted small">Enquiry For</label>
+                      <div className="fw-semibold">
+                        {
+                          enquiry?.from === "Service"
+                            ? "Service/Free Demo"
+                            : enquiry?.from === "Dealer"
+                              ? "Become A Dealer"
+                              : "Contact Us"
+                        }
+                      </div>
                     </div>
                   )}
                 </div>
@@ -193,10 +210,10 @@ const ContactEnquiryDetailPage = () => {
           {/* Footer */}
           <div className="d-flex justify-content-between align-items-center">
             {enquiry.createdAt && (
-              <small className="text-muted">
+              <p className="mb-0 fw-bold">
                 Submitted on:{" "}
                 {formatDate(enquiry?.createdAt)}
-              </small>
+              </p>
             )}
             <button
               className="btn btn-outline-secondary"
