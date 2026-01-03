@@ -73,7 +73,37 @@ const ProductDetailPage = () => {
         src: `${API_BASE_URL}${productDetail?.video?.startsWith("/") ? "" : "/"}${productDetail?.video}`,
       }]
       : []),
+    ...(productDetail?.youtubeVideoLink
+      ? [{
+        type: "youtube",
+        src: productDetail?.youtubeVideoLink,
+      }]
+      : []),
   ];
+
+  const playIconStyle = {
+    position: "absolute",
+    color: "#fff",
+    fontSize: "22px",
+    background: "rgba(0,0,0,0.6)",
+    borderRadius: "50%",
+    width: "36px",
+    height: "36px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const youtubeBoxStyle = {
+    width: "100%",
+    height: "100%",
+    background: "#000",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "12px",
+  };
 
   return (
     <>
@@ -103,14 +133,14 @@ const ProductDetailPage = () => {
         <section className="videosec">
           <div className="container">
             <div className="row">
-              <div className="col-lg-6">
+              {/*<div className="col-md-6">
                 {(productDetail?.youtubeVideoLink) &&
                   <div className="youtubevideode">
                     <iframe width="100%" height={400} src={productDetail?.youtubeVideoLink} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
                   </div>
                 }
-              </div>
-              <div className="col-lg-6">
+              </div>*/}
+              <div className="col-md-12">
                 <div className="youtubecontent">
                   <h1>{productDetail?.name}</h1>
                   {productDetail?.smallInfo && <p dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
@@ -136,46 +166,57 @@ const ProductDetailPage = () => {
                       <div className="row">
                         {/* Thumbnails */}
                         <div className="col-xl-2 col-lg-3 col-md-3 order-2 order-md-1">
-                          <div className="row details_slider_nav">
+                          <div className="row">
                             {mediaList?.map((item, index) => (
                               <div className="col-12 mb-2" key={index}>
                                 <div
-                                  className="details_slider_nav_item"
+                                  onClick={() => setSelectedMedia(item)}
                                   style={{
-                                    border: selectedMedia?.src === item?.src
-                                      ? "2px solid #ff2d55"
-                                      : "2px solid white",
                                     cursor: "pointer",
                                     width: "80px",
                                     height: "80px",
+                                    border: selectedMedia?.src === item.src
+                                      ? "2px solid #ff2d55"
+                                      : "1px solid #ddd",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
+                                    position: "relative",
                                     overflow: "hidden",
                                     background: "#fff",
                                   }}
-                                  onClick={() => setSelectedMedia(item)}
                                 >
-                                  {item?.type === "image" ? (
+                                  {item?.type === "image" && (
                                     <img
-                                      src={item.src}
+                                      src={item?.src}
                                       alt="Product"
                                       style={{
                                         width: "100%",
                                         height: "100%",
                                         objectFit: "contain",
+                                        border: "none"
                                       }}
                                     />
-                                  ) : (
-                                    <video
-                                      src={item?.src}
-                                      muted
-                                      style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                      }}
-                                    />
+                                  )}
+                                  {item?.type === "video" && (
+                                    <>
+                                      <video
+                                        src={item?.src}
+                                        muted
+                                        style={{
+                                          width: "100%",
+                                          height: "100%",
+                                          objectFit: "cover",
+                                        }}
+                                      />
+                                      <span style={playIconStyle}>▶</span>
+                                    </>
+                                  )}
+                                  {item?.type === "youtube" && (
+                                    <>
+                                      <div style={youtubeBoxStyle}>YouTube</div>
+                                      <span style={playIconStyle}>▶</span>
+                                    </>
                                   )}
                                 </div>
                               </div>
@@ -188,7 +229,7 @@ const ProductDetailPage = () => {
                           <div className="row details_slider_thumb">
                             <div className="col-md-4">
                               <div className="details_slider_thumb_item">
-                                {selectedMedia?.type === "video" ? (
+                                {selectedMedia?.type === "video" && (
                                   <video
                                     src={selectedMedia?.src}
                                     controls
@@ -196,11 +237,22 @@ const ProductDetailPage = () => {
                                     className="img-fluid w-100"
                                     style={{ maxHeight: "500px" }}
                                   />
-                                ) : (
+                                )}
+                                {selectedMedia?.type === "image" && (
                                   <img
                                     src={selectedMedia?.src}
                                     alt="Product"
                                     className="img-fluid w-100"
+                                  />
+                                )}
+                                {selectedMedia?.type === "youtube" && (
+                                  <iframe
+                                    width="100%"
+                                    height="500"
+                                    src={selectedMedia?.src?.replace("watch?v=", "embed/")}
+                                    title="YouTube video"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
                                   />
                                 )}
                               </div>
