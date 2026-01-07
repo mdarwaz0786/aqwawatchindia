@@ -37,7 +37,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       if (window.initUI) window.initUI();
-    }, 1000);
+    }, 0);
   }, [location]);
 
   return (

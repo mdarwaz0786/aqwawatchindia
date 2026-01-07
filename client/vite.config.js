@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     host: true,
     proxy: {
-      "/api": "http://72.62.194.82:8000",
+      "/api": "https://aquawatchindia.com",
     },
   },
   plugins: [react()],
