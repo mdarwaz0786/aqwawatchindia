@@ -105,6 +105,29 @@ const ProductDetailPage = () => {
     fontSize: "12px",
   };
 
+  const handleShare = async () => {
+    if (!productDetail) return;
+    const shareUrl = window.location.href;
+    const shareData = {
+      title: productDetail?.name,
+      text: productDetail?.smallInfo
+        ? productDetail?.smallInfo?.replace(/<[^>]+>/g, "")
+        : "Check out this product",
+      url: shareUrl,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        console.log("Share cancelled", error);
+      };
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success("Product link copied to clipboard");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -303,6 +326,14 @@ const ProductDetailPage = () => {
                           )
                         }
                         <div className="details_btn_area mt-3">
+                          <button
+                            className="common_btn me-2"
+                            onClick={handleShare}
+                            type="button"
+                          >
+                            <i className="fas fa-share-alt me-2"></i>
+                            Share
+                          </button>
                           {productDetail?.quantity > 0 && <Link className="common_btn buy_now" to="/checkout">Buy Now <i className="fas fa-long-arrow-right" /></Link>}
                           {productDetail?.quantity > 0 ? (
                             <Link className="common_btn" to="/cart" >Go to cart <i className="fas fa-long-arrow-right" /></Link>
