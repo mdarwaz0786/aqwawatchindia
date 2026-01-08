@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aquawatchindia.com/sitemap.xml
