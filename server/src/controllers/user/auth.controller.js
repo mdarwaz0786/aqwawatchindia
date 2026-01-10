@@ -5,6 +5,7 @@ import ApiError from "../../helpers/apiError.js";
 import generateToken from "../../helpers/generateToken.js";
 import fs from "fs";
 import path from "path";
+import compressImage from "../../helpers/compressImage.js";
 
 // ------------------ SIGNUP ------------------
 export const signup = asyncHandler(async (req, res) => {
@@ -117,46 +118,41 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
 // ------------------ UPDATE USER ------------------
 export const updateUser = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
-  const { name, email, mobile, password, status } = req.body;
+  const { name, email, mobile } = req.body;
 
-  const user = await UserModel.findById(userId).select("+password");
+  const user = await UserModel.findById(userId);
 
   if (!user) {
     throw new ApiError(404, "User not found");
-  }
+  };
 
   if (req.files?.avatar?.[0]) {
-    if (user.avatar && fs.existsSync(path.join(process.cwd(), user.avatar))) {
-      fs.unlinkSync(path.join(process.cwd(), user.avatar));
-    }
+    if (user?.avatar && fs.existsSync(path.join(process.cwd(), user?.avatar))) {
+      fs.unlinkSync(path.join(process.cwd(), user?.avatar));
+    };
 
-    user.avatar = await compressImage(req.files.avatar[0].buffer, "users");
-  }
+    user.avatar = await compressImage(req?.files?.avatar[0]?.buffer, "users");
+  };
 
-  if (email && email !== user.email) {
+  if (email && email !== user?.email) {
     const emailExists = await UserModel.findOne({ email });
     if (emailExists) {
       throw new ApiError(400, "Email already in use");
-    }
+    };
     user.email = email;
-  }
+  };
 
   if (mobile && mobile !== user.mobile) {
     const mobileExists = await UserModel.findOne({ mobile });
     if (mobileExists) {
       throw new ApiError(400, "Mobile number already in use");
-    }
+    };
     user.mobile = mobile;
-  }
+  };
 
   user.name = name || user.name;
-  user.status = typeof status === "boolean" ? status : user.status;
-
-  if (password) {
-    user.password = password;
-  }
-
   user.updatedAt = new Date();
+  user.updatedBy = userId;
   await user.save();
 
   return res.status(200).json({
@@ -165,3 +161,37 @@ export const updateUser = asyncHandler(async (req, res) => {
     data: user,
   });
 });
+
+// ------------------ FORGOT PASSWORD ------------------
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email, mobile, password } = req.body;
+
+  if (!email && !mobile) {
+    throw new ApiError(400, "Email/Mobile is required");
+  };
+
+  if (!password) {
+    throw new ApiError(400, "Password is required");
+  };
+
+  const user = await UserModel.findOne({
+    $or: [
+      email ? { email } : null,
+      mobile ? { mobile } : null,
+    ].filter(Boolean),
+  });
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  };
+
+  user.password = password;
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    message: "Password updated successfuly",
+  });
+});
+
+

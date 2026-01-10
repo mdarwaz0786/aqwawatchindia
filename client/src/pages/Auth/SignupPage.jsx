@@ -71,6 +71,7 @@ const SignupPage = () => {
                           value={form.name}
                           onChange={handleChange}
                           placeholder="Your Name"
+                          required
                         />
                       </div>
                     </div>
@@ -83,7 +84,8 @@ const SignupPage = () => {
                           name="email"
                           value={form.email}
                           onChange={handleChange}
-                          placeholder="example@gmail.com"
+                          placeholder="Enter Email"
+                          required
                         />
                       </div>
                     </div>
@@ -96,7 +98,7 @@ const SignupPage = () => {
                           name="mobile"
                           value={form.mobile}
                           onChange={handleChange}
-                          placeholder="+91-1234567890"
+                          placeholder="Enter Mobile"
                         />
                       </div>
                     </div>
@@ -109,7 +111,7 @@ const SignupPage = () => {
                           name="password"
                           value={form.password}
                           onChange={handleChange}
-                          placeholder="********"
+                          placeholder="Enter Password"
                         />
                       </div>
                     </div>

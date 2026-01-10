@@ -63,13 +63,13 @@ const LoginPage = () => {
                   <div className="row">
                     <div className="col-xl-12">
                       <div className="single_input">
-                        <label>Email/Mobile</label>
+                        <label>Mobile?Email</label>
                         <input
                           type="text"
                           name="emailOrMobile"
                           value={form.emailOrMobile}
                           onChange={handleChange}
-                          placeholder="Enter Email/Mobile"
+                          placeholder="Enter Mobile/Email"
                           required
                         />
                       </div>
@@ -89,24 +89,11 @@ const LoginPage = () => {
                       </div>
                     </div>
 
-                    {/* <div className="col-12">
+                    <div className="col-xl-12">
                       <div className="forgot">
-                        <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name="remember"
-                            checked={form.remember}
-                            onChange={handleChange}
-                            id="flexCheckDefault"
-                          />
-                          <label className="form-check-label" htmlFor="flexCheckDefault">
-                            Remember Me
-                          </label>
-                        </div>
-                        <Link to="/forgot-password">Forgot Password?</Link>
+                        <Link className="text-end" to="/forgot-password">Forgot Password?</Link>
                       </div>
-                    </div> */}
+                    </div>
 
                     <div className="col-xl-12">
                       <button type="submit" className="common_btn" disabled={isPosting}>

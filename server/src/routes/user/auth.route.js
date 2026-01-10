@@ -1,5 +1,5 @@
 import express from "express";
-import { signup, login, getLoggedInUser, updateUser } from "../../controllers/user/auth.controller.js";
+import { signup, login, getLoggedInUser, updateUser, forgotPassword } from "../../controllers/user/auth.controller.js";
 import protect from "../../middlewares/user/protect.middleware.js";
 import validateFileSize from "../../middlewares/validateFileSize.middleware.js";
 import upload from "../../middlewares/multer.middleware.js";
@@ -18,5 +18,7 @@ router.patch(
   validateFileSize,
   updateUser,
 );
+
+router.post("/forgot-password", forgotPassword);
 
 export default router;

@@ -6,6 +6,7 @@ const apis = {
     loggedIn: `${API_BASE_URL}/api/v1/admin/auth/loggedin-user`,
     getAll: `${API_BASE_URL}/api/v1/admin/auth/all-user`,
     update: `${API_BASE_URL}/api/v1/admin/auth/update-profile`,
+    forgotPassword: `${API_BASE_URL}/api/v1/admin/auth/forgot-password`,
   },
   dashboard: {
     getAll: `${API_BASE_URL}/api/v1/admin/dashboard`,
