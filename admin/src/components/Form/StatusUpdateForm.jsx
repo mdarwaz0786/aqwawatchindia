@@ -5,7 +5,8 @@ const StatusUpdateForm = ({
   approving,
   onChange,
   onSubmit,
-  options = []
+  options = [],
+  width = "100%",
 }) => {
   return (
     <form
@@ -19,6 +20,7 @@ const StatusUpdateForm = ({
         value={status[id] || currentStatus}
         onChange={(e) => onChange(id, e.target.value)}
         className="form-select"
+        style={{ width: width }}
       >
         {options.map((opt, index) => (
           <option key={index} value={opt}>

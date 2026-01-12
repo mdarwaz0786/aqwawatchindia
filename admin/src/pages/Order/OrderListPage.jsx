@@ -163,10 +163,10 @@ const OrderListPage = () => {
                   <a style={{ display: "block" }}>{item?.user?.email}</a>
                   <a style={{ display: "block" }}>{item?.user?.mobile}</a>
                 </td>
-                <td>{item?.totalAmount}</td>
+                <td>₹{item?.totalAmount}</td>
                 <td>{item?.paymentMethod}</td>
                 <td>{item?.paymentStatus}</td>
-                <td style={{ width: "100%" }}>
+                <td>
                   <StatusUpdateForm
                     id={item?._id}
                     currentStatus={item?.orderStatus}
@@ -175,6 +175,7 @@ const OrderListPage = () => {
                     onChange={handleStatusChange}
                     onSubmit={(id) => updateStatus(updateStatusUrl, id)}
                     options={orderStatusOptions}
+                    width="160px"
                   />
                 </td>
                 <td>
