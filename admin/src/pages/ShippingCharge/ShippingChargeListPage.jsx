@@ -92,7 +92,7 @@ const ShippingChargeListPage = () => {
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
                 <td>{item?.state}</td>
-                <td>{item?.charge}</td>
+                <td>₹{item?.charge}</td>
                 <td>
                   <StatusToggle
                     id={item?._id}

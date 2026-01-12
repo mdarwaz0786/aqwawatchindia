@@ -6,18 +6,16 @@ import TableWrapper from '../../components/Table/TableWrapper';
 import useFetchData from '../../hooks/useFetchData';
 import { useAuth } from '../../context/auth.context';
 import PageSizeSelector from '../../components/Table/PageSizeSelector';
-import useDelete from '../../hooks/useDelete';
-import { toast } from 'react-toastify';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import apis from '../../apis/apis';
 import useDebounce from '../../hooks/useDebounce';
-import useToggleStatus from '../../hooks/useToggleStatus';
 import StatusToggle from '../../components/Table/StatusToggle';
 import useUpdateStatus from '../../hooks/useUpdateStatus';
 import FilterSelect from '../../components/Form/FilterSelect';
 import StatusUpdateForm from '../../components/Form/StatusUpdateForm';
 
 const OrderListPage = () => {
+  const navigate = useNavigate();
   const { validToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -32,12 +30,9 @@ const OrderListPage = () => {
   const debouncedSearch = useDebounce(searchInput, 500);
 
   const fetchDataUrl = apis.order.getAll;
-  const singleDeleteUrl = apis.order.deleteSingle;
   const updateStatusUrl = apis.order.update;
 
-  const { deleteData, deleteResponse, deleteError } = useDelete();
   const { data, params, setParams, refetch, isLoading } = useFetchData(fetchDataUrl, validToken, { page, limit, search, orderStatus, paymentMethod, paymentStatus });
-  const { toggling, toggleStatus } = useToggleStatus({ token: validToken, refetch });
   const {
     status,
     approving,
@@ -68,22 +63,6 @@ const OrderListPage = () => {
   const handlePageChange = (newPage) => updateQueryParams({ page: newPage });
   const handlePageSizeChange = (newLimit) => updateQueryParams({ limit: newLimit, page: 1 });
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete?")) return;
-    await deleteData(`${singleDeleteUrl}/${id}`, validToken);
-  };
-
-  useEffect(() => {
-    if (deleteResponse?.success) {
-      toast.success("Deleted successfully");
-      refetch();
-    }
-  }, [deleteResponse]);
-
-  useEffect(() => {
-    if (deleteError) toast.error(deleteError);
-  }, [deleteError]);
-
   const orders = data?.data || [];
   const total = data?.pagination?.total || 0;
 
@@ -93,9 +72,8 @@ const OrderListPage = () => {
     "Shipped",
     "Out for Delivery",
     "Delivered",
-    "Completed",
     "Returned",
-    "Cancelled"
+    "Cancelled",
   ];
 
   const paymentMethodOptions = ["COD", "ONLINE"];
@@ -149,7 +127,6 @@ const OrderListPage = () => {
             <th>Payment Method</th>
             <th>Payment Status</th>
             <th>Order Status</th>
-            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -158,7 +135,10 @@ const OrderListPage = () => {
             orders?.map((item, index) => (
               <tr key={item?._id}>
                 <td>{index + 1 + (params.page - 1) * params.limit}</td>
-                <td>
+                <td
+                  onClick={() => navigate(`/order/detail/${item?._id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <a style={{ display: "block" }}>{item?.user?.name}</a>
                   <a style={{ display: "block" }}>{item?.user?.email}</a>
                   <a style={{ display: "block" }}>{item?.user?.mobile}</a>
@@ -179,27 +159,13 @@ const OrderListPage = () => {
                   />
                 </td>
                 <td>
-                  <StatusToggle
-                    id={item?._id}
-                    status={item?.status}
-                    toggling={toggling}
-                    onToggle={() => toggleStatus(updateStatusUrl, item?._id, item?.status)}
-                  />
-                </td>
-                <td>
                   <div className="d-flex flex-wrap gap-2">
                     <Link to={`/order/detail/${item?._id}`}>
-                      <button className="btn btn-primary">View</button>
+                      <button className="btn btn-danger">View</button>
                     </Link>
                     <Link to={`/order/invoice/${item?._id}`}>
                       <button className="btn btn-secondary">Invoice</button>
                     </Link>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item?._id)}
-                    >
-                      Delete
-                    </button>
                   </div>
                 </td>
               </tr>
