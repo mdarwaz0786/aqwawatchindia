@@ -63,11 +63,10 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
         );
         const data = await res.json();
 
-        const list =
-          data?.data?.map((c) => ({
-            label: c.name,
-            value: c.name,
-          })) || [];
+        const list = data?.data?.map((c) => ({
+          label: c?.name,
+          value: c?.name,
+        })) || [];
 
         setCountries(list);
       } catch (e) {
@@ -81,8 +80,6 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    if (!selectedCountry) return;
-
     async function loadStates() {
       setLoadingStates(true);
 
@@ -100,8 +97,8 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
 
         const list =
           data?.data?.states?.map((s) => ({
-            label: s.name,
-            value: s.name,
+            label: s?.name,
+            value: s?.name,
           })) || [];
 
         setStates(list);
@@ -119,12 +116,45 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
   }, [selectedCountry]);
 
   useEffect(() => {
-    if (!selectedState) return;
-
     async function loadCities() {
       setLoadingCities(true);
 
       try {
+        if (!selectedState) {
+          if (!states.length) {
+            setCities([]);
+            return;
+          }
+
+          const cityPromises = states.map((st) =>
+            fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                country: selectedCountry.value,
+                state: st.value,
+              }),
+            }).then((res) => res.json())
+          );
+
+          const responses = await Promise.all(cityPromises);
+
+          const allCities = responses.flatMap((res) =>
+            res?.data?.map((city) => ({
+              label: city,
+              value: city,
+            })) || []
+          );
+
+          const uniqueCities = Array.from(
+            new Map(allCities.map((c) => [c.value, c])).values()
+          );
+
+          setCities(uniqueCities);
+          setSelectedCity(null);
+          return;
+        }
+
         const res = await fetch(
           "https://countriesnow.space/api/v0.1/countries/state/cities",
           {
@@ -155,7 +185,7 @@ const VisitPopup = ({ open, setOpen, onClose }) => {
     }
 
     loadCities();
-  }, [selectedState, selectedCountry]);
+  }, [selectedState, selectedCountry, states]);
 
   useEffect(() => {
     if (response?.success) {
