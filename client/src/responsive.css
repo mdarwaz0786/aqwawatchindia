@@ -84,4 +84,8 @@
   .mobile-search-bar-hidden {
     display: block !important;
   }
+
+  .dashboard_sidebar {
+    margin-top: 1rem !important;
+  }
 }

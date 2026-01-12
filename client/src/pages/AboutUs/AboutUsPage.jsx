@@ -30,7 +30,7 @@ const AboutUsPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*ABOUT US PAGE START*/}
-      <section className="about_us mt_100">
+      <section className="about_us mt-5">
         <div className="container">
           <div className="row justify-content-between align-items-center">
             <div className="col-xxl-5 col-md-10 col-lg-6 wow fadeInLeft">
@@ -61,7 +61,7 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      <section className="counter_part ">
+      <section className="counter_part">
         <div className="container">
           <div className="row">
             <div className="col-12">

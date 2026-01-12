@@ -30,7 +30,7 @@ const CookiePolicyPage = () => {
       </section>
       {/*PAGE BANNER START*/}
 
-      <section className="terms_condition mt_55 mb_100">
+      <section className="terms_condition mt-3 mb-5">
         <div className="container">
           <div className="row wow fadeInUp">
             <div className="col-12">

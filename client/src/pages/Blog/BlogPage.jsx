@@ -60,7 +60,7 @@ const BlogPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*BLOG CLASSIC START*/}
-      <section className="blog_classic blog_2 mt_75 mb_100">
+      <section className="blog_classic blog_2 mt-5 mb-5">
         <div className="container">
           <div className="row">
             {
@@ -106,7 +106,7 @@ const BlogPage = () => {
             <div className="row">
               <div className="pagination_area">
                 <nav aria-label="Pagination">
-                  <ul className="pagination justify-content-start mt_50">
+                  <ul className="pagination justify-content-start mt-5">
                     {(() => {
                       const current = Number(data.pagination.currentPage || 1);
                       const total = Number(data.pagination.totalPages || 1);

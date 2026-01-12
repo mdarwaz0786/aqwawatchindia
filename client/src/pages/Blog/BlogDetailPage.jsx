@@ -41,7 +41,7 @@ const BlogDetailPage = () => {
       {/*PAGE BANNER END*/}
 
       {/*BLOG DETAILS START*/}
-      <section className="blog_details blog_2 mb_100">
+      <section className="blog_details blog_2">
         <div className="container">
           <div className="row">
             <div className="col-xl-12 col-lg-12 wow fadeInUp">

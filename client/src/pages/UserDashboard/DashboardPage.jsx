@@ -35,7 +35,7 @@ const DashboardPage = () => {
       {/*PAGE BANNER END*/}
 
       {/*DSHBOARD START*/}
-      <section className="dashboard mb_100">
+      <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-3 wow fadeInUp">
@@ -83,8 +83,7 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="col-lg-9">
-              <div className="dashboard_content mt_100">
-
+              <div className="dashboard_content mt-3">
                 <div className="row">
                   <div className="col-xl-4 col-md-6 wow fadeInUp">
                     <div className="dashboard_overview_item">
@@ -127,7 +126,7 @@ const DashboardPage = () => {
                     </div>
                   </div> */}
                 </div>
-                <div className="row mt_25">
+                <div className="row">
                   <div className="col-xl-12 wow fadeInLeft">
                     <div className="dashboard_recent_order">
                       <h3>Your Recent order</h3>

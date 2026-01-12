@@ -68,7 +68,7 @@ const ContactUsPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*CONTACT US START*/}
-      <section className="contact_us mt_75">
+      <section className="contact_us mt-3">
         <div className="container">
           <div className="row">
             <div className="col-xl-4 col-md-6">
@@ -95,7 +95,7 @@ const ContactUsPage = () => {
               </div>
             </div>
           </div>
-          <div className="row mt_75">
+          <div className="row">
             <div className="col-lg-5">
               <div className="contact_img wow fadeInLeft">
                 <img src={`${API_BASE_URL}/${data?.data?.image}`} alt="contact" className="img-fluid w-100" />
@@ -193,7 +193,7 @@ const ContactUsPage = () => {
             </div>
           </div>
         </div>
-        <div className="contact_map mt_100 wow fadeInUp">
+        <div className="contact_map mt-5 wow fadeInUp">
           <iframe src={`${data?.data?.mapLink}`} width={600} height={450} style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </section>

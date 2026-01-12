@@ -38,7 +38,7 @@ const InvoicePage = () => {
       {/*PAGE BANNER END*/}
 
       {/*DSHBOARD START*/}
-      <section className="dashboard mb_100">
+      <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-3 wow fadeInUp">
@@ -86,7 +86,7 @@ const InvoicePage = () => {
               </div>
             </div>
             <div className="col-lg-9 wow fadeInRight">
-              <div className="dashboard_content mt_100">
+              <div className="dashboard_content mt-3">
                 <h3 className="dashboard_title">
                   Order Invoice
                   <div className="col-4 text-center">

@@ -31,7 +31,7 @@ const TermsConditionsPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*TERMS AND CONDITION START*/}
-      <section className="terms_condition mt_55 mb_100">
+      <section className="terms_condition mt-3 mb-5">
         <div className="container">
           <div className="row wow fadeInUp">
             <div className="col-12">

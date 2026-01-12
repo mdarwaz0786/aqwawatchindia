@@ -85,7 +85,7 @@ const CartPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*CART PAGE START*/}
-      <section className="cart_page mt_100 mb_100">
+      <section className="cart_page mt-5 mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-8 wow fadeInUp">

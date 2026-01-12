@@ -237,7 +237,7 @@ const CheckoutPage = () => {
       </section>
       {/*PAGE BANNER START*/}
 
-      <section className="checkout_page mt_100 mb_100">
+      <section className="checkout_page mt-5 mb-5">
         <div className="container">
           <div className="row">
             {/* LEFT SIDE */}

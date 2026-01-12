@@ -127,7 +127,7 @@ const ProductPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*SHOP PAGE START*/}
-      <section className="shop_page mt_100 mb_100">
+      <section className="shop_page mt-5 mb-5">
         <div className="container">
           <div className="row" >
             <div className="col-xxl-2 col-lg-4 col-xl-3">
@@ -585,7 +585,7 @@ const ProductPage = () => {
       {/*RELATED PRODUCTS START*/}
       {
         relatedProducts?.length > 0 &&
-        <section className="related_products mt_90 mb_70">
+        <section className="related_products mb-5">
           <div className="container">
             <div className="row">
               <div className="col-xl-6">

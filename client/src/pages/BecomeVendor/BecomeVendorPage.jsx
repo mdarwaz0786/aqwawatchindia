@@ -169,7 +169,7 @@ const BecomeVendorPage = () => {
         </div>
       </section>
 
-      <section className="beacome_vendor mt_30 mb_100">
+      <section className="beacome_vendor mt-5 mb-5">
         <div className="container">
           <div className="row">
             <div className="col-md-12 wow fadeInRight">

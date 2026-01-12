@@ -85,7 +85,7 @@ const ProfilePage = () => {
       {/*PAGE BANNER END*/}
 
       {/*DSHBOARD START*/}
-      <section className="dashboard mb_100">
+      <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-3 wow fadeInUp">
@@ -138,8 +138,8 @@ const ProfilePage = () => {
             {
               user && (
                 <div className="col-xl-9 wow fadeInRight">
-                  <div className="dashboard_content mt_100">
-                    <div className="d-flex justify-content-between align-items-center mb-4">
+                  <div className="dashboard_content mt-3">
+                    <div className="d-flex justify-content-between align-items-center">
                       <img
                         src={
                           user?.avatar
