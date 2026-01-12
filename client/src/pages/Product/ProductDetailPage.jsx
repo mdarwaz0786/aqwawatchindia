@@ -179,7 +179,7 @@ const ProductDetailPage = () => {
         </section>
 
         {/*SHOP DETAILS START*/}
-        <section id="shopdet" className="shop_details mt_100">
+        <section id="shopdet" className="shop_details mt-3">
           <div className="container">
             <div className="row">
               <div className="col-xxl-12">
@@ -188,19 +188,23 @@ const ProductDetailPage = () => {
                     <div className="shop_details_slider_area">
                       <div className="row">
                         {/* Thumbnails */}
-                        <div className="col-xl-2 col-lg-3 col-md-3 order-2 order-md-1">
-                          <div className="row">
+                        <div className="col-xl-2 col-lg-3 col-md-3 order-2 order-md-1 mt-3">
+                          <div className="row media-thumbs flex-md-column flex-row flex-nowrap overflow-auto">
                             {mediaList?.map((item, index) => (
-                              <div className="col-12 mb-2" key={index}>
+                              <div
+                                key={index}
+                                className="col-auto col-md-12 mb-0 mb-md-2 me-2 me-md-0"
+                              >
                                 <div
                                   onClick={() => setSelectedMedia(item)}
                                   style={{
                                     cursor: "pointer",
                                     width: "80px",
                                     height: "80px",
-                                    border: selectedMedia?.src === item.src
-                                      ? "2px solid #ff2d55"
-                                      : "1px solid #ddd",
+                                    border:
+                                      selectedMedia?.src === item?.src
+                                        ? "2px solid #ff2d55"
+                                        : "1px solid #ddd",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -217,10 +221,17 @@ const ProductDetailPage = () => {
                                         width: "100%",
                                         height: "100%",
                                         objectFit: "contain",
-                                        border: "none"
                                       }}
                                     />
                                   )}
+
+                                  {item?.type === "youtube" && (
+                                    <>
+                                      <div style={youtubeBoxStyle}>YouTube</div>
+                                      <span style={playIconStyle}>▶</span>
+                                    </>
+                                  )}
+
                                   {item?.type === "video" && (
                                     <>
                                       <video
@@ -235,12 +246,6 @@ const ProductDetailPage = () => {
                                       <span style={playIconStyle}>▶</span>
                                     </>
                                   )}
-                                  {item?.type === "youtube" && (
-                                    <>
-                                      <div style={youtubeBoxStyle}>YouTube</div>
-                                      <span style={playIconStyle}>▶</span>
-                                    </>
-                                  )}
                                 </div>
                               </div>
                             ))}
@@ -252,15 +257,6 @@ const ProductDetailPage = () => {
                           <div className="row details_slider_thumb">
                             <div className="col-md-4">
                               <div className="details_slider_thumb_item">
-                                {selectedMedia?.type === "video" && (
-                                  <video
-                                    src={selectedMedia?.src}
-                                    controls
-                                    autoPlay
-                                    className="img-fluid w-100"
-                                    style={{ maxHeight: "500px" }}
-                                  />
-                                )}
                                 {selectedMedia?.type === "image" && (
                                   <img
                                     src={selectedMedia?.src}
@@ -269,14 +265,58 @@ const ProductDetailPage = () => {
                                   />
                                 )}
                                 {selectedMedia?.type === "youtube" && (
-                                  <iframe
-                                    width="100%"
-                                    height="500"
-                                    src={selectedMedia?.src?.replace("watch?v=", "embed/")}
-                                    title="YouTube video"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                  />
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      maxWidth: "500px",
+                                      height: "500px",
+                                      margin: "0 auto",
+                                      background: "#000",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      borderRadius: "10px"
+                                    }}
+                                  >
+                                    <iframe
+                                      src={selectedMedia?.src?.replace("watch?v=", "embed/")}
+                                      title="YouTube video"
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        border: "none",
+                                        borderRadius: "10px",
+                                      }}
+                                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                    />
+                                  </div>
+                                )}
+                                {selectedMedia?.type === "video" && (
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      maxWidth: "500px",
+                                      height: "500px",
+                                      margin: "0 auto",
+                                      background: "#000",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      borderRadius: "10px"
+                                    }}
+                                  >
+                                    <video
+                                      src={selectedMedia?.src}
+                                      controls
+                                      autoPlay
+                                      style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                      }}
+                                    />
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -351,7 +391,7 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
 
-                <div className="row mt_90 wow fadeInUp">
+                <div className="row mt-5 wow fadeInUp">
                   <div className="col-12">
                     <div className="shop_details_des_area">
                       <ul className="nav nav-pills" id="pills-tab2" role="tablist">
@@ -384,7 +424,7 @@ const ProductDetailPage = () => {
         {/*RELATED PRODUCTS START*/}
         {
           relatedProducts?.length > 0 &&
-          <section className="related_products mt_90 mb_70 wow fadeInUp">
+          <section className="related_products mt-5 mb-5 wow fadeInUp">
             <div className="container">
               <div className="row">
                 <div className="col-xl-6">

@@ -198,3 +198,7 @@
 .mobile-search-bar-hidden {
   display: none !important;
 }
+
+.media-thumbs::-webkit-scrollbar {
+  display: none !important;
+}
