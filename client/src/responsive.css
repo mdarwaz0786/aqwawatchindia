@@ -80,4 +80,8 @@
     object-fit: contain !important;
     background: #fff !important;
   }
+
+  .mobile-search-bar-hidden {
+    display: block !important;
+  }
 }

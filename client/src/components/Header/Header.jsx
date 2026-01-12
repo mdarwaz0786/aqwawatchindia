@@ -153,6 +153,10 @@ const Header = () => {
                 <Link to="/" className="header_logo">
                   <img src="/assets/graphics/logo.jpeg" alt="Aqwawatch" className="img-fluid w-100" />
                 </Link>
+                <form className="mobile-search-bar-hidden" style={{ width: "200px", marginLeft: "0px" }} onSubmit={handleSubmit}>
+                  <input value={search} type="text" placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
+                  <button type="submit"><i className="far fa-search" /></button>
+                </form>
                 <div className="mobile_menu_icon d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
                   <span className="mobile_menu_icon"><i className="far fa-stream menu_icon_bar" /></span>
                 </div>
