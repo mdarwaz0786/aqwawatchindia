@@ -11,6 +11,7 @@ import { useApp } from "../../context/app.context";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [openCat, setOpenCat] = useState(null);
   const { userId, validToken, logOutUser } = useAuth();
   const { categories, contactus } = useApp();
   const { cartQuantity, refetchCart, cartItems } = useCart();
@@ -67,6 +68,10 @@ const Header = () => {
     } else {
       navigate("/login");
     };
+  };
+
+  const toggleCategory = (id) => {
+    setOpenCat(openCat === id ? null : id);
   };
 
   const cart = cartItems?.data;
@@ -419,20 +424,25 @@ const Header = () => {
                   <ul className="main_mobile_menu">
                     {
                       categories?.map((cat) => (
-                        <li className="mobile_dropdown" key={cat?._id}>
-                          <Link to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
-                          <ul className="inner_menu">
-                            {
-                              cat?.subcategories?.map((subcat) => (
-                                <li
-                                  key={subcat?._id}
-                                  onClick={() =>
-                                    navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
-                                  }
-                                ><Link to="#">{subcat?.name}</Link></li>
-                              ))
-                            }
-                          </ul>
+                        <li key={cat?._id}>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <Link to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
+                            <span style={{ fontSize: "20px", color: "#333" }} onClick={() => toggleCategory(cat?._id)}>+</span>
+                          </div>
+                          {openCat === cat?._id && (
+                            <ul>
+                              {
+                                cat?.subcategories?.map((subcat) => (
+                                  <li
+                                    key={subcat?._id}
+                                    onClick={() =>
+                                      navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
+                                    }
+                                  ><Link to="#">{subcat?.name}</Link></li>
+                                ))
+                              }
+                            </ul>
+                          )}
                         </li>
                       ))
                     }
@@ -449,6 +459,7 @@ const Header = () => {
                     <li><Link to="/cart">Cart</Link></li>
                     <li><Link to="/dashboard">Dashboard</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
+                    {!validToken && <li><Link to="/login">Login</Link></li>}
                   </ul>
                 </div>
               </div>
