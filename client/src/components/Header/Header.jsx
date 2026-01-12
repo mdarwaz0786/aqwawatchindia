@@ -425,7 +425,7 @@ const Header = () => {
               </ul>
               <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex={0}>
-                  <ul className="main_mobile_menu">
+                  <ul className="main_mobile_menu" style={{ marginBottom: "100px" }}>
                     {
                       categories?.map((cat) => (
                         <li key={cat?._id}>
@@ -452,7 +452,7 @@ const Header = () => {
                     }
                   </ul>
                 </div>
-                <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
+                <div style={{ marginBottom: "100px" }} className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex={0}>
                   <ul className="main_mobile_menu">
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/shop">All Products</Link></li>

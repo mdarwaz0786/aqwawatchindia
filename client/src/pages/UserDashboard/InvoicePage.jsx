@@ -9,7 +9,7 @@ import downloadPDF from '../../helpers/DownLoadPDF';
 
 const InvoicePage = () => {
   const { id } = useParams();
-  const { user, logOutUser, isLoggedIn, validToken } = useAuth();
+  const { validToken } = useAuth();
   const { data } = useFetchData(validToken ? `${apis.order.get}/${id}` : null, validToken);
 
   const order = data?.data;
@@ -41,51 +41,7 @@ const InvoicePage = () => {
       <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 wow fadeInUp">
-              <div className="dashboard_sidebar">
-                <div className="dashboard_sidebar_area">
-                  <div className="dashboard_sidebar_user">
-                    <h3>{user?.name}</h3>
-                    <p>{user?.email}</p>
-                  </div>
-                  <div className="dashboard_sidebar_menu">
-                    <ul>
-                      <li>
-                        <p>Invoice</p>
-                      </li>
-                      <li>
-                        {
-                          isLoggedIn ? (
-                            <li>
-                              <Link to="#" onClick={logOutUser}>
-                                <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                                  </svg>
-                                </span>
-                                Logout
-                              </Link>
-                            </li>
-                          ) : (
-                            <li>
-                              <Link to="/login" onClick={logOutUser}>
-                                <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                                  </svg>
-                                </span>
-                                Login
-                              </Link>
-                            </li>
-                          )
-                        }
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-9 wow fadeInRight">
+            <div className="col-lg-12 wow fadeInRight">
               <div className="dashboard_content mt-3">
                 <h3 className="dashboard_title">
                   Order Invoice
@@ -109,8 +65,11 @@ const InvoicePage = () => {
                         </div>
                         <div className="text">
                           <h2>invoice</h2>
-                          <p>order id: {order?._id}</p>
-                          <p>date: {formatDate(order?.createdAt)}</p>
+                          <p>Order Id: {order?._id}</p>
+                          <p>Order Date: {formatDate(order?.createdAt)}</p>
+                          <p>Order Status: {order?.orderStatus}</p>
+                          <p>Payment Status: {order?.paymentStatus}</p>
+                          <p>Payment Method: {order?.paymentMethod}</p>
                         </div>
                       </div>
                       <div className="dashboard_invoice_header">

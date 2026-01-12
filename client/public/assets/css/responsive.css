@@ -5567,11 +5567,12 @@
     .footer_info {
         padding: 15px 15px 30px 15px;
     }
-  
-  .footer_link {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+
+    .footer_link {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
     .footer_link h3 {
         margin-bottom: 20px;
     }
@@ -5585,8 +5586,8 @@
     }
 
     .progress-wrap {
-        right: 15px;
-        bottom: 15px;
+        right: 60px;
+        bottom: 80px;
     }
 
     .large_banner_img {
@@ -5791,10 +5792,12 @@
     .footer_2 .footer_2_logo_area {
         padding-right: 0;
     }
+
     .category_2 .category_item .img {
         width: 49%;
         height: 59px;
     }
+
     /*===========================
         HOME FASHION 02 END
     ===========================*/
@@ -6168,12 +6171,13 @@
     /*===========================
         ABOUT US PAGE START
     ===========================*/
- .page_banner_overlay {
+    .page_banner_overlay {
         padding: 80px 0px 20px 0px;
     }
+
     section.shop_page.mt_100.mb_100 {
-    margin-top: 25px !important;
-}
+        margin-top: 25px !important;
+    }
 
     .page_banner_text h1 {
         font-size: 28px;
@@ -6367,7 +6371,7 @@
     /*===========================
         CONTACT US START
     ===========================*/
-       .contact_info {
+    .contact_info {
         padding: 20px 20px 25px 70px;
     }
 
@@ -6940,14 +6944,15 @@
     HOME GADGETS END
     ===========================*/
     .category_2 .category_item h3 {
-    font-size: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-.footer_copyright {
+        font-size: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
 
-    padding: 0px 0px;
-}
+    .footer_copyright {
+
+        padding: 0px 0px;
+    }
 
 
 

@@ -38,7 +38,7 @@ const DashboardPage = () => {
       <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 wow fadeInUp">
+            <div className="col-lg-4 wow fadeInUp">
               <div className="dashboard_sidebar">
                 <div className="dashboard_sidebar_area">
                   <div className="dashboard_sidebar_user">
@@ -51,26 +51,36 @@ const DashboardPage = () => {
                         <p>dashboard</p>
                       </li>
                       <li>
+                        <Link to="/profile">
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/forgot-password">
+                          Forgot Password
+                        </Link>
+                      </li>
+                      <li>
                         {
                           isLoggedIn ? (
                             <li>
                               <Link to="#" onClick={logOutUser}>
-                                <span>
+                                {/* <span>
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                                   </svg>
-                                </span>
+                                </span> */}
                                 Logout
                               </Link>
                             </li>
                           ) : (
                             <li>
                               <Link to="/login" onClick={logOutUser}>
-                                <span>
+                                {/* <span>
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                                   </svg>
-                                </span>
+                                </span> */}
                                 Login
                               </Link>
                             </li>
@@ -82,7 +92,7 @@ const DashboardPage = () => {
                 </div>
               </div>
             </div>
-            <div className="col-lg-9">
+            <div className="col-lg-8">
               <div className="dashboard_content mt-3">
                 <div className="row">
                   <div className="col-xl-4 col-md-6 wow fadeInUp">
@@ -156,7 +166,7 @@ const DashboardPage = () => {
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>
-                                        View
+                                        Invoice
                                       </Link>
                                     </td>
                                   </tr>

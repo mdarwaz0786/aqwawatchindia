@@ -88,7 +88,7 @@ const ProfilePage = () => {
       <section className="dashboard mb-5">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 wow fadeInUp">
+            <div className="col-lg-4 wow fadeInUp">
               <div className="dashboard_sidebar">
                 <div className="dashboard_sidebar_area">
                   <div className="dashboard_sidebar_user">
@@ -99,6 +99,16 @@ const ProfilePage = () => {
                     <ul>
                       <li>
                         <p>Profile</p>
+                      </li>
+                      <li>
+                        <Link to="/dashboard">
+                          Orders
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/forgot-password">
+                          Forgot Password
+                        </Link>
                       </li>
                       {
                         isLoggedIn ? (
@@ -125,11 +135,6 @@ const ProfilePage = () => {
                           </li>
                         )
                       }
-                      <li>
-                        <Link to="/forgot-password">
-                          Forgot Password
-                        </Link>
-                      </li>
                     </ul>
                   </div>
                 </div>
@@ -137,7 +142,7 @@ const ProfilePage = () => {
             </div>
             {
               user && (
-                <div className="col-xl-9 wow fadeInRight">
+                <div className="col-xl-8 wow fadeInRight">
                   <div className="dashboard_content mt-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <img
@@ -154,7 +159,7 @@ const ProfilePage = () => {
                           objectFit: "contain",
                         }}
                       />
-                      <h3>Profile Information</h3>
+                      <h3>Profile Detail</h3>
                       <h3 className="dashboard_title">
                         <Link className="common_btn" to="#" onClick={() => setShowModal(true)}>
                           Edit

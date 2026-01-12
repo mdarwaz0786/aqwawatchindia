@@ -28,6 +28,7 @@ import VisitPopup from "./components/Modal/VisitPopup";
 import RightWidget from "./components/Widget/RightWiget";
 import DisclaimerPage from "./pages/Disclaimer/DisclaimerPage";
 import OrderSuccessPage from "./pages/Order/OrderSuccessPage";
+import BottomTab from "./components/BottomTab/BottomTab";
 
 const App = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ const App = () => {
         <Route path="/order-success" element={<OrderSuccessPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <BottomTab />
     </>
   );
 };
