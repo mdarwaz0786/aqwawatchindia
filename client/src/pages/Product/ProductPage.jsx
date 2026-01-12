@@ -597,7 +597,7 @@ const ProductPage = () => {
             <Swiper
               items={relatedProducts}
               slidesPerView={4}
-              autoplayDelay={3000}
+              autoplayDelay={5000}
               spaceBetween={20}
               breakpoints={{
                 320: { slidesPerView: 2 },

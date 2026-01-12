@@ -50,7 +50,7 @@ const NewArrivalSection = ({ newArrivalProducts = [], refetch }) => {
               <Swiper
                 items={newArrivalProducts}
                 slidesPerView={4}
-                autoplayDelay={2500}
+                autoplayDelay={5000}
                 breakpoints={{
                   320: { slidesPerView: 2 },
                   576: { slidesPerView: 2 },

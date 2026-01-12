@@ -63,7 +63,7 @@ const LoginPage = () => {
                   <div className="row">
                     <div className="col-xl-12">
                       <div className="single_input">
-                        <label>Mobile?Email</label>
+                        <label>Mobile/Email</label>
                         <input
                           type="text"
                           name="emailOrMobile"
