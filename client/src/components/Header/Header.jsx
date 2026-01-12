@@ -430,8 +430,8 @@ const Header = () => {
                       categories?.map((cat) => (
                         <li key={cat?._id}>
                           <div className="d-flex justify-content-between align-items-center">
-                            <Link to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
-                            <span style={{ fontSize: "20px", color: "#333" }} onClick={() => toggleCategory(cat?._id)}>+</span>
+                            <Link style={{ color: "#333", fontWeight: "500" }} to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
+                            <span style={{ fontSize: "22px", color: "#333", fontWeight: "500" }} onClick={() => toggleCategory(cat?._id)}>+</span>
                           </div>
                           {openCat === cat?._id && (
                             <ul>
@@ -442,7 +442,7 @@ const Header = () => {
                                     onClick={() =>
                                       navigate(`/products?category=${cat?.slug || ""}&subCategory=${subcat?.slug || ""}`)
                                     }
-                                  ><Link to="#">{subcat?.name}</Link></li>
+                                  ><Link to="#" style={{ color: "#333" }}>{subcat?.name}</Link></li>
                                 ))
                               }
                             </ul>
