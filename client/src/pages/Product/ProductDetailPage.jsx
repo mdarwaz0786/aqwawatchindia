@@ -104,28 +104,6 @@ const ProductDetailPage = () => {
     justifyContent: "center",
     fontSize: "12px",
   };
-  const handleShare = async () => {
-    if (!productDetail) return;
-    const shareUrl = window.location.href;
-    const shareData = {
-      title: productDetail?.name,
-      text: productDetail?.smallInfo
-        ? productDetail?.smallInfo?.replace(/<[^>]+>/g, "")
-        : "Check out this product",
-      url: shareUrl,
-    };
-
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (error) {
-        console.log("Share cancelled", error);
-      };
-    } else {
-      await navigator.clipboard.writeText(shareUrl);
-      toast.success("Product link copied to clipboard");
-    }
-  };
 
   const handleShare = async () => {
     if (!productDetail) return;
