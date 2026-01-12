@@ -169,13 +169,13 @@ const ProfilePage = () => {
                     <div className="dashboard_profile_info_list">
                       <ul>
                         <li className="mb-1">
-                          <span>Name: </span>{user?.name}
+                          <span>Name:</span>{user?.name}
                         </li>
                         <li className="mb-1">
-                          <span>Email: </span>{user?.email}
+                          <span>Email:</span>{user?.email}
                         </li>
                         <li className="mb-1">
-                          <span>Mobile: </span>{user?.mobile}
+                          <span>Mobile:</span>{user?.mobile}
                         </li>
                       </ul>
                     </div>

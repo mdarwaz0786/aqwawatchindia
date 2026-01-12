@@ -11816,7 +11816,7 @@ footer {
 .dashboard_profile_info_list ul li span {
     color: var(--colorBlack);
     display: inline-block;
-    width: 90px;
+    width: 60px;
 }
 
 /* personal info end */
