@@ -431,7 +431,7 @@ const Header = () => {
                         <li key={cat?._id}>
                           <div className="d-flex justify-content-between align-items-center">
                             <Link style={{ color: "#333", fontWeight: "500" }} to={`/products?category=${cat?.slug}`}>{cat?.name}</Link>
-                            <span style={{ fontSize: "22px", color: "#333", fontWeight: "500" }} onClick={() => toggleCategory(cat?._id)}>+</span>
+                            <span style={{ fontSize: "22px", color: "#333", fontWeight: "500" }} onClick={() => toggleCategory(cat?._id)}>{openCat === cat?._id ? "-" : "+"}</span>
                           </div>
                           {openCat === cat?._id && (
                             <ul>
