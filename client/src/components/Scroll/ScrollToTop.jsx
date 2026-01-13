@@ -11,7 +11,7 @@ const ScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [location.pathname]);

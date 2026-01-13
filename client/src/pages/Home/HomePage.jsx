@@ -11,10 +11,10 @@ import ServiceBookingSection from "./ServiceBookingSection";
 import TestimonialSection from "./TestimonialSection";
 import YoutubeVideoSection from "./YoutubeVideoSection";
 import { useApp } from "../../context/app.context";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const [showLoader, setShowLoader] = useState(true);
+  // const [showLoader, setShowLoader] = useState(true);
   const {
     categories,
     bestSellingProducts,
@@ -28,22 +28,22 @@ const HomePage = () => {
     refetchHomePageData,
   } = useApp();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 1000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowLoader(false);
+  //   }, 1000);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (showLoader)
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border text-danger" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+  // if (showLoader)
+  //   return (
+  //     <div className="d-flex justify-content-center align-items-center vh-100">
+  //       <div className="spinner-border text-danger" role="status">
+  //         <span className="visually-hidden">Loading...</span>
+  //       </div>
+  //     </div>
+  //   );
 
   return (
     <>

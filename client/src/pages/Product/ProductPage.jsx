@@ -40,7 +40,7 @@ const ProductPage = () => {
     rating5: searchParams.get("rating5") || "",
   };
 
-  const { data, refetch, params, setParams } = useFetchData(apis.product.getAll, "", { ...initialParams, userId });
+  const { data, refetch, isLoading, params, setParams } = useFetchData(apis.product.getAll, "", { ...initialParams, userId });
   const { data: relatedProduct, refetch: refetchRelatedProduct } = useFetchData(`${apis.product.relatedByCategory}/${searchParams.get("category")}`, "", { userId: userId });
   const { postData: addProductToCart, response: cartResponse, postError: cartError } = useCreate(apis.cart.add);
 
@@ -491,7 +491,15 @@ const ProductPage = () => {
                   </div>
 
                   {
-                    products?.length === 0 && (
+                    isLoading && (
+                      <div className="row">
+                        <h5 className="text-center mt-5">Loading...</h5>
+                      </div>
+                    )
+                  }
+
+                  {
+                    !isLoading && products?.length === 0 && (
                       <div className="row">
                         <h5 className="text-center mt-5">No Data</h5>
                       </div>
