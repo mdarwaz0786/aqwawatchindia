@@ -46,19 +46,6 @@ const CartPage = () => {
     };
   }, [cartResponse, cartError]);
 
-  useEffect(() => {
-    const hasReloaded = sessionStorage.getItem("cart_reloaded");
-
-    if (!hasReloaded) {
-      sessionStorage.setItem("cart_reloaded", "true");
-      window.location.reload();
-    };
-
-    return () => {
-      sessionStorage.removeItem("cart_reloaded");
-    };
-  }, []);
-
   const cart = cartItems?.data;
 
   return (
@@ -85,7 +72,7 @@ const CartPage = () => {
       {/*PAGE BANNER START*/}
 
       {/*CART PAGE START*/}
-      <section className="cart_page mt-5 mb-5">
+      <section className="mt-5 mb-5">
         <div className="container">
           <div className="row">
             <div className="col-lg-8 wow fadeInUp">
