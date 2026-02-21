@@ -32,7 +32,7 @@ const ProductPage = () => {
     newArrivalProduct: searchParams.get("newArrivalProduct") || "",
     inStock: searchParams.get("inStock") || "",
     minPrice: searchParams.get("minPrice") ? parseFloat(searchParams.get("minPrice")) : 0,
-    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 100000,
+    maxPrice: searchParams.get("maxPrice") ? parseFloat(searchParams.get("maxPrice")) : 10000000,
     rating1: searchParams.get("rating1") || "",
     rating2: searchParams.get("rating2") || "",
     rating3: searchParams.get("rating3") || "",
@@ -95,7 +95,7 @@ const ProductPage = () => {
   }, [cartResponse, cartError]);
 
   const min = 0;
-  const max = 100000;
+  const max = 10000000;
 
   const products = data?.data || [];
   const relatedProducts = relatedProduct?.data || [];

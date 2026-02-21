@@ -202,3 +202,46 @@
 .media-thumbs::-webkit-scrollbar {
   display: none !important;
 }
+
+/* Main wrapper */
+.editor-content {
+  width: 100%;
+  overflow-x: auto;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+/* Make tables responsive */
+.editor-content table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+
+/* Remove fixed widths added by editor */
+.editor-content table,
+.editor-content th,
+.editor-content td {
+  width: 95% !important;
+}
+
+/* Enable horizontal scroll on small screens */
+.editor-content table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Better spacing */
+.editor-content th,
+.editor-content td {
+  padding: 8px;
+  border: 1px solid #777;
+}
+
+/* Responsive images */
+.editor-content img {
+  max-width: 100%;
+  height: auto;
+}

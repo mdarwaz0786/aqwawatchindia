@@ -57,10 +57,10 @@ const ProductDetailPage = () => {
     };
   }, [cartResponse, cartError]);
 
-  const specHTML = productDetail?.specification
-    ?.replace(/<table[^>]*>/g, '<table class="table table-bordered table-striped">')
-    .replace(/<th([^>]*)>/g, '<th$1 class="fw-bold bg-light">')
-    .replace(/data-[a-zA-Z0-9-]+="[^"]*"/g, "");
+  // const specHTML = productDetail?.specification
+  //   ?.replace(/<table[^>]*>/g, '<table class="table table-bordered table-striped">')
+  //   .replace(/<th([^>]*)>/g, '<th$1 class="fw-bold bg-light">')
+  //   .replace(/data-[a-zA-Z0-9-]+="[^"]*"/g, "");
 
   const mediaList = [
     ...(productDetail?.images || []).map((img) => ({
@@ -128,6 +128,8 @@ const ProductDetailPage = () => {
     }
   };
 
+  console.log(productDetail?.smallInfo)
+
   return (
     <>
       <Header />
@@ -166,7 +168,7 @@ const ProductDetailPage = () => {
               <div className="col-md-12">
                 <div className="youtubecontent">
                   <h1>{productDetail?.name}</h1>
-                  {productDetail?.smallInfo && <p dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
+                  {productDetail?.smallInfo && <div className="editor-content" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></div>}
                   <div className="amazonsbtn">
                     {productDetail?.flipKartLink && <Link className="am1 me-3" to={productDetail?.flipKartLink} target="_blank"><img src={flipKartIcon} /></Link>}
                     {productDetail?.amazonLink && <Link className="am1 me-3" to={productDetail?.amazonLink} target="_blank"><img src={amazonIcon} /> </Link>}
@@ -346,8 +348,8 @@ const ProductDetailPage = () => {
                           <span>({productDetail?.numberOfReviews} reviews)</span>
                         </p>
                       </div>
-                      <h3 className="price">Rs.{productDetail?.mrpPrice} <del>Rs.{productDetail?.salePrice}</del></h3>
-                      {productDetail?.smallInfo && <p className="short_description" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></p>}
+                      <h3 className="price">Rs.{productDetail?.salePrice} <del>Rs.{productDetail?.mrpPrice}</del></h3>
+                      {/* {productDetail?.smallInfo && <div className="editor-content" dangerouslySetInnerHTML={{ __html: productDetail?.smallInfo }}></div>} */}
                       <div className="d-flex flex-wrap align-items-center">
                         {
                           productDetail?.quantity > 0 && (
@@ -394,7 +396,7 @@ const ProductDetailPage = () => {
                 <div className="row mt-5 wow fadeInUp">
                   <div className="col-12">
                     <div className="shop_details_des_area">
-                      <ul className="nav nav-pills" id="pills-tab2" role="tablist">
+                      <ul className="nav nav-pills mb-4" id="pills-tab2" role="tablist">
                         <li className="nav-item" role="presentation">
                           <button className="nav-link active" id="description-tab" data-bs-toggle="pill" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="false">Description</button>
                         </li>
@@ -404,12 +406,10 @@ const ProductDetailPage = () => {
                       </ul>
                       <div className="tab-content" id="pills-tabContent2">
                         <div className="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab" tabIndex={0}>
-                          {productDetail?.description && <div className="shop_details_description" dangerouslySetInnerHTML={{ __html: productDetail?.description }}></div>}
+                          {productDetail?.description && <div className="editor-content" dangerouslySetInnerHTML={{ __html: productDetail?.description }}></div>}
                         </div>
-                        <div className="tab-pane fade" id="description2" role="tabpanel" aria-labelledby="description-tab2" tabIndex={0}>
-                          <div className="shop_details_additional_info">
-                            {specHTML && <div className="table-responsive" dangerouslySetInnerHTML={{ __html: specHTML }}></div>}
-                          </div>
+                        <div className="tab-pane fade" id="description2" role="tabpanel" aria-labelledby="description-tab2" tabIndex={1}>
+                          {productDetail?.specification && <div className="editor-content" dangerouslySetInnerHTML={{ __html: productDetail?.specification }}></div>}
                         </div>
                       </div>
                     </div>
