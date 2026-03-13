@@ -8,13 +8,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/auth.context.jsx';
 import { AppProvider } from './context/app.context.jsx';
 import { CartProvider } from './context/cart.context.jsx';
+import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
     <AppProvider>
       <CartProvider>
         <BrowserRouter basename="/">
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
           <ToastContainer
             position="top-right"
             autoClose={1000}

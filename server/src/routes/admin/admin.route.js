@@ -28,6 +28,7 @@ import contactEnquiryRoute from "./contactEnquiry.route.js";
 import shippingChargeRoute from "./shippingCharge.route.js";
 import serviceRoute from "./service.route.js";
 import contactEnquiryFormRoute from "./contactEnquiryForm.route.js";
+import metaRoute from "./meta.route.js";
 
 const router = express.Router();
 
@@ -60,5 +61,6 @@ router.use("/contact-enquiry", contactEnquiryRoute);
 router.use("/shipping-charge", shippingChargeRoute);
 router.use("/service", serviceRoute);
 router.use("/contact-enquiry-form", contactEnquiryFormRoute);
+router.use("/meta", metaRoute);
 
 export default router;

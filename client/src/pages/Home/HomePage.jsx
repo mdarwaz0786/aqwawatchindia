@@ -11,6 +11,7 @@ import ServiceBookingSection from "./ServiceBookingSection";
 import TestimonialSection from "./TestimonialSection";
 import YoutubeVideoSection from "./YoutubeVideoSection";
 import { useApp } from "../../context/app.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 // import { useEffect, useState } from "react";
 
 const HomePage = () => {
@@ -47,6 +48,7 @@ const HomePage = () => {
 
   return (
     <>
+      <SeoMeta pageName="home" />
       <Navbar categories={categories} />
       <CategorySection categories={categories} />
       <CarouselSection carousels={carousels} />

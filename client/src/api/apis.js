@@ -8,6 +8,9 @@ const apis = {
     update: `${API_BASE_URL}/api/v1/user/auth/update-profile`,
     forgotPassword: `${API_BASE_URL}/api/v1/user/auth/forgot-password`,
   },
+  meta: {
+    getSingle: `${API_BASE_URL}/api/v1/user/meta`,
+  },
   home: {
     getAll: `${API_BASE_URL}/api/v1/user/home-page`,
   },

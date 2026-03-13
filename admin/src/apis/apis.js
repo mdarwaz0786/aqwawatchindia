@@ -170,6 +170,13 @@ const apis = {
     create: `${API_BASE_URL}/api/v1/admin/contact-enquiry-form`,
     getSingle: `${API_BASE_URL}/api/v1/admin/contact-enquiry-form`,
   },
+  meta: {
+    create: `${API_BASE_URL}/api/v1/admin/meta`,
+    update: `${API_BASE_URL}/api/v1/admin/meta`,
+    getAll: `${API_BASE_URL}/api/v1/admin/meta`,
+    getSingle: `${API_BASE_URL}/api/v1/admin/meta`,
+    deleteSingle: `${API_BASE_URL}/api/v1/admin/meta`,
+  },
 };
 
 export default apis;

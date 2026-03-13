@@ -62,6 +62,8 @@ import ServiceListPage from './pages/Service/ServiceListPage';
 import ServiceFormPage from './pages/Service/ServiceFormPage';
 import ContactEnquiryFormPage from './pages/ContactEnquiryForm/ContactEnquiryForm';
 import ContactEnquiryDetailPage from './pages/ContactEnquiry/ContactEnquiryDetailPage';
+import MetaListPage from './pages/Meta/MetaListPage';
+import MetaFormPage from './pages/Meta/MetaFormPage';
 
 const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -173,6 +175,10 @@ const App = () => {
                 <Route path="/service/update/:id" element={<ServiceFormPage />} />
 
                 <Route path="/contact-enquiry-form" element={<ContactEnquiryFormPage />} />
+
+                <Route path="/meta/list" element={<MetaListPage />} />
+                <Route path="/meta/add" element={<MetaFormPage />} />
+                <Route path="/meta/update/:id" element={<MetaFormPage />} />
               </Route>
             )
           }

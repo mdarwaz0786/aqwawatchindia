@@ -14,6 +14,7 @@ import {
   MdHome,
   MdContactMail,
   MdInfo,
+  MdOutlineTravelExplore,
 } from "react-icons/md";
 import logo from "../../assets/logo.jpeg";
 import styles from "./Sidebar.module.css";
@@ -25,6 +26,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen, handleToggleSidebar }) => {
   const sidebarRef = useRef(null);
 
   const dropdownData = [
+    {
+      title: "Meta Tag",
+      icon: <MdOutlineTravelExplore />,
+      items: [
+        { label: "Add Meta Tag", link: "/meta/add" },
+        { label: "Meta Tag List", link: "/meta/list" },
+      ],
+    },
     {
       title: "Shipping Charge",
       icon: <MdStorefront />,

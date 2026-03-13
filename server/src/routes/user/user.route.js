@@ -7,6 +7,7 @@ import addressRoute from "./address.route.js";
 import orderRoute from "./order.route.js";
 import blogRoute from "./blog.route.js";
 import shippingChargeRoute from "./shippingCharge.route.js";
+import metaRoute from "./meta.route.js";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/address", addressRoute);
 router.use("/order", orderRoute);
 router.use("/blog", blogRoute);
 router.use("/shipping-charge", shippingChargeRoute);
+router.use("/meta", metaRoute);
 
 export default router;

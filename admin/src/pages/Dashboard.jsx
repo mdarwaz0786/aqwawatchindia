@@ -10,6 +10,7 @@ import {
   FaVideo,
   FaImage,
 } from "react-icons/fa";
+import { MdOutlineTravelExplore } from "react-icons/md";
 import DashboardCard from "../components/Card/DashboardCard";
 import apis from "../apis/apis";
 import useFetchData from "../hooks/useFetchData";
@@ -105,6 +106,13 @@ const Dashboard = () => {
       icon: <FaVideo size={20} />,
       color: "text-danger",
       to: "/youtube-video/list",
+    },
+    {
+      label: "Meta Tag",
+      value: stats?.metas,
+      icon: <MdOutlineTravelExplore size={20} />,
+      color: "text-danger",
+      to: "/meta/list",
     },
   ];
 
