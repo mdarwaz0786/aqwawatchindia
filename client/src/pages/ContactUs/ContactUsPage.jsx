@@ -6,6 +6,7 @@ import useFetchData from "../../hooks/useFetchData";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useCreate from "../../hooks/useCreate";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const ContactUsPage = () => {
   const { data } = useFetchData(apis.contactus.get);
@@ -46,6 +47,7 @@ const ContactUsPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="contact-us" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

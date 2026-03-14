@@ -5,6 +5,7 @@ import apis, { API_BASE_URL } from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
 import formatDate from "../../helpers/formatDate";
 import { useEffect } from "react";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const BlogPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,6 +39,7 @@ const BlogPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="blog" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

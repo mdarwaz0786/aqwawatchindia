@@ -12,6 +12,7 @@ import { useAuth } from "../../context/auth.context";
 import useCreate from "../../hooks/useCreate";
 import { toast } from "react-toastify";
 import { useCart } from "../../context/cart.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const ProductPage = () => {
   const navigate = useNavigate();
@@ -105,6 +106,7 @@ const ProductPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="products" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

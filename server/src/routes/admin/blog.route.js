@@ -12,6 +12,7 @@ router.post(
   upload.fields([
     { name: "frontImage", maxCount: 1 },
     { name: "detailImage", maxCount: 1 },
+    { name: "metaImage", maxCount: 1 },
   ]),
   validateFileSize,
   createBlog
@@ -27,6 +28,7 @@ router.patch(
   upload.fields([
     { name: "frontImage", maxCount: 1 },
     { name: "detailImage", maxCount: 1 },
+    { name: "metaImage", maxCount: 1 },
   ]),
   validateFileSize,
   updateBlog

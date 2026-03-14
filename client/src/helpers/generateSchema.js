@@ -9,7 +9,7 @@ export const generateSchema = ({
   createdAt,
   updatedAt,
 }) => {
-  const baseUrl = canonicalUrl || "https://aceascentra.com";
+  const baseUrl = canonicalUrl || "https://www.aquawatchindia.com";
 
   const pageUrl = slug
     ? `${baseUrl}/${pageName.replace("-detail", "")}/${slug}`
@@ -17,33 +17,59 @@ export const generateSchema = ({
       ? baseUrl
       : `${baseUrl}/${pageName}`;
 
-  const author =
-    metaAuthor
-      ? {
-        "@type": "Person",
-        name: metaAuthor,
-      }
-      : {
-        "@type": "Organization",
-        name: "Ace Ascentra",
-      };
+  const author = metaAuthor
+    ? {
+      "@type": "Person",
+      name: metaAuthor,
+    }
+    : {
+      "@type": "Organization",
+      name: "Aquawatch India",
+    };
 
   const publisher = {
     "@type": "Organization",
-    name: "Ace Ascentra",
+    name: "Aquawatch India",
     logo: {
       "@type": "ImageObject",
-      url: `${baseUrl}/logo.png`,
+      url: `${baseUrl}/logo.jpeg`,
     },
   };
 
-  const imageObject = {
-    "@type": "ImageObject",
-    url: imageUrl,
-  };
+  const imageObject = imageUrl
+    ? {
+      "@type": "ImageObject",
+      url: imageUrl,
+    }
+    : undefined;
 
   switch (pageName) {
-    /* ---------------- BLOG ---------------- */
+    /* ---------------- PRODUCT DETAIL ---------------- */
+    case "product-detail":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": pageUrl,
+        name: metaTitle,
+        description: metaDescription,
+        image: imageObject,
+        brand: {
+          "@type": "Brand",
+          name: "Aquawatch India",
+        },
+        url: pageUrl,
+      };
+    /* ---------------- PRODUCT LISTING ---------------- */
+    case "products":
+      return {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": pageUrl,
+        name: metaTitle,
+        description: metaDescription,
+        url: pageUrl,
+      };
+    /* ---------------- BLOG DETAIL ---------------- */
     case "blog-detail":
       return {
         "@context": "https://schema.org",
@@ -52,110 +78,29 @@ export const generateSchema = ({
         headline: metaTitle,
         description: metaDescription,
         image: imageObject,
-        url: pageUrl,
         author,
         publisher,
-        mainEntityOfPage: pageUrl,
         datePublished: createdAt,
         dateModified: updatedAt,
-      };
-
-    /* ---------------- PUBLICATION ---------------- */
-    case "publication-detail":
-      return {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "@id": pageUrl,
-        headline: metaTitle,
-        description: metaDescription,
-        image: imageObject,
-        url: pageUrl,
-        author,
-        publisher,
         mainEntityOfPage: pageUrl,
-        datePublished: createdAt,
-        dateModified: updatedAt,
       };
-
-    /* ---------------- NEWS ---------------- */
-    case "news-detail":
-      return {
-        "@context": "https://schema.org",
-        "@type": "NewsArticle",
-        "@id": pageUrl,
-        headline: metaTitle,
-        description: metaDescription,
-        image: imageObject,
-        url: pageUrl,
-        author,
-        publisher,
-        mainEntityOfPage: pageUrl,
-        datePublished: createdAt,
-        dateModified: updatedAt,
-      };
-
-    /* ---------------- MEDIA ---------------- */
-    case "media-detail":
-      return {
-        "@context": "https://schema.org",
-        "@type": "CreativeWork",
-        "@id": pageUrl,
-        name: metaTitle,
-        description: metaDescription,
-        image: imageObject,
-        url: pageUrl,
-        author,
-      };
-
-    /* ---------------- EVENT ---------------- */
-    case "event-detail":
-      return {
-        "@context": "https://schema.org",
-        "@type": "Event",
-        "@id": pageUrl,
-        name: metaTitle,
-        description: metaDescription,
-        image: imageObject,
-        url: pageUrl,
-        organizer: {
-          "@type": "Organization",
-          name: "Ace Ascentra",
-        },
-      };
-
-    /* ---------------- SERVICES ---------------- */
-    case "research-academic-and-innovation-partnerships":
-    case "in-country-representation-and-market-growth":
-    case "events-outreach-and-engagement":
-    case "operational-and-compliance-support":
-    case "service":
-      return {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "@id": pageUrl,
-        name: metaTitle,
-        serviceType: metaTitle,
-        description: metaDescription,
-        provider: {
-          "@type": "Organization",
-          name: "Ace Ascentra",
-          url: baseUrl,
-        },
-        url: pageUrl,
-      };
-
-    /* ---------------- STATIC PAGES ---------------- */
-    case "about-us":
-    case "contact-us":
-    case "our-team":
-    case "our-growth-framework":
-    case "career":
-    case "news-and-blog":
+    /* ---------------- BLOG PAGE ---------------- */
     case "blog":
-    case "publication":
-    case "media":
-    case "news":
-    case "event":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": pageUrl,
+        name: metaTitle,
+        description: metaDescription,
+        url: pageUrl,
+      };
+    /* ---------------- LEGAL PAGES ---------------- */
+    case "terms-conditions":
+    case "return-refund-policy":
+    case "billing-shipping-policy":
+    case "privacy-policy":
+    case "cookie-policy":
+    case "disclaimer":
       return {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -164,19 +109,38 @@ export const generateSchema = ({
         description: metaDescription,
         url: pageUrl,
       };
-
-    /* ---------------- HOME ---------------- */
+    /* ---------------- USER PAGES ---------------- */
+    case "cart":
+    case "checkout":
+    case "dashboard":
+    case "profile":
+    case "invoice":
+    case "login":
+    case "signup":
+    case "forgot-password":
+    case "become-dealer":
+    case "about-us":
+    case "contact-us":
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": pageUrl,
+        name: metaTitle,
+        description: metaDescription,
+        url: pageUrl,
+      };
+    /* ---------------- HOME PAGE ---------------- */
     case "home":
     default:
       return {
         "@context": "https://schema.org",
         "@type": "Organization",
         "@id": baseUrl,
-        name: "Ace Ascentra",
+        name: "Aquawatch India",
         url: baseUrl,
         logo: {
           "@type": "ImageObject",
-          url: `${baseUrl}/logo.png`,
+          url: `${baseUrl}/logo.jpeg`,
         },
       };
   }

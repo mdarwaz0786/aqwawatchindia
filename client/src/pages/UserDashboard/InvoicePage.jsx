@@ -6,6 +6,7 @@ import useFetchData from '../../hooks/useFetchData';
 import apis from '../../api/apis';
 import formatDate from '../../helpers/formatDate';
 import downloadPDF from '../../helpers/DownLoadPDF';
+import SeoMeta from '../../components/Meta/SeoMeta';
 
 const InvoicePage = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const InvoicePage = () => {
 
   return (
     <>
+      <SeoMeta pageName="invoice" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

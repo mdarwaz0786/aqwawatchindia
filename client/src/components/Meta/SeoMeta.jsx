@@ -33,12 +33,10 @@ const SeoMeta = ({ slug = null, pageName = null }) => {
 
   if (!meta) return null;
 
-  console.log(meta)
-
   const canonicalUrl = getCanonicalUrl(meta?.canonicalUrl, pageName, slug);
   const imageUrl = meta?.metaImage
     ? `${API_BASE_URL}/${meta?.metaImage}`
-    : `${meta?.canonicalUrl || "https://aceascentra.com"}/logo.png`;
+    : `${meta?.canonicalUrl || "https://aquawatchindia.com"}/logo.jpeg`;
 
   const schemaData = generateSchema({
     pageName,
@@ -54,7 +52,7 @@ const SeoMeta = ({ slug = null, pageName = null }) => {
 
   return (
     <Helmet>
-      <title>{meta?.metaTitle || "Ace Ascentra"}</title>
+      <title>{meta?.metaTitle || "Aquawatch India"}</title>
       <meta name="description" content={meta?.metaDescription} />
       <meta name="keywords" content={meta?.metaKeywords} />
       <meta name="author" content={meta?.metaAuthor} />
@@ -71,10 +69,10 @@ const SeoMeta = ({ slug = null, pageName = null }) => {
       <meta property="og:image:height" content="630" />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={slug ? "article" : "website"} />
-      <meta property="og:site_name" content="Ace Ascentra" />
+      <meta property="og:site_name" content="Aquawatch India" />
 
       {/* Twitter */}
-      <meta name="twitter:site" content="@aceascentra" />
+      <meta name="twitter:site" content="@aquawatchindia" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={meta?.metaTitle} />
       <meta name="twitter:description" content={meta?.metaDescription} />

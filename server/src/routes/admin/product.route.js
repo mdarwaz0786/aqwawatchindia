@@ -18,6 +18,7 @@ router.post(
   upload.fields([
     { name: "images", maxCount: 100 },
     { name: "video", maxCount: 1 },
+    { name: "metaImage", maxCount: 1 },
   ]),
   validateFileSize,
   createProduct
@@ -29,6 +30,7 @@ router.patch(
   upload.fields([
     { name: "images", maxCount: 100 },
     { name: "video", maxCount: 1 },
+    { name: "metaImage", maxCount: 1 },
   ]),
   validateFileSize,
   updateProduct,

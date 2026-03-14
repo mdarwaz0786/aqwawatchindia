@@ -13,6 +13,7 @@ import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../apis/apis";
 import usePatch from "../../hooks/usePatch";
 import Video from "../../components/Input/Video";
+import Meta from "../../components/Meta/Meta";
 
 const UpdateProductPage = () => {
   const navigate = useNavigate();
@@ -53,6 +54,12 @@ const UpdateProductPage = () => {
     newArrivalProduct: "",
     images: [],
     video: null,
+
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    metaAuthor: "",
+    metaImage: null,
   });
 
   const [removedIndexes, setRemovedIndexes] = useState([]);
@@ -61,6 +68,7 @@ const UpdateProductPage = () => {
   useEffect(() => {
     if (productData?.data) {
       const product = productData?.data;
+      const meta = productData?.data;
 
       setForm({
         name: product.name || "",
@@ -84,6 +92,12 @@ const UpdateProductPage = () => {
         newArrivalProduct: !!product.newArrivalProduct,
         images: product.images?.map((img) => `${API_BASE_URL}/${img}`) || [],
         video: product?.video ? `${API_BASE_URL}/${product?.video}` : null,
+
+        metaTitle: meta?.meta?.metaTitle || "",
+        metaDescription: meta?.meta?.metaDescription || "",
+        metaKeywords: meta?.meta?.metaKeywords || "",
+        metaAuthor: meta?.meta?.metaAuthor || "",
+        metaImage: meta?.meta?.metaImage ? `${API_BASE_URL}/${meta?.meta?.metaImage}` : null,
       });
 
       if (product?.category?._id) {
@@ -409,6 +423,14 @@ const UpdateProductPage = () => {
         value={form.specification}
         onChange={(content) => handleEditorChange(content, "specification")}
         error={errors.specification}
+      />
+
+      <h5 className="mt-5 mb-4 text-center">SEO Meta</h5>
+
+      <Meta
+        form={form}
+        setForm={setForm}
+        errors={errors}
       />
     </FormWrapper>
   );

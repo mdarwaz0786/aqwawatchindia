@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import apis, { API_BASE_URL } from '../../api/apis';
+import SeoMeta from '../../components/Meta/SeoMeta';
 
 const ProfilePage = () => {
   const { user, logOutUser, isLoggedIn, validToken } = useAuth();
@@ -63,6 +64,7 @@ const ProfilePage = () => {
 
   return (
     <>
+      <SeoMeta pageName="profile" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

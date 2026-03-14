@@ -5,6 +5,7 @@ import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../api/apis";
 import formatDate from "../../helpers/formatDate";
 import { useEffect } from "react";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
@@ -18,6 +19,7 @@ const BlogDetailPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="blog-detail" slug={data?.data?.slug} />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

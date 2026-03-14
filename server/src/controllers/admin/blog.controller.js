@@ -7,14 +7,30 @@ import { generateUniqueSlug } from "../../helpers/generateUniqueSlug.js";
 import fs from "fs";
 import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
+import { upsertMeta } from "../../utils/meta.js";
+import MetaModel from "../../models/meta.model.js";
 
 export const createBlog = asyncHandler(async (req, res) => {
-  const { title, category, shortDescription, fullDescription, home, popularBlog, tags, numberOfComment } = req.body;
+  const {
+    title,
+    category,
+    shortDescription,
+    fullDescription,
+    home,
+    popularBlog,
+    tags,
+    numberOfComment,
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
+  } = req.body;
 
   if (!title) throw new ApiError(400, "Title is required");
 
   let frontImagePath = null;
   let detailImagePath = null;
+  let metaImagePath = null;
 
   try {
     if (req.files?.frontImage?.[0]) {
@@ -24,6 +40,10 @@ export const createBlog = asyncHandler(async (req, res) => {
     if (req.files?.detailImage?.[0]) {
       detailImagePath = await compressImage(req.files.detailImage[0].buffer, "blog");
     }
+
+    if (req.files?.metaImage?.[0]) {
+      metaImagePath = await compressImage(req.files.metaImage[0].buffer, "meta");
+    };
 
     const blog = await BlogModel.create({
       title,
@@ -43,6 +63,17 @@ export const createBlog = asyncHandler(async (req, res) => {
     blog.slug = slug;
     await blog.save();
 
+    await upsertMeta({
+      pageName: "blog-detail",
+      metaTitle: metaTitle || title,
+      metaDescription,
+      metaKeywords,
+      metaAuthor,
+      metaImage: metaImagePath,
+      slug,
+      userId: req.user?._id,
+    })
+
     return res.status(201).json({ success: true, data: blog });
   } catch (error) {
     if (frontImagePath && fs.existsSync(path.join(process.cwd(), frontImagePath))) {
@@ -50,6 +81,9 @@ export const createBlog = asyncHandler(async (req, res) => {
     }
     if (detailImagePath && fs.existsSync(path.join(process.cwd(), detailImagePath))) {
       fs.unlinkSync(path.join(process.cwd(), detailImagePath));
+    }
+    if (metaImagePath && fs.existsSync(path.join(process.cwd(), metaImagePath))) {
+      fs.unlinkSync(path.join(process.cwd(), metaImagePath));
     }
     throw new ApiError(500, error.message || "Something went wrong");
   }
@@ -95,14 +129,37 @@ export const getBlogById = asyncHandler(async (req, res) => {
 
   if (!blog) throw new ApiError(404, "Blog not found");
 
-  return res.status(200).json({ success: true, data: blog });
+  const meta = await MetaModel.findOne({
+    slug: blog?.slug,
+    pageName: "blog-detail",
+  });
+
+  return res.status(200).json({ success: true, message: "Data fetched successfully", data: { ...blog.toObject(), meta } });
 });
 
 export const updateBlog = asyncHandler(async (req, res) => {
-  const { title, category, numberOfComment, shortDescription, fullDescription, home, popularBlog, tags, status, removeFrontImage, removeDetailImage, } = req.body;
+  const {
+    title,
+    category,
+    numberOfComment,
+    shortDescription,
+    fullDescription,
+    home,
+    popularBlog,
+    tags,
+    status,
+    removeFrontImage,
+    removeDetailImage,
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
+  } = req.body;
 
   const blog = await BlogModel.findById(req.params.id);
   if (!blog) throw new ApiError(404, "Blog not found");
+
+  const meta = await MetaModel.findOne({ slug: blog?.slug });
 
   if (removeFrontImage === "true") {
     if (blog.frontImage && fs.existsSync(path.join(process.cwd(), blog.frontImage))) {
@@ -132,9 +189,20 @@ export const updateBlog = asyncHandler(async (req, res) => {
     blog.detailImage = await compressImage(req.files.detailImage[0].buffer, "blog");
   }
 
+  console.log(req.files?.metaImage?.[0]);
+
+  let metaImagePath = null;
+  if (req.files?.metaImage?.[0]) {
+    if (meta?.metaImage && fs.existsSync(path.join(process.cwd(), meta?.metaImage))) {
+      fs.unlinkSync(path.join(process.cwd(), meta?.metaImage));
+    }
+    metaImagePath = await compressImage(req.files.metaImage[0].buffer, "meta");
+  }
+
+  let newSlug = null;
   if (title && title !== blog?.title) {
     await SlugModel.deleteOne({ collectionName: "Blog", documentId: blog?._id });
-    const newSlug = await generateUniqueSlug(title, "Blog", blog?._id, "blogs");
+    newSlug = await generateUniqueSlug(title, "Blog", blog?._id, "blogs");
     blog.slug = newSlug;
   }
 
@@ -152,12 +220,25 @@ export const updateBlog = asyncHandler(async (req, res) => {
 
   await blog.save();
 
+  await upsertMeta({
+    pageName: "blog-detail",
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
+    metaImage: metaImagePath,
+    slug: newSlug || blog?.slug,
+    userId: req.user?._id,
+  });
+
   return res.status(200).json({ success: true, message: "Updated Successfully", data: blog });
 });
 
 export const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await BlogModel.findById(req.params.id);
   if (!blog) throw new ApiError(404, "Blog not found");
+
+  const meta = await MetaModel.findOne({ slug: blog?.slug });
 
   if (blog?.frontImage && fs.existsSync(path.join(process.cwd(), blog.frontImage))) {
     fs.unlinkSync(path.join(process.cwd(), blog.frontImage));
@@ -167,8 +248,13 @@ export const deleteBlog = asyncHandler(async (req, res) => {
     fs.unlinkSync(path.join(process.cwd(), blog.detailImage));
   }
 
+  if (meta?.metaImage && fs.existsSync(path.join(process.cwd(), meta?.metaImage))) {
+    fs.unlinkSync(path.join(process.cwd(), meta?.metaImage));
+  }
+
   await SlugModel.deleteOne({ collectionName: "Blog", documentId: blog?._id });
   await blog.deleteOne();
+  await meta.deleteOne();
 
   return res.status(200).json({ success: true, message: "Deleted successfully" });
 });

@@ -5,6 +5,7 @@ import { useAuth } from '../../context/auth.context';
 import apis from '../../api/apis';
 import useFetchData from '../../hooks/useFetchData';
 import formatDate from '../../helpers/formatDate';
+import SeoMeta from '../../components/Meta/SeoMeta';
 
 const DashboardPage = () => {
   const { user, logOutUser, isLoggedIn, validToken } = useAuth();
@@ -13,6 +14,7 @@ const DashboardPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="dashboard" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

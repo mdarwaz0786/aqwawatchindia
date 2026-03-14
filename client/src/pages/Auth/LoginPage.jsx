@@ -7,6 +7,7 @@ import apis from "../../api/apis";
 import useCreate from "../../hooks/useCreate";
 import { useAuth } from "../../context/auth.context";
 import { toast } from "react-toastify";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const LoginPage = () => {
   const { storeToken, userId } = useAuth();
@@ -50,6 +51,7 @@ const LoginPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="login" />
       <Header />
       {/* SIGN IN PAGE START */}
       <section className="sign_in">

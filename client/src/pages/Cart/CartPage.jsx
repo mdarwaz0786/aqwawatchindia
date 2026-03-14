@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import useCreate from "../../hooks/useCreate";
 import { useCart } from "../../context/cart.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const CartPage = () => {
   const { userId } = useAuth();
@@ -50,6 +51,7 @@ const CartPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="cart" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

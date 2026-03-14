@@ -13,6 +13,7 @@ import useFetchData from '../../hooks/useFetchData';
 import useCreate from '../../hooks/useCreate';
 import { toast } from 'react-toastify';
 import { useCart } from '../../context/cart.context';
+import SeoMeta from '../../components/Meta/SeoMeta';
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();
@@ -128,10 +129,9 @@ const ProductDetailPage = () => {
     }
   };
 
-  console.log(productDetail?.smallInfo)
-
   return (
     <>
+      <SeoMeta pageName="product-detail" slug={productDetail?.slug} />
       <Header />
       <div>
         {/*PAGE BANNER START*/}

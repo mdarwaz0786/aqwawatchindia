@@ -13,6 +13,7 @@ import Image from "../../../components/Input/Image";
 import Select from "../../../components/Input/Select";
 import TextArea from "../../../components/Input/TextArea";
 import TextEditor from "../../../components/Input/TextEditor";
+import Meta from "../../../components/Meta/Meta";
 
 const initialState = {
   title: "",
@@ -24,6 +25,12 @@ const initialState = {
   tags: "",
   home: "",
   numberOfComment: 0,
+
+  metaTitle: "",
+  metaDescription: "",
+  metaKeywords: "",
+  metaAuthor: "",
+  metaImage: null,
 };
 
 const BlogFormPage = () => {
@@ -71,6 +78,14 @@ const BlogFormPage = () => {
         numberOfComment,
       } = fetchedData.data;
 
+      const {
+        metaTitle,
+        metaDescription,
+        metaKeywords,
+        metaAuthor,
+        metaImage,
+      } = fetchedData?.data?.meta || {};
+
       setFormData({
         title: title,
         category: category?._id || null,
@@ -81,6 +96,12 @@ const BlogFormPage = () => {
         tags: tags || "",
         home: home || "",
         numberOfComment: numberOfComment || 0,
+
+        metaTitle: metaTitle || "",
+        metaDescription: metaDescription || "",
+        metaKeywords: metaKeywords || "",
+        metaAuthor: metaAuthor || "",
+        metaImage: metaImage ? `${API_BASE_URL}/${metaImage}` : null,
       });
     }
   }, [fetchedData, isEdit]);
@@ -132,6 +153,15 @@ const BlogFormPage = () => {
       form.append("removeDetailImage", "true");
     } else if (typeof formData.detailImage !== "string") {
       form.append("detailImage", formData.detailImage);
+    }
+
+    form.append("metaTitle", formData.metaTitle);
+    form.append("metaDescription", formData.metaDescription);
+    form.append("metaKeywords", formData.metaKeywords);
+    form.append("metaAuthor", formData.metaAuthor);
+
+    if (formData.metaImage && typeof formData.metaImage !== "string") {
+      form.append("metaImage", formData.metaImage);
     }
 
     if (isEdit) {
@@ -222,7 +252,7 @@ const BlogFormPage = () => {
       />
 
       <Input
-        label="Meta Tags"
+        label="Tags"
         name="tags"
         value={formData.tags}
         required
@@ -271,6 +301,14 @@ const BlogFormPage = () => {
         onChange={(content) => handleEditorChange(content, "fullDescription")}
         error={errors.description}
         required
+      />
+
+      <h5 className="mt-5 mb-4 text-center">SEO Meta</h5>
+
+      <Meta
+        form={formData}
+        setForm={setFormData}
+        errors={errors}
       />
     </FormWrapper>
   );

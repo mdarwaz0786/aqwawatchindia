@@ -85,10 +85,8 @@ export const getMeta = asyncHandler(async (req, res) => {
 
   filters.pageName = {
     $nin: [
-      "news-detail",
+      "product-detail",
       "blog-detail",
-      "publication-detail",
-      "media-detail",
     ],
   };
 

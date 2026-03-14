@@ -13,6 +13,7 @@ import useFetch from "../../hooks/useFetch";
 import apis from "../../apis/apis";
 import useFetchData from "../../hooks/useFetchData";
 import Video from "../../components/Input/Video";
+import Meta from "../../components/Meta/Meta";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -50,6 +51,12 @@ const AddProductPage = () => {
     newArrivalProduct: "",
     images: [],
     video: null,
+
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    metaAuthor: "",
+    metaImage: null,
   });
 
   const handleChange = (e) => {
@@ -221,6 +228,7 @@ const AddProductPage = () => {
           width="col-md-4"
           placeholder="Enter Sale Price"
           required
+
         />
         <Input
           label="GST Percent"
@@ -362,6 +370,14 @@ const AddProductPage = () => {
         value={form.specification}
         onChange={(content) => handleEditorChange(content, "specification")}
         error={errors.specification}
+      />
+
+      <h5 className="mt-5 mb-4 text-center">SEO Meta</h5>
+
+      <Meta
+        form={form}
+        setForm={setForm}
+        errors={errors}
       />
     </FormWrapper>
   );

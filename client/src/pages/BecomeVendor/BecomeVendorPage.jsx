@@ -7,6 +7,7 @@ import { selectStyles } from "../../components/Constants/style";
 import axios from "axios";
 import apis from "../../api/apis";
 import { toast } from "react-toastify";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const BecomeVendorPage = () => {
   const [countries, setCountries] = useState([]);
@@ -150,6 +151,7 @@ const BecomeVendorPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="become-vendor" />
       <Header />
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

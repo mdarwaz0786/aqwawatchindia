@@ -8,6 +8,8 @@ import fs from "fs";
 import path from "path";
 import { buildPagination } from "../../utils/pagination.js";
 import compressVideo from "../../helpers/compressVideo.js";
+import { upsertMeta } from "../../utils/meta.js";
+import MetaModel from "../../models/meta.model.js";
 
 // create product
 export const createProduct = asyncHandler(async (req, res) => {
@@ -31,10 +33,16 @@ export const createProduct = asyncHandler(async (req, res) => {
     newArrivalProduct,
     stock,
     gstPercent,
+
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
   } = req.body;
 
   let imagePaths = [];
   let videoPath = null;
+  let metaImagePath = null;
 
   try {
     if (req.files?.images?.length) {
@@ -46,6 +54,10 @@ export const createProduct = asyncHandler(async (req, res) => {
 
     if (req.files?.video?.length) {
       videoPath = await compressVideo(req.files.video[0].buffer, "product");
+    };
+
+    if (req.files?.metaImage?.[0]) {
+      metaImagePath = await compressImage(req.files.metaImage[0].buffer, "meta");
     };
 
     const product = await ProductModel.create({
@@ -77,6 +89,17 @@ export const createProduct = asyncHandler(async (req, res) => {
     product.slug = slug;
     await product.save();
 
+    await upsertMeta({
+      pageName: "product-detail",
+      metaTitle: metaTitle || title,
+      metaDescription,
+      metaKeywords,
+      metaAuthor,
+      metaImage: metaImagePath,
+      slug,
+      userId: req.user?._id,
+    })
+
     return res.status(201).json({
       success: true,
       message: "Created successfully",
@@ -95,6 +118,10 @@ export const createProduct = asyncHandler(async (req, res) => {
         fs.unlinkSync(compressedVideoPath);
       };
     };
+
+    if (metaImagePath && fs.existsSync(path.join(process.cwd(), metaImagePath))) {
+      fs.unlinkSync(path.join(process.cwd(), metaImagePath));
+    }
 
     throw new ApiError(500, error.message || "Something went wrong while creating product");
   };
@@ -162,10 +189,15 @@ export const getProductById = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
+  const meta = await MetaModel.findOne({
+    slug: product?.slug,
+    pageName: "product-detail",
+  });
+
   res.status(200).json({
     success: true,
     message: "Data fetched successfully",
-    data: product,
+    data: { ...product.toObject(), meta }
   });
 });
 
@@ -192,12 +224,19 @@ export const updateProduct = asyncHandler(async (req, res) => {
     newArrivalProduct,
     stock,
     status,
+
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
   } = req.body;
 
   const product = await ProductModel.findById(req.params.id);
   if (!product) {
     throw new ApiError(404, "Product not found");
   }
+
+  const meta = await MetaModel.findOne({ slug: product?.slug });
 
   const removedIndexes = req.body.removedIndexes
     ? JSON.parse(req.body.removedIndexes)
@@ -240,12 +279,21 @@ export const updateProduct = asyncHandler(async (req, res) => {
     product.video = null;
   };
 
-  if (name && name !== product.name) {
+  let metaImagePath = null;
+  if (req.files?.metaImage?.[0]) {
+    if (meta?.metaImage && fs.existsSync(path.join(process.cwd(), meta?.metaImage))) {
+      fs.unlinkSync(path.join(process.cwd(), meta?.metaImage));
+    }
+    metaImagePath = await compressImage(req.files.metaImage[0].buffer, "meta");
+  }
+
+  let newSlug = null;
+  if (name && name !== product?.name) {
     await SlugModel.deleteOne({
       collectionName: "Product",
       documentId: product._id,
     });
-    const newSlug = await generateUniqueSlug(name, "Product", product?._id, "products");
+    newSlug = await generateUniqueSlug(name, "Product", product?._id, "products");
     product.slug = newSlug;
   };
 
@@ -281,6 +329,17 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   await product.save();
 
+  await upsertMeta({
+    pageName: "product-detail",
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    metaAuthor,
+    metaImage: metaImagePath,
+    slug: newSlug || product?.slug,
+    userId: req.user?._id,
+  });
+
   res.status(200).json({
     success: true,
     message: "Updated successfully",
@@ -295,6 +354,8 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Product not found");
   }
 
+  const meta = await MetaModel.findOne({ slug: product?.slug });
+
   if (product?.images?.length) {
     for (const img of product?.images) {
       if (fs.existsSync(path.resolve(img))) {
@@ -307,12 +368,17 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     fs.unlinkSync(path.join(process.cwd(), product?.video));
   };
 
+  if (meta?.metaImage && fs.existsSync(path.join(process.cwd(), meta?.metaImage))) {
+    fs.unlinkSync(path.join(process.cwd(), meta?.metaImage));
+  }
+
   await SlugModel.deleteOne({
     collectionName: "Product",
     documentId: product?._id,
   });
 
   await product.deleteOne();
+  await meta.deleteOne();
 
   res.status(200).json({
     success: true,

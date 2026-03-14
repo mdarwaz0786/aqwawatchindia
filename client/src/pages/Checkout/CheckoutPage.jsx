@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 import { selectStyles } from "../../components/Constants/style";
 import { useCart } from "../../context/cart.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -216,6 +217,7 @@ const CheckoutPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="checkout" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

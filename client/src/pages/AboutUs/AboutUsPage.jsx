@@ -3,12 +3,14 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import useFetchData from "../../hooks/useFetchData";
 import apis, { API_BASE_URL } from "../../api/apis";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const AboutUsPage = () => {
   const { data } = useFetchData(apis.aboutus.get);
 
   return (
     <>
+      <SeoMeta pageName="about-us" />
       <Header />
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
         <div className="page_banner_overlay">

@@ -3,12 +3,14 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header';
 import useFetchData from '../../hooks/useFetchData';
 import apis from '../../api/apis';
+import SeoMeta from '../../components/Meta/SeoMeta';
 
 const ReturnRefundPolicyPage = () => {
   const { data } = useFetchData(apis.returnRefundPolicy.get);
 
   return (
     <>
+      <SeoMeta pageName="return-refund-policy" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>

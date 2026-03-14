@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import apis from "../../api/apis";
 import { Link, useNavigate } from "react-router-dom";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const ForgotPasswordPage = () => {
   const [value, setValue] = useState("");
@@ -52,6 +53,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="forgot-password" />
       <Header />
       {/* FORGOT PASSWORD START */}
       <section className="forgot_password">

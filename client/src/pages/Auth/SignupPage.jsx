@@ -6,6 +6,7 @@ import Header from "../../components/Header/Header";
 import apis from "../../api/apis";
 import useCreate from "../../hooks/useCreate";
 import { useAuth } from "../../context/auth.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const SignupPage = () => {
   const { storeToken, userId } = useAuth();
@@ -45,8 +46,8 @@ const SignupPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="signup" />
       <Header />
-
       {/* SIGN UP PAGE START */}
       <section className="sign_up">
         <div className="container">

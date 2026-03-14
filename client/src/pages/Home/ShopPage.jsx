@@ -10,6 +10,7 @@ import ServiceBookingSection from "./ServiceBookingSection";
 import TestimonialSection from "./TestimonialSection";
 import YoutubeVideoSection from "./YoutubeVideoSection";
 import { useApp } from "../../context/app.context";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const ShopPage = () => {
   const {
@@ -27,6 +28,7 @@ const ShopPage = () => {
 
   return (
     <>
+      <SeoMeta pageName="home" />
       <Header categories={categories} />
       <div className="carousel-mobile">
         <CarouselSection carousels={carousels} />

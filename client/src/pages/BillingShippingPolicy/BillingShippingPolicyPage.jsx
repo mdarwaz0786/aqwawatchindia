@@ -3,12 +3,14 @@ import Footer from "../../components/Footer/Footer"
 import Header from "../../components/Header/Header";
 import apis from "../../api/apis";
 import useFetchData from "../../hooks/useFetchData";
+import SeoMeta from "../../components/Meta/SeoMeta";
 
 const BillingShippingPolicyPage = () => {
   const { data } = useFetchData(apis.billingShippingPolicy.get);
 
   return (
     <>
+      <SeoMeta pageName="billing-shipping-policy" />
       <Header />
       {/*PAGE BANNER START*/}
       <section className="page_banner" style={{ background: 'url(assets/images/page_banner_bg.jpg)' }}>
