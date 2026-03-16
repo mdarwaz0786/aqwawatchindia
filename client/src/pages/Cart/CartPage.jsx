@@ -48,11 +48,15 @@ const CartPage = () => {
   }, [cartResponse, cartError]);
 
   useEffect(() => {
-    const reloaded = sessionStorage.getItem("cartPageReloaded");
+    const reloaded = sessionStorage.getItem("cartReload");
 
     if (!reloaded) {
-      sessionStorage.setItem("cartPageReloaded", "true");
+      sessionStorage.setItem("cartReload", "true");
       window.location.reload();
+    }
+
+    return () => {
+      sessionStorage.removeItem("cartReload");
     };
   }, []);
 
