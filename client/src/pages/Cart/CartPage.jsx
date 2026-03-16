@@ -47,6 +47,15 @@ const CartPage = () => {
     };
   }, [cartResponse, cartError]);
 
+  useEffect(() => {
+    const reloaded = sessionStorage.getItem("cartPageReloaded");
+
+    if (!reloaded) {
+      sessionStorage.setItem("cartPageReloaded", "true");
+      window.location.reload();
+    };
+  }, []);
+
   const cart = cartItems?.data;
 
   return (
