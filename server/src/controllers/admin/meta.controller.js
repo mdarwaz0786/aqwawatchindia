@@ -56,7 +56,7 @@ export const createMeta = asyncHandler(async (req, res) => {
 
 // Get all meta
 export const getMeta = asyncHandler(async (req, res) => {
-  let { search, status, sort = "desc", page, limit, slug, pageName } = req.query;
+  let { search, status, sort = "asc", page, limit, slug, pageName } = req.query;
 
   page = parseInt(page, 10);
   limit = parseInt(limit, 10);
